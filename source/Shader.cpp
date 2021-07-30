@@ -5,6 +5,7 @@
 #include "GL/glew.h"
 
 #include "Engine.h"
+#include "UniformBuffer.h"
 
 Shader::Shader()
 {
@@ -87,4 +88,34 @@ Shader* Shader::FromSource(Engine* device, const char* vertexSource, const char*
 	}
 
 	return shader;
+}
+
+void Shader::SetMatrix(const char* name, const glm::mat4& value)
+{
+	uint32_t location = glGetUniformLocation(ShaderProgram, name);
+	if (location != -1) // TODO: err?
+	{
+		glUseProgram(ShaderProgram);
+		glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
+	}
+	else
+	{
+		std::cout << name << ": invalid uniform name\n";
+		// TODO:
+	}
+}
+
+void Shader::SetUniformBuffer(const char* name, UniformBuffer* value)
+{
+	uint32_t location = glGetUniformBlockIndex(ShaderProgram, name);
+	if (location != -1)
+	{
+		glUseProgram(ShaderProgram);
+		glUniformBlockBinding(ShaderProgram, location, 0); // TODO: 0 = uniformbuffer id
+	}
+	else
+	{
+		std::cout << name << ": invalid uniform name\n";
+		// TODO:
+	}
 }
