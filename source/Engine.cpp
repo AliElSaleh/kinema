@@ -9,14 +9,7 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 
-//float vertices[] = 
-//{
-//	 0.0f,  0.5f, 0.0f,
-//	 0.5f, -0.5f, 0.0f,
-//	-0.5f, -0.5f, 0.0f
-//};
-
-float vertices[] = 
+float squareVertices[] = 
 {
 	-0.5f, -0.5f, 0.0f,
 	-0.5f, 0.5f, 0.0f,
@@ -24,12 +17,21 @@ float vertices[] =
 	0.5f, -0.5f, 0.0f
 };
 
-// uint32_t indices[] = { 0, 1, 2 };
-uint32_t indices[] = 
+uint32_t squareIndices[] = 
 { 
 	0, 1, 2,
 	2, 3, 0 
 };
+
+// V2 pos V3 color
+float triangleVertices[] = 
+{
+	 0.0f,  0.5f, 1.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+	-0.5f, -0.5f, 0.0f, 0.0f, 1.0f
+};
+
+ uint32_t triangleIndices[] = { 0, 1, 2 };
 
 const GLchar* vertexSource = R"glsl(
     #version 330 core
@@ -84,12 +86,19 @@ Engine::Engine()
 
 	// Temp
 	//VertexBuffer* vb = new VertexBuffer(this, vertices, sizeof(vertices));
-	VertexBuffer* vb = new VertexBuffer(this, vertices, sizeof(vertices),
+	VertexBuffer* vb = new VertexBuffer(this, squareVertices, sizeof(squareVertices),
 		{ 
 			{ AttributeType::FLOAT, 3, 3 * sizeof(float), 0 } 
 		});
 
-	IndexBuffer* ib = new IndexBuffer(this, indices, sizeof(indices));
+	IndexBuffer* ib = new IndexBuffer(this, squareIndices, sizeof(squareIndices));
+
+	VertexBuffer* triangleVB = new VertexBuffer(this, triangleVertices, sizeof(squareVertices),
+		{
+			{ AttributeType::FLOAT, 2, 5 * sizeof(float), 0 },
+			{ AttributeType::FLOAT, 3, 5 * sizeof(float), 2 * sizeof(float) }
+		});
+	IndexBuffer* triangleIB = new IndexBuffer(this, triangleIndices, sizeof(triangleIndices));
 
 	struct
 	{
@@ -98,7 +107,7 @@ Engine::Engine()
 	} camData;
 
 	camData.projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 10.0f);
-	camData.view = glm::lookAt(glm::vec3(0.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	camData.view = glm::lookAt(glm::vec3(0.0f, 2.0f, 2.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	UniformBuffer* ub = new UniformBuffer(this, &camData, sizeof(camData));
 
@@ -114,6 +123,7 @@ Engine::Engine()
 	// TODO: common GL check err define
 	std::cout << "GLError: " << glGetError() << "\n";
 
+	uint32_t last = 0;
 	while (true)
 	{
 		SDL_PollEvent(nullptr);
@@ -135,7 +145,19 @@ Engine::Engine()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib->BufferObject);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+		glm::mat4 mat2(1.0f);
+		mat2 = glm::translate(mat2, glm::vec3(1.5f, 0.0f, 0.0f));
+		mat2 = glm::rotate(mat2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		shader->SetMatrix("model", mat2);
+
+		glBindVertexArray(triangleVB->VertexArray);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleIB->BufferObject);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+
 		SDL_GL_SwapWindow(Window);
+
+		//std::cout << tick - last << " since last\n";
+		last = tick;
 	}
 }
 
