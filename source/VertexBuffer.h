@@ -33,4 +33,6 @@ private:
 public:
 	uint32_t BufferObject;
 	uint32_t VertexArray;
+
+	std::vector<VertexAttribute> Attributes;
 };
