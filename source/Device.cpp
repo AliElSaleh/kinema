@@ -45,7 +45,7 @@ Device::Device(SDL_Window* window)
 
 	CurrentAttributeCount = 0;
 
-	// temp?
+	// temp
 	const GLubyte* strver = glGetString(GL_VERSION);
 	std::cout << strver << "\n";
 }

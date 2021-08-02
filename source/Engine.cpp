@@ -1,9 +1,6 @@
 #include "Engine.h"
 
-#include "VertexBuffer.h"
-#include "Shader.h"
-#include "UniformBuffer.h"
-#include "IndexBuffer.h"
+
 #include "Device.h"
 
 #include "File.h"
@@ -82,8 +79,6 @@ float cubeVertices[] = {
 	 -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f
 };
 
-
-
 Engine::Engine()
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
@@ -94,92 +89,56 @@ Engine::Engine()
 		1280, 720,
 		SDL_WINDOW_OPENGL);
 
-	Device device(Window);
+	device = new Device(Window);
 
-	VertexBuffer* squareVB = new VertexBuffer(this, squareVertices, sizeof(squareVertices),
+	squareVB = new VertexBuffer(this, squareVertices, sizeof(squareVertices),
 		{
 			{ AttributeType::FLOAT, 3, 3 * sizeof(float), 0 }
 		});
 
-	IndexBuffer* squareIB = new IndexBuffer(this, squareIndices, sizeof(squareIndices));
+	squareIB = new IndexBuffer(this, squareIndices, sizeof(squareIndices));
 
-	VertexBuffer* triangleVB = new VertexBuffer(this, triangleVertices, sizeof(triangleVertices),
+	triangleVB = new VertexBuffer(this, triangleVertices, sizeof(triangleVertices),
 		{
 			{ AttributeType::FLOAT, 2, 5 * sizeof(float), 0 },
 			{ AttributeType::FLOAT, 3, 5 * sizeof(float), 2 * sizeof(float) }
 		});
-	IndexBuffer* triangleIB = new IndexBuffer(this, triangleIndices, sizeof(triangleIndices));
+	triangleIB = new IndexBuffer(this, triangleIndices, sizeof(triangleIndices));
 
-	VertexBuffer* cubeVB = new VertexBuffer(this, cubeVertices, sizeof(cubeVertices),
+	cubeVB = new VertexBuffer(this, cubeVertices, sizeof(cubeVertices),
 		{
 			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 0 },
 			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
 		});
 
-	struct
-	{
-		glm::mat4 projection;
-		glm::mat4 view;
-	} camData;
+	currentPos = glm::vec3(0, 0, 5);
+	currentFwd = glm::vec3(0, 0, -1);
 
-	camData.projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 10.0f);
-	camData.view = glm::lookAt(glm::vec3(0, 0, 5.0f), glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
+	CameraData camData;
+	camData.Projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 10.0f);
+	camData.View = glm::lookAt(currentPos, glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
 
-	UniformBuffer* ub = new UniformBuffer(this, &camData, sizeof(camData));
+	ub = new UniformBuffer(this, &camData, sizeof(camData));
 
-	Shader* shader = Shader::FromSource(this,
+	shader = Shader::FromSource(this,
 		File::ReadAllBytes("Shaders/test.vert").data(),
 		File::ReadAllBytes("Shaders/test.frag").data());
+
 	shader->SetMatrix("model", glm::mat4(1.0f));
 	shader->SetUniformBuffer("camera", ub);
 
-	device.CheckErrorTemp();
-	while (true)
+	device->CheckErrorTemp();
+
+	Running = true;
+	while (Running)
 	{
-		SDL_PollEvent(nullptr);
+		Update();
+		Render();
 
-		device.Clear();
-
-		device.SetShader(shader);
-
-		// square1
-		glm::mat4 mat(1.0f);
-		uint32_t tick = SDL_GetTicks();
-		mat = glm::rotate(mat, glm::radians(tick * 0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
-		shader->SetMatrix("model", mat);
-
-		device.Draw(squareVB, squareIB, 6);
-
-
-		// triangle1
-		glm::mat4 mat2(1.0f);
-		mat2 = glm::translate(mat2, glm::vec3(1.5f, 0.0f, 0.0f));
-		mat2 = glm::rotate(mat2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		shader->SetMatrix("model", mat2);
-
-		device.Draw(triangleVB, triangleIB, 3);
-
-
-		// cube1
-		glm::mat4 mat3(1.0f);
-		mat3 = glm::translate(mat3, glm::vec3(-1.5f, 0.0f, 0.0f));
-		shader->SetMatrix("model", mat3 * mat * mat * mat);
-
-		device.Draw(cubeVB, 36);
-
-
-		// cube2
-		mat3 = glm::translate(mat3, glm::vec3(0, 2.0f, 0.0f));
-		mat3 = glm::rotate(mat3, glm::radians(tick * -0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
-		mat3 = glm::scale(mat3, glm::vec3(2 + (sin(tick * 0.0025f) + 1) * 0.25f, 0.25f + (cos(tick * 0.005f) + 1) * 0.25f, 0.5f + cos(tick * 0.01f) + 1));
-		shader->SetMatrix("model", mat3);
-
-		device.Draw(cubeVB, 36);
-
-
-		device.CheckErrorTemp();
 		SDL_GL_SwapWindow(Window);
 	}
+
+	// delete.. todo:
 }
 
 Engine::~Engine()
@@ -188,10 +147,135 @@ Engine::~Engine()
 	SDL_Quit();
 }
 
+bool capd = false;
 void Engine::Update()
 {
+	const float mousesense = 0.04f;
+
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_QUIT:
+			Running = false;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (!capd)
+			{
+				std::cout << "Mouse captured\n";
+				//SDL_ShowCursor(SDL_DISABLE);
+				SDL_SetRelativeMouseMode(SDL_TRUE);
+				capd = true;
+			}
+			break;
+		case SDL_MOUSEMOTION:
+			pitch -= event.motion.yrel * mousesense;
+			yaw += event.motion.xrel * mousesense;
+			break;
+		}
+	}
+
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = 89.0f;
+
+	glm::vec3 dir;
+	dir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	dir.y = sin(glm::radians(pitch));
+	dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	currentFwd = glm::normalize(dir);
+
+	const float movspeed = 0.001f;
+
+	glm::vec3 right = glm::cross(currentFwd, camUp);
+	right = glm::normalize(right);
+
+	const uint8_t* kb = SDL_GetKeyboardState(nullptr);
+	if (kb[SDL_SCANCODE_W])
+	{
+		currentPos += currentFwd * movspeed;
+	}
+	if (kb[SDL_SCANCODE_A])
+	{
+		currentPos -= right * movspeed;
+	}
+	if (kb[SDL_SCANCODE_S])
+	{
+		currentPos -= currentFwd * movspeed;
+	}
+	if (kb[SDL_SCANCODE_D])
+	{
+		currentPos += right * movspeed;
+	}
+
+	if (kb[SDL_SCANCODE_SPACE])
+	{
+		currentPos += camUp * movspeed;
+	}
+	if (kb[SDL_SCANCODE_LCTRL])
+	{
+		currentPos -= camUp * movspeed;
+	}
+
+	// focus unfocus
+	if (kb[SDL_SCANCODE_ESCAPE] && capd)
+	{
+		std::cout << "Mouse uncaptured\n";
+		SDL_SetRelativeMouseMode(SDL_FALSE);
+		capd = false;
+	}
+
+	CameraData camdat;
+	camdat.View = glm::lookAt(currentPos, currentPos + currentFwd, camUp);
+
+	ub->SetData(&camdat.View, sizeof(glm::mat4), sizeof(glm::mat4));
+	//ub->SetData(&camdat, offsetof(camdat, View), sizeof(glm::mat4));
+
+	//std::cout << currentPos.x << " " << currentPos.y << " " << currentPos.z << "\n";
 }
 
 void Engine::Render()
 {
+	device->Clear();
+
+	device->SetShader(shader);
+
+	// square1
+	glm::mat4 mat(1.0f);
+	uint32_t tick = SDL_GetTicks();
+	mat = glm::rotate(mat, glm::radians(tick * 0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
+	shader->SetMatrix("model", mat);
+
+	device->Draw(squareVB, squareIB, 6);
+
+
+	// triangle1
+	glm::mat4 mat2(1.0f);
+	mat2 = glm::translate(mat2, glm::vec3(1.5f, 0.0f, 0.0f));
+	mat2 = glm::rotate(mat2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	shader->SetMatrix("model", mat2);
+
+	device->Draw(triangleVB, triangleIB, 3);
+
+
+	// cube1
+	glm::mat4 mat3(1.0f);
+	mat3 = glm::translate(mat3, glm::vec3(-1.5f, 0.0f, 0.0f));
+	shader->SetMatrix("model", mat3 * mat * mat * mat);
+
+	device->Draw(cubeVB, 36);
+
+
+	// cube2
+	mat3 = glm::translate(mat3, glm::vec3(0, 2.0f, 0.0f));
+	mat3 = glm::rotate(mat3, glm::radians(tick * -0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
+	mat3 = glm::scale(mat3, glm::vec3(2 + (sin(tick * 0.0025f) + 1) * 0.25f, 0.25f + (cos(tick * 0.005f) + 1) * 0.25f, 0.5f + cos(tick * 0.01f) + 1));
+	shader->SetMatrix("model", mat3);
+
+	device->Draw(cubeVB, 36);
+
+
+	device->CheckErrorTemp();
 }
