@@ -12,7 +12,6 @@ public:
 
 private:
 	SDL_Window* Window;
-	SDL_GLContext Context;
 
 	void Update();
 	void Render();

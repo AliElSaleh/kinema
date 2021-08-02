@@ -9,14 +9,60 @@
 
 #include <iostream>
 
-Device::Device()
+// TODO: VertexAttribFormat 4.3
+// TODO: BindProgramPipeline 4.1
+
+Device::Device(SDL_Window* window)
 {
-	glGenVertexArrays(1, &VertexArrayObject);
+	// SDL2
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+	Context = SDL_GL_CreateContext(window);
+
+	SDL_GL_SetSwapInterval(0);
+
+	// GLEW
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK)
+	{
+		// TODO: err
+		return;
+	}
+
+	// TODO: pipeline object?
+	//glEnable(GL_CULL_FACE);
+	glEnable(GL_FRAMEBUFFER_SRGB);
+	glEnable(GL_DEPTH_TEST);
+
+	float gray = 1.0f / 255.0f;
+	glClearColor(gray, gray, gray, 1.0f);
 
 	// No default VAO in core profile
+	glGenVertexArrays(1, &VertexArrayObject);
 	glBindVertexArray(VertexArrayObject);
 
 	CurrentAttributeCount = 0;
+
+	// temp?
+	const GLubyte* strver = glGetString(GL_VERSION);
+	std::cout << strver << "\n";
+}
+
+Device::~Device()
+{
+	SDL_GL_DeleteContext(Context);
+}
+
+void Device::Clear()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Device::SetShader(Shader* shader)
+{
+	glUseProgram(shader->ShaderProgram);
 }
 
 void Device::Draw(VertexBuffer* vertexBuffer, uint32_t count)
@@ -52,7 +98,7 @@ void Device::SetupVertexAttributes(const std::vector<VertexAttribute>& attribute
 			(void*)uintptr_t(attribute.Offset));
 
 		glEnableVertexAttribArray(attributeNumber);
-		std::cout << attributeNumber << " enabled!\n";
+		//std::cout << attributeNumber << " enabled!\n";
 
 		attributeNumber++;
 	}
@@ -60,8 +106,19 @@ void Device::SetupVertexAttributes(const std::vector<VertexAttribute>& attribute
 	for (size_t i = attributes.size(); i < CurrentAttributeCount; i++)
 	{
 		glDisableVertexAttribArray(i);
-		std::cout << i << " disabled!\n";
+		//std::cout << i << " disabled!\n";
 	}
 
 	CurrentAttributeCount = attributes.size();
+}
+
+
+
+
+// TODO: common GL check err define
+void Device::CheckErrorTemp()
+{
+	GLenum err = glGetError();
+	if (err != 0)
+		std::cout << "GLError: " << err << "\n";
 }
