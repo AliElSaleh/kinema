@@ -6,7 +6,11 @@
 #include "IndexBuffer.h"
 #include "Device.h"
 
+#include "File.h"
+
 #include "glm/gtc/matrix_transform.hpp"
+
+#include <fstream>
 
 float squareVertices[] =
 {
@@ -27,7 +31,7 @@ const float PI = 3.14159265359f;
 // V2 pos V3 color
 float triangleVertices[] =
 {
-	sin(0.0f),  cos(0.0f) * 0.5f,								1.0f, 0.0f, 0.0f,
+	sin((0.0f * PI) / 3.0f) * 0.5f, cos((0.0f * PI) / 3.0f) * 0.5f, 1.0f, 0.0f, 0.0f,
 	sin((2.0f * PI) / 3.0f) * 0.5f, cos((2.0f * PI) / 3.0f) * 0.5f,	0.0f, 1.0f, 0.0f,
 	sin((4.0f * PI) / 3.0f) * 0.5f, cos((4.0f * PI) / 3.0f) * 0.5f,	0.0f, 0.0f, 1.0f
 };
@@ -78,39 +82,7 @@ float cubeVertices[] = {
 	 -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f
 };
 
-const char* vertexSource = R"glsl(
-    #version 330 core
-    layout (location = 0) in vec3 position;
-	layout (location = 1) in vec3 color;
 
-	out vec3 outcolor;
-
-	layout(std140) uniform camera
-	{
-		uniform mat4 projection;
-		uniform mat4 view;
-	};
-	uniform mat4 model;
-
-    void main()
-    {
-		outcolor = color;
-        gl_Position = projection * view * model * vec4(position, 1.0);
-    }
-)glsl";
-
-const char* fragmentSource = R"glsl(
-    #version 330 core
-	
-	in vec3 outcolor;
-
-    out vec4 color;
-
-    void main()
-    {
-        color = vec4(outcolor, 1.0);
-    }
-)glsl";
 
 Engine::Engine()
 {
@@ -155,7 +127,9 @@ Engine::Engine()
 
 	UniformBuffer* ub = new UniformBuffer(this, &camData, sizeof(camData));
 
-	Shader* shader = Shader::FromSource(this, vertexSource, fragmentSource);
+	Shader* shader = Shader::FromSource(this,
+		File::ReadAllBytes("Shaders/test.vert").data(),
+		File::ReadAllBytes("Shaders/test.frag").data());
 	shader->SetMatrix("model", glm::mat4(1.0f));
 	shader->SetUniformBuffer("camera", ub);
 
