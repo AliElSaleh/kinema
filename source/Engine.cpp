@@ -120,19 +120,23 @@ Engine::Engine()
 
 	ub = new UniformBuffer(this, &camData, sizeof(camData));
 
-	shader = Shader::FromSource(this,
+	colorShader = Shader::FromSource(this,
+		File::ReadAllText("Shaders/vertColor.vert").data(),
+		File::ReadAllText("Shaders/vertColor.frag").data());
+
+	litShader = Shader::FromSource(this,
 		File::ReadAllText("Shaders/test.vert").data(),
 		File::ReadAllText("Shaders/test.frag").data());
 
-	shader->SetMatrix("model", glm::mat4(1.0f));
-	shader->SetUniformBuffer("camera", ub);
+	colorShader->SetMatrix("model", glm::mat4(1.0f));
+	colorShader->SetUniformBuffer("camera", ub);
 
 	device->CheckErrorTemp();
 
 
 	vm = VoxelMap();
-	//vm.LoadFromFile("bin.map");
-	vm.generate(8, 8, 8);
+	vm.LoadFromFile("bin.map");
+	//vm.generate(64, 64, 64);
 
 	vr = VoxelRenderer();
 	vr.Update(&vm);
@@ -154,6 +158,10 @@ Engine::~Engine()
 	SDL_DestroyWindow(Window);
 	SDL_Quit();
 }
+
+float movspeed = 0.001f;
+float minspd = 0.001f;
+float maxspd = .25f;
 
 bool capd = false;
 void Engine::Update()
@@ -184,21 +192,38 @@ void Engine::Update()
 				yaw += event.motion.xrel * mousesense;
 			}
 			break;
+		case SDL_MOUSEWHEEL:
+			if (capd)
+			{
+				if (event.wheel.y > 0)
+				{
+					movspeed += 0.01f;
+				}
+				else if (event.wheel.y < 0)
+				{
+					movspeed -= 0.01f;
+				}
+
+				if (movspeed > maxspd)
+					movspeed = maxspd;
+				if (movspeed < minspd)
+					movspeed = minspd;
+				std::cout << "Camspeed " << movspeed << "\n";
+			}
+			break;
 		}
 	}
 
 	if (pitch > 89.0f)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
-		pitch = 89.0f;
+		pitch = -89.0f;
 
 	glm::vec3 dir;
 	dir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	dir.y = sin(glm::radians(pitch));
 	dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	currentFwd = glm::normalize(dir);
-
-	const float movspeed = 0.001f;
 
 	glm::vec3 right = glm::cross(currentFwd, camUp);
 	right = glm::normalize(right);
@@ -251,13 +276,13 @@ void Engine::Render()
 {
 	device->Clear();
 
-	device->SetShader(shader);
+	device->SetShader(colorShader);
 
 	// square1
 	glm::mat4 mat(1.0f);
 	uint32_t tick = SDL_GetTicks();
 	mat = glm::rotate(mat, glm::radians(tick * 0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
-	shader->SetMatrix("model", mat);
+	colorShader->SetMatrix("model", mat);
 
 	device->Draw(squareVB, squareIB, 6);
 
@@ -266,7 +291,7 @@ void Engine::Render()
 	glm::mat4 mat2(1.0f);
 	mat2 = glm::translate(mat2, glm::vec3(1.5f, 0.0f, 0.0f));
 	mat2 = glm::rotate(mat2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	shader->SetMatrix("model", mat2);
+	colorShader->SetMatrix("model", mat2);
 
 	device->Draw(triangleVB, triangleIB, 3);
 
@@ -274,7 +299,7 @@ void Engine::Render()
 	// cube1
 	glm::mat4 mat3(1.0f);
 	mat3 = glm::translate(mat3, glm::vec3(-1.5f, 0.0f, 0.0f));
-	shader->SetMatrix("model", mat3 * mat * mat * mat);
+	colorShader->SetMatrix("model", mat3 * mat * mat * mat);
 
 	device->Draw(cubeVB, 36);
 
@@ -283,13 +308,16 @@ void Engine::Render()
 	mat3 = glm::translate(mat3, glm::vec3(0, 2.0f, 0.0f));
 	mat3 = glm::rotate(mat3, glm::radians(tick * -0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
 	mat3 = glm::scale(mat3, glm::vec3(2 + (sin(tick * 0.0025f) + 1) * 0.25f, 0.25f + (cos(tick * 0.005f) + 1) * 0.25f, 0.5f + cos(tick * 0.01f) + 1));
-	shader->SetMatrix("model", mat3);
+	colorShader->SetMatrix("model", mat3);
 
 	device->Draw(cubeVB, 36);
 
+	device->SetShader(litShader);
+
 	glm::mat4 voxmat(1.0f);
 	voxmat = glm::translate(voxmat, glm::vec3(0, 0, 8.0f));
-	shader->SetMatrix("model", voxmat);
+	voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
+	litShader->SetMatrix("model", voxmat);
 
 	vr.Render(device);
 

@@ -8,6 +8,7 @@
 #include "glm/vec3.hpp"
 
 typedef glm::ivec3 IntVector;
+typedef IntVector Color;
 
 const float BLOCK_SIZE = 1.0f;
 

@@ -35,7 +35,8 @@ public:
 
 	Device* device;
 
-	Shader* shader;
+	Shader* colorShader;
+	Shader* litShader;
 
 	VertexBuffer* squareVB;
 	IndexBuffer* squareIB;

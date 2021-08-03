@@ -4,28 +4,14 @@
 
 #include <iostream>
 
-struct Color
-{
-	float R;
-	float G;
-	float B;
-
-	Color(uint8_t r, uint8_t g, uint8_t b)
-	{
-		R = r / 255.0f;
-		G = g / 255.0f;
-		B = b / 255.0f;
-	}
-};
-
 Color colorPalette[] = {
 	Color(255, 0, 0),
-	Color(0, 255, 0),
-	Color(0, 0, 255),
+	Color(63, 55, 55),
+	Color(33, 33, 38),
 	Color(255, 255, 0),
-	Color(0, 255, 255),
+	Color(181, 161, 159),
 	Color(64, 0, 0),
-	Color(0, 0, 0),
+	Color(137, 131, 97),
 	Color(255, 255, 255)
 };
 
@@ -45,9 +31,15 @@ void VoxelMap::generate(int x, int y, int z)
 				nb.Color = IntVector((float)xp / (float)x * 255.0f,
 					(float)yp / (float)y * 255.0f,
 					(float)zp / (float)z * 255.0f);
-				//nb.Color = IntVector(255,
-				//	(float)yp / (float)y * 255.0f,
-				//	255);
+				nb.Color = IntVector(255,
+					(float)yp / (float)y * 255.0f,
+					255);
+
+				float lol = sin((float)xp / (float)x * 8 * 3.14159);
+				lol *= (float)y;
+
+				if (yp > (int)lol)
+					nb.Active = false;
 
 				//nb.Color = IntVector(128, 48, 48);
 
@@ -76,14 +68,79 @@ Block& VoxelMap::GetBlock(const IntVector& coordinates)
 	return GetBlock(coordinates.x, coordinates.y, coordinates.z);
 }
 
+uint32_t indexget(int x, int y, int z, IntVector Size)
+{
+	uint32_t index = x + y * Size.x + z * Size.x * Size.y;
+	return index;
+}
 void VoxelMap::LoadFromFile(const char* fileName)
 {
 	std::ifstream file(fileName, std::ios::binary);
 
 	file.read((char*)&Size, sizeof(IntVector));
+	Size = IntVector(Size.x, Size.y, Size.z);
+
+	uint32_t sizecubed = Size.x * Size.y * Size.z;
+
+	std::vector<uint8_t> blockdata;
+	blockdata.resize(sizecubed);
+	Blocks.resize(sizecubed);
+
+	file.read((char*)blockdata.data(), sizecubed);
 
 	std::cout << "Map size " << Size.x << ", " << Size.y << ", " << Size.z << "\n";
 	//for (size_t i = 0; i < 
+
+	// convert yup zup
+	for (int32_t x = 0; x < Size.x; x++)
+	{
+		for (int32_t y = 0; y < Size.y; y++)
+		{
+			for (int32_t z = 0; z < Size.z; z++)
+			{
+				//uint32_t index = x + y * Size.x + z * Size.x * Size.y;
+				//convert index
+				IntVector sizeconv(Size.x, Size.z, Size.y);
+				uint32_t index2 = indexget(x, z, y, sizeconv);
+
+				uint32_t index = indexget(x, y, z, Size);
+
+				uint8_t type = blockdata[index2];
+				Blocks[index].Active = type > 0;
+
+				if (type > 0)
+				{
+					if (type > 7)
+					{
+						Blocks[index].Color = IntVector(81, 124, 0);
+					}
+					else
+					{
+						Blocks[index].Color = colorPalette[type];
+					}
+				}
+			}
+		}
+	}
+	//for (int32_t x = 0; x < sizecubed; x++)
+	//{
+	//	//uint32_t index = x + y * Size.x + z * Size.x * Size.y;
+
+	//	uint8_t type = blockdata[x];
+	//	Blocks[x].Active = type > 0;
+
+	//	if (type > 0)
+	//	{
+	//		if (type > 7)
+	//		{
+	//			Blocks[x].Color = IntVector(255, 0, 255);
+	//		}
+	//		else
+	//		{
+	//			Blocks[x].Color = colorPalette[type];
+	//		}
+	//	}
+	//}
 }
 
 void VoxelRenderer::Init()
@@ -340,12 +397,14 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 	{
 		pushvector(vbdata, vertices[blockno]);
 		pushvector(vbdata, colors[blockno] / 255.0f);
+		pushvector(vbdata, normals[blockno]);
 	}
 
 	VB = new VertexBuffer(nullptr, vbdata.data(), vbdata.size() * sizeof(float),
 		{
-			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 0 },
-			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 0 },
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 3 * sizeof(float) },
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
 		});
 	IB = new IndexBuffer(nullptr, indices.data(), indices.size() * sizeof(uint32_t));
 
