@@ -2,10 +2,8 @@
 
 #include <fstream>
 
-std::vector<char> File::ReadAllBytes(const char* fileName)
+std::vector<char> ReadAll(std::ifstream& file)
 {
-	std::ifstream file(fileName, std::ios::ate);
-
 	if (!file.is_open()) {
 		throw std::runtime_error("failed to open file!");
 	}
@@ -19,4 +17,17 @@ std::vector<char> File::ReadAllBytes(const char* fileName)
 	file.close();
 
 	return buffer;
+}
+
+std::vector<char> File::ReadAllText(const char* fileName)
+{
+	std::ifstream file(fileName, std::ios::ate);
+	return ReadAll(file); //TODO: inline?
+}
+
+std::vector<char> File::ReadAllBytes(const char* fileName)
+{
+	std::ifstream file(fileName, std::ios::ate | std::ios::binary);
+	return ReadAll(file); // TODO: inline?
+	//   std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(input), {}); // this?
 }

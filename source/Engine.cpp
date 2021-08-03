@@ -2,7 +2,7 @@
 
 
 #include "Device.h"
-
+#include "Voxel.h"
 #include "File.h"
 
 #include "glm/gtc/matrix_transform.hpp"
@@ -115,19 +115,27 @@ Engine::Engine()
 	currentFwd = glm::vec3(0, 0, -1);
 
 	CameraData camData;
-	camData.Projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 10.0f);
+	camData.Projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 	camData.View = glm::lookAt(currentPos, glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	ub = new UniformBuffer(this, &camData, sizeof(camData));
 
 	shader = Shader::FromSource(this,
-		File::ReadAllBytes("Shaders/test.vert").data(),
-		File::ReadAllBytes("Shaders/test.frag").data());
+		File::ReadAllText("Shaders/test.vert").data(),
+		File::ReadAllText("Shaders/test.frag").data());
 
 	shader->SetMatrix("model", glm::mat4(1.0f));
 	shader->SetUniformBuffer("camera", ub);
 
 	device->CheckErrorTemp();
+
+
+	vm = VoxelMap();
+	//vm.LoadFromFile("bin.map");
+	vm.generate(8, 8, 8);
+
+	vr = VoxelRenderer();
+	vr.Update(&vm);
 
 	Running = true;
 	while (Running)
@@ -170,8 +178,11 @@ void Engine::Update()
 			}
 			break;
 		case SDL_MOUSEMOTION:
-			pitch -= event.motion.yrel * mousesense;
-			yaw += event.motion.xrel * mousesense;
+			if (capd)
+			{
+				pitch -= event.motion.yrel * mousesense;
+				yaw += event.motion.xrel * mousesense;
+			}
 			break;
 		}
 	}
@@ -276,6 +287,11 @@ void Engine::Render()
 
 	device->Draw(cubeVB, 36);
 
+	glm::mat4 voxmat(1.0f);
+	voxmat = glm::translate(voxmat, glm::vec3(0, 0, 8.0f));
+	shader->SetMatrix("model", voxmat);
+
+	vr.Render(device);
 
 	device->CheckErrorTemp();
 }

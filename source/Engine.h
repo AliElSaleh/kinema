@@ -9,6 +9,7 @@
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "UniformBuffer.h"
+#include "Voxel.h"
 
 struct CameraData
 {
@@ -30,7 +31,7 @@ public:
 	const glm::vec3 camUp = glm::vec3(0, 1, 0);
 
 	float pitch = 0;
-	float yaw = -90;
+	float yaw = 0;
 
 	Device* device;
 
@@ -45,6 +46,9 @@ public:
 	VertexBuffer* cubeVB;
 
 	UniformBuffer* ub;
+
+	VoxelMap vm;
+	VoxelRenderer vr;
 
 private:
 	SDL_Window* Window;
