@@ -23,7 +23,7 @@ public:
 
 	void CheckErrorTemp();
 
-private:
+public:
 	SDL_GLContext Context;
 
 	uint32_t VertexArrayObject;

@@ -7,6 +7,12 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl.h"
+#include "imgui/imgui_impl_opengl3.h"
+
+#include "glad/glad.h"
+
 #include <fstream>
 
 float squareVertices[] =
@@ -141,6 +147,16 @@ Engine::Engine()
 	vr = VoxelRenderer();
 	vr.Update(&vm);
 
+
+	// imgui
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplSDL2_InitForOpenGL(Window, device->Context);
+	ImGui_ImplOpenGL3_Init("#version 330");
+
 	Running = true;
 	while (Running)
 	{
@@ -171,11 +187,19 @@ void Engine::Update()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
+		ImGui_ImplSDL2_ProcessEvent(&event);
 		switch (event.type)
 		{
 		case SDL_QUIT:
 			Running = false;
 			break;
+		}
+
+		if (ImGui::GetIO().WantCaptureMouse)
+			break;
+
+		switch (event.type)
+		{
 		case SDL_MOUSEBUTTONDOWN:
 			if (!capd)
 			{
@@ -227,40 +251,43 @@ void Engine::Update()
 
 	glm::vec3 right = glm::cross(currentFwd, camUp);
 	right = glm::normalize(right);
+	
+	if (!ImGui::GetIO().WantCaptureKeyboard)
+	{
+		const uint8_t* kb = SDL_GetKeyboardState(nullptr);
+		if (kb[SDL_SCANCODE_W])
+		{
+			currentPos += currentFwd * movspeed;
+		}
+		if (kb[SDL_SCANCODE_A])
+		{
+			currentPos -= right * movspeed;
+		}
+		if (kb[SDL_SCANCODE_S])
+		{
+			currentPos -= currentFwd * movspeed;
+		}
+		if (kb[SDL_SCANCODE_D])
+		{
+			currentPos += right * movspeed;
+		}
 
-	const uint8_t* kb = SDL_GetKeyboardState(nullptr);
-	if (kb[SDL_SCANCODE_W])
-	{
-		currentPos += currentFwd * movspeed;
-	}
-	if (kb[SDL_SCANCODE_A])
-	{
-		currentPos -= right * movspeed;
-	}
-	if (kb[SDL_SCANCODE_S])
-	{
-		currentPos -= currentFwd * movspeed;
-	}
-	if (kb[SDL_SCANCODE_D])
-	{
-		currentPos += right * movspeed;
-	}
+		if (kb[SDL_SCANCODE_SPACE])
+		{
+			currentPos += camUp * movspeed;
+		}
+		if (kb[SDL_SCANCODE_LCTRL])
+		{
+			currentPos -= camUp * movspeed;
+		}
 
-	if (kb[SDL_SCANCODE_SPACE])
-	{
-		currentPos += camUp * movspeed;
-	}
-	if (kb[SDL_SCANCODE_LCTRL])
-	{
-		currentPos -= camUp * movspeed;
-	}
-
-	// focus unfocus
-	if (kb[SDL_SCANCODE_ESCAPE] && capd)
-	{
-		std::cout << "Mouse uncaptured\n";
-		SDL_SetRelativeMouseMode(SDL_FALSE);
-		capd = false;
+		// focus unfocus
+		if (kb[SDL_SCANCODE_ESCAPE] && capd)
+		{
+			std::cout << "Mouse uncaptured\n";
+			SDL_SetRelativeMouseMode(SDL_FALSE);
+			capd = false;
+		}
 	}
 
 	CameraData camdat;
@@ -274,6 +301,15 @@ void Engine::Update()
 
 void Engine::Render()
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::ShowDemoWindow();
+
+	ImGui::Render();
+
+
 	device->Clear();
 
 	device->SetShader(colorShader);
@@ -320,6 +356,9 @@ void Engine::Render()
 	litShader->SetMatrix("model", voxmat);
 
 	vr.Render(device);
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	device->CheckErrorTemp();
 }
