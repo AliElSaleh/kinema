@@ -1,6 +1,6 @@
 #include "VertexBuffer.h"
 
-#include "GL/glew.h"
+#include "glad/glad.h"
 
 VertexBuffer::VertexBuffer(class Engine* device, const float* data, uint32_t size, std::vector<VertexAttribute> attributes)
 {

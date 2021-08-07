@@ -1,6 +1,6 @@
 #include "IndexBuffer.h"
 
-#include "GL/glew.h"
+#include "glad/glad.h"
 
 IndexBuffer::IndexBuffer(class Engine* device, const uint32_t* data, uint32_t size)
 {

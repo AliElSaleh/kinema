@@ -121,12 +121,12 @@ Engine::Engine()
 	ub = new UniformBuffer(this, &camData, sizeof(camData));
 
 	colorShader = Shader::FromSource(this,
-		File::ReadAllText("Shaders/vertColor.vert").data(),
-		File::ReadAllText("Shaders/vertColor.frag").data());
+		File::ReadAllText("shaders/vertColor.vert").data(),
+		File::ReadAllText("shaders/vertColor.frag").data());
 
 	litShader = Shader::FromSource(this,
-		File::ReadAllText("Shaders/test.vert").data(),
-		File::ReadAllText("Shaders/test.frag").data());
+		File::ReadAllText("shaders/test.vert").data(),
+		File::ReadAllText("shaders/test.frag").data());
 
 	colorShader->SetMatrix("model", glm::mat4(1.0f));
 	colorShader->SetUniformBuffer("camera", ub);

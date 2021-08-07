@@ -1,11 +1,9 @@
 #include "Device.h"
 
-#include "GL/glew.h"
+#include "glad/glad.h"
 
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
-
-
 
 #include <iostream>
 
@@ -23,11 +21,11 @@ Device::Device(SDL_Window* window)
 
 	SDL_GL_SetSwapInterval(1);
 
-	// GLEW
-	glewExperimental = true;
-	if (glewInit() != GLEW_OK)
+	// GLAD
+	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
-		// TODO: err
+		// bad
+		std::cout << "glad fail\n";
 		return;
 	}
 
