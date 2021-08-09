@@ -5,6 +5,8 @@
 #include "Voxel.h"
 #include "File.h"
 
+#include "Camera.h"
+
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "imgui/imgui.h"
@@ -14,6 +16,11 @@
 #include "glad/glad.h"
 
 #include <fstream>
+
+void pvec3(glm::vec3 vec)
+{
+	std::cout << vec.x << " " << vec.y << " " << vec.z;;
+}
 
 float squareVertices[] =
 {
@@ -92,7 +99,7 @@ Engine::Engine()
 	Window = SDL_CreateWindow(
 		"Kinema",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		1280, 720,
+		1600, 900,
 		SDL_WINDOW_OPENGL);
 
 	device = new Device(Window);
@@ -117,12 +124,16 @@ Engine::Engine()
 			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
 		});
 
-	currentPos = glm::vec3(0, 0, 5);
-	currentFwd = glm::vec3(0, 0, -1);
+	camera.SetPosition(glm::vec3(0, 0, 5));
+	std::cout << camera.GetForward().x << " " << camera.GetForward().y << " " << camera.GetForward().z << "\n";
+	//currentPos = glm::vec3(0, 0, 5);
+	//currentFwd = glm::vec3(0, 0, -1);
 
 	CameraData camData;
-	camData.Projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-	camData.View = glm::lookAt(currentPos, glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
+	//camData.Projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
+	//camData.View = glm::lookAt(currentPos, glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
+	camData.Projection = camera.GetProjection();
+	camData.View = camera.GetView();
 
 	ub = new UniformBuffer(this, &camData, sizeof(camData));
 
@@ -175,9 +186,9 @@ Engine::~Engine()
 	SDL_Quit();
 }
 
-float movspeed = 0.001f;
 float minspd = 0.001f;
 float maxspd = .25f;
+float movspeed = 0.01f * 5.0f;
 
 bool capd = false;
 void Engine::Update()
@@ -238,20 +249,19 @@ void Engine::Update()
 		}
 	}
 
+	// clamp pitch, mod yaw
 	if (pitch > 89.0f)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
 		pitch = -89.0f;
 
-	glm::vec3 dir;
-	dir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	dir.y = sin(glm::radians(pitch));
-	dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	currentFwd = glm::normalize(dir);
+	std::cout << "pitch: " << pitch << " yaw: " << yaw << "\n";
 
-	glm::vec3 right = glm::cross(currentFwd, camUp);
-	right = glm::normalize(right);
-	
+	glm::vec3 currentPos = camera.GetPosition();
+	glm::vec3 currentFwd = camera.GetForward();
+	glm::vec3 right = camera.GetRight();
+	glm::vec3 camUp = glm::vec3(0, 1, 0);
+
 	if (!ImGui::GetIO().WantCaptureKeyboard)
 	{
 		const uint8_t* kb = SDL_GetKeyboardState(nullptr);
@@ -290,13 +300,13 @@ void Engine::Update()
 		}
 	}
 
+	camera.SetPosition(currentPos);
+	camera.SetRotation(glm::vec3(pitch, yaw, 0));
+
 	CameraData camdat;
-	camdat.View = glm::lookAt(currentPos, currentPos + currentFwd, camUp);
+	camdat.View = camera.GetView();
 
 	ub->SetData(&camdat.View, sizeof(glm::mat4), sizeof(glm::mat4));
-	//ub->SetData(&camdat, offsetof(camdat, View), sizeof(glm::mat4));
-
-	//std::cout << currentPos.x << " " << currentPos.y << " " << currentPos.z << "\n";
 }
 
 void Engine::Render()

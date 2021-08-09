@@ -58,7 +58,7 @@ Block& VoxelMap::GetBlock(int32_t x, int32_t y, int32_t z)
 	if (x >= Size.x || y >= Size.y || z >= Size.z ||
 		x < 0 || y < 0 || z < 0)
 	{
-		assert(false);
+		//assert(false);
 		return Block::Default;
 	}
 
