@@ -81,6 +81,9 @@ public:
 
 	void Init();
 	void Update(VoxelMap* mapINPUT);
+	void UpdateAlg2(VoxelMap* mapINPUT);
+	void UpdateAlg3(VoxelMap* mapINPUT);
+	void UpdateCulled(VoxelMap* mapINPUT);
 
 	void Render(Device* device);
 };

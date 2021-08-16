@@ -156,7 +156,12 @@ Engine::Engine()
 	//vm.generate(64, 64, 64);
 
 	vr = VoxelRenderer();
-	vr.Update(&vm);
+	uint32_t algtimestart = SDL_GetTicks();
+	//vr.Update(&vm); // ~3310 ms
+	vr.UpdateAlg2(&vm); // ~1180ms
+	//vr.UpdateAlg3(&vm); //
+	uint32_t algtimeend = SDL_GetTicks();
+	std::cout << "Algorithm took " << (algtimeend - algtimestart) << "ms\n";
 
 
 	// imgui
@@ -254,8 +259,6 @@ void Engine::Update()
 		pitch = 89.0f;
 	if (pitch < -89.0f)
 		pitch = -89.0f;
-
-	std::cout << "pitch: " << pitch << " yaw: " << yaw << "\n";
 
 	glm::vec3 currentPos = camera.GetPosition();
 	glm::vec3 currentFwd = camera.GetForward();

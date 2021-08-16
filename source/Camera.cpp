@@ -3,11 +3,6 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/quaternion.hpp"
 
-
-
-
-#include "glm/gtx/quaternion.hpp"
-
 Camera::Camera()
 {
 	View = glm::mat4(1.0f);

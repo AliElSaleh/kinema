@@ -353,6 +353,8 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 						uint8_t blockSide = blockFaceMask[maskIndex].Side;
 						IntVector blockColor = blockFaceMask[maskIndex].Color;
 
+						
+
 						uint32_t numIndices = indices.size();
 						for (int32_t vertexIndex = 0; vertexIndex < 6; ++vertexIndex)
 						{
@@ -414,6 +416,640 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 	temp_indices_count = indices.size();
 
 	std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
+}
+
+//void VoxelRenderer::UpdateAlg2(VoxelMap* mapINPUT)
+//{
+//	std::vector<glm::vec3> vertices;
+//	std::vector<glm::vec3> normals;
+//	std::vector<glm::vec3> colors;
+//	std::vector<uint32_t> indices;
+//
+//	int32_t indoff = 0;
+//
+//	//int64_t CHUNK_SIZE = mapINPUT->Size.x * mapINPUT->Size.y * mapINPUT->Size.z;
+//	//CHUNK_SIZE = 32;
+//
+//	int32_t chunkPosX = 0;
+//	int32_t chunkPosY = 0;
+//	int32_t chunkPosZ = 0;
+//
+//	int32_t chunkSizeX = mapINPUT->Size.x;
+//	int32_t chunkSizeY = mapINPUT->Size.y;
+//	int32_t chunkSizeZ = mapINPUT->Size.z;
+//
+//	int32_t CHUNK_SIZE = 512;
+//
+//	// Sweep over each axis (X, Y and Z)
+//	for (int32_t dimension = 0; dimension < 3; ++dimension)
+//	{
+//		//int32_t CHUNK_SIZE = 0;
+//		//switch (dimension)
+//		//{
+//		//case 0:
+//		//	CHUNK_SIZE = chunkSizeX;
+//		//	break;
+//		//case 1:
+//		//	CHUNK_SIZE = chunkSizeZ;
+//		//	break;
+//		//case 2:
+//		//	CHUNK_SIZE = chunkSizeY;
+//		//	break;
+//		//default:
+//		//	std::cout << "panic!\n";
+//		//	break;
+//		//}
+//
+//		int i, j, k, l, width, height;
+//		int u = (dimension + 1) % 3;
+//		int v = (dimension + 2) % 3;
+//		int32_t blockPosition[] = { 0, 0, 0 };
+//		int32_t q[] = { 0, 0, 0 };
+//
+//		//bool mask = new bool[CHUNK_SIZE * CHUNK_SIZE];
+//		std::vector<bool> mask(CHUNK_SIZE * CHUNK_SIZE);
+//		q[dimension] = 1;
+//
+//		// Check each slice of the chunk one at a time
+//		for (blockPosition[dimension] = -1; blockPosition[dimension] < CHUNK_SIZE;)
+//		{
+//			// Compute the mask
+//			int32_t n = 0;
+//			for (blockPosition[v] = 0; blockPosition[v] < CHUNK_SIZE; ++blockPosition[v])
+//			{
+//				for (blockPosition[u] = 0; blockPosition[u] < CHUNK_SIZE; ++blockPosition[u])
+//				{
+//					// q determines the direction (X, Y or Z) that we are searching
+//					// m.IsBlockAt(x,y,z) takes global map positions and returns true if a block exists there
+//
+//					bool blockCurrent = 0 <= blockPosition[dimension] ? !mapINPUT->GetBlock(blockPosition[0] + chunkPosX, blockPosition[1] + chunkPosY, blockPosition[2] + chunkPosZ).Active : true;
+//					bool blockCompare = blockPosition[dimension] < CHUNK_SIZE - 1 ? !mapINPUT->GetBlock(blockPosition[0] + q[0] + chunkPosX, blockPosition[1] + q[1] + chunkPosY, blockPosition[2] + q[2] + chunkPosZ).Active : true;
+//
+//					// The mask is set to true if there is a visible face between two blocks,
+//					//   i.e. both aren't empty and both aren't blocks
+//					mask[n++] = blockCurrent != blockCompare;
+//				}
+//			}
+//
+//			++blockPosition[dimension];
+//
+//			n = 0;
+//
+//			// Generate a mesh from the mask using lexicographic ordering,      
+//			//   by looping over each block in this slice of the chunk
+//			for (j = 0; j < CHUNK_SIZE; ++j)
+//			{
+//				for (i = 0; i < CHUNK_SIZE;)
+//				{
+//					if (mask[n])
+//					{
+//						// Compute the width of this quad and store it in w                        
+//						//   This is done by searching along the current axis until mask[n + w] is false
+//						for (width = 1; i + width < CHUNK_SIZE && mask[n + width]; width++) {}
+//
+//						// Compute the height of this quad and store it in h                        
+//						//   This is done by checking if every block next to this row (range 0 to w) is also part of the mask.
+//						//   For example, if w is 5 we currently have a quad of dimensions 1 x 5. To reduce triangle count,
+//						//   greedy meshing will attempt to expand this quad out to CHUNK_SIZE x 5, but will stop if it reaches a hole in the mask
+//
+//						bool done = false;
+//						for (height = 1; j + height < CHUNK_SIZE; height++)
+//						{
+//							// Check each block next to this quad
+//							for (k = 0; k < width; ++k)
+//							{
+//								// If there's a hole in the mask, exit
+//								if (!mask[n + k + height * CHUNK_SIZE])
+//								{
+//									done = true;
+//									break;
+//								}
+//							}
+//
+//							if (done)
+//								break;
+//						}
+//
+//						blockPosition[u] = i;
+//						blockPosition[v] = j;
+//
+//						// du and dv determine the size and orientation of this face
+//						int32_t du[] = { 0, 0, 0 };
+//						du[u] = width;
+//
+//						int32_t dv[] = { 0, 0, 0 };
+//						dv[v] = height;
+//
+//						// Create a quad for this face. Colour, normal or textures are not stored in this block vertex format.
+//						{
+//							vertices.push_back(glm::vec3(
+//								blockPosition[0], blockPosition[1], blockPosition[2]));
+//							vertices.push_back(glm::vec3(
+//								blockPosition[0] + du[0], blockPosition[1] + du[1], blockPosition[2] + du[2]));
+//							vertices.push_back(glm::vec3(
+//								blockPosition[0] + dv[0], blockPosition[1] + dv[1], blockPosition[2] + dv[2]));
+//							vertices.push_back(glm::vec3(
+//								blockPosition[0] + du[0] + dv[0], blockPosition[1] + du[1] + dv[1], blockPosition[2] + du[2] + dv[2]));
+//
+//							colors.push_back(glm::vec3(0, 1, 0));
+//							colors.push_back(glm::vec3(0, 1, 0));
+//							colors.push_back(glm::vec3(0, 1, 0));
+//							colors.push_back(glm::vec3(0, 1, 0));
+//
+//							normals.push_back(glm::vec3(0, 1, 0));
+//							normals.push_back(glm::vec3(0, 1, 0));
+//							normals.push_back(glm::vec3(0, 1, 0));
+//							normals.push_back(glm::vec3(0, 1, 0));
+//
+//							indices.push_back(0 + indoff);
+//							indices.push_back(2 + indoff);
+//							indices.push_back(1 + indoff);
+//							indices.push_back(1 + indoff);
+//							indices.push_back(2 + indoff);
+//							indices.push_back(3 + indoff);
+//							indoff += 4;
+//						}
+//
+//						// Clear this part of the mask, so we don't add duplicate faces
+//						for (l = 0; l < height; ++l)
+//							for (k = 0; k < width; ++k)
+//								mask[n + k + l * CHUNK_SIZE] = false;
+//
+//						// Increment counters and continue
+//						i += width;
+//						n += width;
+//					}
+//					else
+//					{
+//						i++;
+//						n++;
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	// finally
+//	std::vector<float> vbdata;
+//
+//	auto pushvector = [](std::vector<float>& data, glm::vec3 vector)
+//	{
+//		data.push_back(vector.x);
+//		data.push_back(vector.y);
+//		data.push_back(vector.z);
+//	};
+//
+//	// finally..
+//	for (uint32_t blockno = 0; blockno < vertices.size(); blockno++)
+//	{
+//		pushvector(vbdata, vertices[blockno]);
+//		pushvector(vbdata, colors[blockno]);
+//		pushvector(vbdata, normals[blockno]);
+//	}
+//
+//	VB = new VertexBuffer(nullptr, vbdata.data(), vbdata.size() * sizeof(float),
+//		{
+//			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 0 },
+//			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 3 * sizeof(float) },
+//			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
+//		});
+//	IB = new IndexBuffer(nullptr, indices.data(), indices.size() * sizeof(uint32_t));
+//
+//	temp_indices_count = indices.size();
+//
+//	std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
+//
+//}
+
+void VoxelRenderer::UpdateAlg2(VoxelMap* mapINPUT)
+{
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> colors;
+	std::vector<uint32_t> indices;
+
+	int32_t indoff = 0;
+
+	//int64_t CHUNK_SIZE = mapINPUT->Size.x * mapINPUT->Size.y * mapINPUT->Size.z;
+	//CHUNK_SIZE = 32;
+
+	int32_t chunkPosX = 0;
+	int32_t chunkPosY = 0;
+	int32_t chunkPosZ = 0;
+
+	int32_t chunkSizeX = mapINPUT->Size.x;
+	int32_t chunkSizeY = mapINPUT->Size.y;
+	int32_t chunkSizeZ = mapINPUT->Size.z;
+
+	int32_t CHUNK_SIZE = 512;
+
+	// Sweep over each axis (X, Y and Z)
+	for (int32_t dimension = 0; dimension < 3; ++dimension)
+	{
+		//int32_t CHUNK_SIZE = 0;
+		//switch (dimension)
+		//{
+		//case 0:
+		//	CHUNK_SIZE = chunkSizeX;
+		//	break;
+		//case 1:
+		//	CHUNK_SIZE = chunkSizeZ;
+		//	break;
+		//case 2:
+		//	CHUNK_SIZE = chunkSizeY;
+		//	break;
+		//default:
+		//	std::cout << "panic!\n";
+		//	break;
+		//}
+
+		int i, j, k, l, width, height;
+		int u = (dimension + 1) % 3;
+		int v = (dimension + 2) % 3;
+		int32_t blockPosition[] = { 0, 0, 0 };
+		int32_t q[] = { 0, 0, 0 };
+
+		//bool mask = new bool[CHUNK_SIZE * CHUNK_SIZE];
+		std::vector<bool> mask(CHUNK_SIZE * CHUNK_SIZE);
+		q[dimension] = 1;
+
+		// Check each slice of the chunk one at a time
+		for (blockPosition[dimension] = -1; blockPosition[dimension] < CHUNK_SIZE;)
+		{
+			// Compute the mask
+			int32_t n = 0;
+			for (blockPosition[v] = 0; blockPosition[v] < CHUNK_SIZE; ++blockPosition[v])
+			{
+				for (blockPosition[u] = 0; blockPosition[u] < CHUNK_SIZE; ++blockPosition[u])
+				{
+					// q determines the direction (X, Y or Z) that we are searching
+					// m.IsBlockAt(x,y,z) takes global map positions and returns true if a block exists there
+
+					bool blockCurrent = 0 <= blockPosition[dimension] ? !mapINPUT->GetBlock(blockPosition[0] + chunkPosX, blockPosition[1] + chunkPosY, blockPosition[2] + chunkPosZ).Active : true;
+					bool blockCompare = blockPosition[dimension] < CHUNK_SIZE - 1 ? !mapINPUT->GetBlock(blockPosition[0] + q[0] + chunkPosX, blockPosition[1] + q[1] + chunkPosY, blockPosition[2] + q[2] + chunkPosZ).Active : true;
+
+					// The mask is set to true if there is a visible face between two blocks,
+					//   i.e. both aren't empty and both aren't blocks
+					mask[n++] = blockCurrent != blockCompare;
+				}
+			}
+
+			++blockPosition[dimension];
+
+			n = 0;
+
+			// Generate a mesh from the mask using lexicographic ordering,      
+			//   by looping over each block in this slice of the chunk
+			for (j = 0; j < CHUNK_SIZE; ++j)
+			{
+				for (i = 0; i < CHUNK_SIZE;)
+				{
+					if (mask[n])
+					{
+						// Compute the width of this quad and store it in w                        
+						//   This is done by searching along the current axis until mask[n + w] is false
+						for (width = 1; i + width < CHUNK_SIZE && mask[n + width]; width++) {}
+
+						// Compute the height of this quad and store it in h                        
+						//   This is done by checking if every block next to this row (range 0 to w) is also part of the mask.
+						//   For example, if w is 5 we currently have a quad of dimensions 1 x 5. To reduce triangle count,
+						//   greedy meshing will attempt to expand this quad out to CHUNK_SIZE x 5, but will stop if it reaches a hole in the mask
+
+						bool done = false;
+						for (height = 1; j + height < CHUNK_SIZE; height++)
+						{
+							// Check each block next to this quad
+							for (k = 0; k < width; ++k)
+							{
+								// If there's a hole in the mask, exit
+								if (!mask[n + k + height * CHUNK_SIZE])
+								{
+									done = true;
+									break;
+								}
+							}
+
+							if (done)
+								break;
+						}
+
+						blockPosition[u] = i;
+						blockPosition[v] = j;
+
+						// du and dv determine the size and orientation of this face
+						int32_t du[] = { 0, 0, 0 };
+						du[u] = width;
+
+						int32_t dv[] = { 0, 0, 0 };
+						dv[v] = height;
+
+						// Create a quad for this face. Colour, normal or textures are not stored in this block vertex format.
+						{
+							vertices.push_back(glm::vec3(
+								blockPosition[0], blockPosition[1], blockPosition[2]));
+							vertices.push_back(glm::vec3(
+								blockPosition[0] + du[0], blockPosition[1] + du[1], blockPosition[2] + du[2]));
+							vertices.push_back(glm::vec3(
+								blockPosition[0] + dv[0], blockPosition[1] + dv[1], blockPosition[2] + dv[2]));
+							vertices.push_back(glm::vec3(
+								blockPosition[0] + du[0] + dv[0], blockPosition[1] + du[1] + dv[1], blockPosition[2] + du[2] + dv[2]));
+
+							colors.push_back(glm::vec3(0, 1, 0));
+							colors.push_back(glm::vec3(0, 1, 0));
+							colors.push_back(glm::vec3(0, 1, 0));
+							colors.push_back(glm::vec3(0, 1, 0));
+
+							normals.push_back(glm::vec3(0, 1, 0));
+							normals.push_back(glm::vec3(0, 1, 0));
+							normals.push_back(glm::vec3(0, 1, 0));
+							normals.push_back(glm::vec3(0, 1, 0));
+
+							indices.push_back(0 + indoff);
+							indices.push_back(2 + indoff);
+							indices.push_back(1 + indoff);
+							indices.push_back(1 + indoff);
+							indices.push_back(2 + indoff);
+							indices.push_back(3 + indoff);
+							indoff += 4;
+						}
+
+						// Clear this part of the mask, so we don't add duplicate faces
+						for (l = 0; l < height; ++l)
+							for (k = 0; k < width; ++k)
+								mask[n + k + l * CHUNK_SIZE] = false;
+
+						// Increment counters and continue
+						i += width;
+						n += width;
+					}
+					else
+					{
+						i++;
+						n++;
+					}
+				}
+			}
+		}
+	}
+
+	// finally
+	std::vector<float> vbdata;
+
+	auto pushvector = [](std::vector<float>& data, glm::vec3 vector)
+	{
+		data.push_back(vector.x);
+		data.push_back(vector.y);
+		data.push_back(vector.z);
+	};
+
+	// finally..
+	for (uint32_t blockno = 0; blockno < vertices.size(); blockno++)
+	{
+		pushvector(vbdata, vertices[blockno]);
+		pushvector(vbdata, colors[blockno]);
+		pushvector(vbdata, normals[blockno]);
+	}
+
+	VB = new VertexBuffer(nullptr, vbdata.data(), vbdata.size() * sizeof(float),
+		{
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 0 },
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 3 * sizeof(float) },
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
+		});
+	IB = new IndexBuffer(nullptr, indices.data(), indices.size() * sizeof(uint32_t));
+
+	temp_indices_count = indices.size();
+
+	std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
+
+}
+
+void VoxelRenderer::UpdateAlg3(VoxelMap* mapINPUT)
+{
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> colors;
+	std::vector<uint32_t> indices;
+
+	int32_t indexOffset = 0;
+
+	int32_t chunkPosX = 0;
+	int32_t chunkPosY = 0;
+	int32_t chunkPosZ = 0;
+
+	glm::uvec3 dims = mapINPUT->Size;
+
+	// Sweep over each axis (X, Y and Z)
+	for (int32_t dimension = 0; dimension < 3; ++dimension)
+	{
+		std::cout << "dimension " << dimension << "\n";
+
+		int i, j, k, l, width, height;
+		int u = (dimension + 1) % 3;
+		int v = (dimension + 2) % 3;
+		glm::ivec3 blockPosition(0, 0, 0);
+		glm::ivec3 blockOffset(0, 0, 0); // should be blockDirection? search direction
+
+		// If mask.length ...
+		std::vector<bool> mask(dims[u] * dims[v]);
+
+		blockOffset[dimension] = 1;
+
+		// Check each slice of the chunk one at a time
+		int blockup = blockPosition[dimension];
+		int dimsup = dims[dimension];
+		for (blockPosition[dimension] = -1; blockup < dimsup;)
+		{
+			// Compute the mask
+			int32_t maskIndex = 0;
+			for (blockPosition[v] = 0; blockPosition[v] < dims[v]; ++blockPosition[v])
+			{
+				for (blockPosition[u] = 0; blockPosition[u] < dims[u]; ++blockPosition[u])
+				{
+					// q determines the direction (X, Y or Z) that we are searching
+					// m.IsBlockAt(x,y,z) takes global map positions and returns true if a block exists there
+
+					//bool blockCurrent = 0 <= blockPosition[dimension] ? !mapINPUT->GetBlock(blockPosition[0] + chunkPosX, blockPosition[1] + chunkPosY, blockPosition[2] + chunkPosZ).Active : true;
+					//bool blockCompare = blockPosition[dimension] < dimensions[dimension] - 1 ? !mapINPUT->GetBlock(blockPosition[0] + q[0] + chunkPosX, blockPosition[1] + q[1] + chunkPosY, blockPosition[2] + q[2] + chunkPosZ).Active : true;
+
+					// The mask is set to true if there is a visible face between two blocks,
+					//   i.e. both aren't empty and both aren't blocks
+					//mask[n++] = blockCurrent != blockCompare;
+
+
+					//bool a = 0 <= blockPosition[dimension] ? mapINPUT->GetBlock(blockPosition).Active : 0;
+					//bool b = blockPosition[dimension] < dimensions[dimension] - 1 ? mapINPUT->GetBlock(blockPosition + blockOffset).Active : 0;
+
+					//if (a == b)
+					//	mask[maskIndex] = 0;
+					//else if (a)
+					//	mask[maskIndex] = a;
+					//else
+					//	mask[maskIndex] = -b;
+
+					bool blockCurrent =
+						0 <= blockPosition[dimension] ? !mapINPUT->GetBlock(blockPosition).Active : true;
+					bool blockCompare =
+						blockPosition[dimension] < dims[dimension] - 1 ? !mapINPUT->GetBlock(blockPosition + blockOffset).Active : true;
+										
+					mask[maskIndex++] = blockCurrent != blockCompare;
+
+					//maskIndex++;
+				}
+			}
+
+			++blockPosition[dimension];
+
+			maskIndex = 0;
+
+			// Generate a mesh from the mask using lexicographic ordering,      
+			//   by looping over each block in this slice of the chunk
+			for (j = 0; j < dims[v]; ++j)
+			{
+				for (i = 0; i < dims[u];)
+				{
+					if (mask[maskIndex])
+					{
+						// Compute the width of this quad and store it in w                        
+						//   This is done by searching along the current axis until mask[n + w] is false
+						for (width = 1; i + width < dims[u] && mask[maskIndex + width]; width++) {}
+
+						// Compute the height of this quad and store it in h                        
+						//   This is done by checking if every block next to this row (range 0 to w) is also part of the mask.
+						//   For example, if w is 5 we currently have a quad of dimensions 1 x 5. To reduce triangle count,
+						//   greedy meshing will attempt to expand this quad out to CHUNK_SIZE x 5, but will stop if it reaches a hole in the mask
+
+						bool done = false;
+						for (height = 1; j + height < dims[v]; height++)
+						{
+							// Check each block next to this quad
+							for (k = 0; k < width; ++k)
+							{
+								// If there's a hole in the mask, exit
+								if (!mask[maskIndex + k + height * dims[u]])
+								{
+									done = true;
+									break;
+								}
+							}
+
+							if (done)
+								break;
+						}
+
+						blockPosition[u] = i;
+						blockPosition[v] = j;
+
+						// du and dv determine the size and orientation of this face
+						int32_t du[] = { 0, 0, 0 };
+						du[u] = width;
+
+						int32_t dv[] = { 0, 0, 0 };
+						dv[v] = height;
+
+						// Create a quad for this face. Colour, normal or textures are not stored in this block vertex format.
+						{
+							vertices.push_back(glm::vec3(
+								blockPosition[0], blockPosition[1], blockPosition[2]));
+							vertices.push_back(glm::vec3(
+								blockPosition[0] + du[0], blockPosition[1] + du[1], blockPosition[2] + du[2]));
+							vertices.push_back(glm::vec3(
+								blockPosition[0] + dv[0], blockPosition[1] + dv[1], blockPosition[2] + dv[2]));
+							vertices.push_back(glm::vec3(
+								blockPosition[0] + du[0] + dv[0], blockPosition[1] + du[1] + dv[1], blockPosition[2] + du[2] + dv[2]));
+
+							colors.push_back(glm::vec3(0, 1, 0));
+							colors.push_back(glm::vec3(0, 1, 0));
+							colors.push_back(glm::vec3(0, 1, 0));
+							colors.push_back(glm::vec3(0, 1, 0));
+
+							normals.push_back(glm::vec3(0, 1, 0));
+							normals.push_back(glm::vec3(0, 1, 0));
+							normals.push_back(glm::vec3(0, 1, 0));
+							normals.push_back(glm::vec3(0, 1, 0));
+
+							indices.push_back(0 + indexOffset);
+							indices.push_back(2 + indexOffset);
+							indices.push_back(1 + indexOffset);
+							indices.push_back(1 + indexOffset);
+							indices.push_back(2 + indexOffset);
+							indices.push_back(3 + indexOffset);
+							indexOffset += 4;
+						}
+
+						// Clear this part of the mask, so we don't add duplicate faces
+						for (l = 0; l < height; ++l)
+							for (k = 0; k < width; ++k)
+								mask[maskIndex + k + l * dims[u]] = false;
+
+						// Increment counters and continue
+						i += width;
+						maskIndex += width;
+					}
+					else
+					{
+						i++;
+						maskIndex++;
+					}
+				}
+			}
+		}
+	}
+
+	// finally
+	std::vector<float> vbdata;
+
+	auto pushvector = [](std::vector<float>& data, glm::vec3 vector)
+	{
+		data.push_back(vector.x);
+		data.push_back(vector.y);
+		data.push_back(vector.z);
+	};
+
+	// finally..
+	for (uint32_t blockno = 0; blockno < vertices.size(); blockno++)
+	{
+		pushvector(vbdata, vertices[blockno]);
+		pushvector(vbdata, colors[blockno]);
+		pushvector(vbdata, normals[blockno]);
+	}
+
+	VB = new VertexBuffer(nullptr, vbdata.data(), vbdata.size() * sizeof(float),
+		{
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 0 },
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 3 * sizeof(float) },
+			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
+		});
+	IB = new IndexBuffer(nullptr, indices.data(), indices.size() * sizeof(uint32_t));
+
+	temp_indices_count = indices.size();
+
+	std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
+
+}
+
+void VoxelRenderer::UpdateCulled(VoxelMap* mapINPUT)
+{
+	auto pushvector = [](std::vector<float>& data, glm::vec3 vector)
+	{
+		data.push_back(vector.x);
+		data.push_back(vector.y);
+		data.push_back(vector.z);
+	};
+
+	std::vector<float> data;
+
+	glm::ivec3 dimensions = mapINPUT->Size;
+
+	for (int32_t x = 0; x < dimensions.x; x++)
+	{
+		for (int32_t y = 0; y < dimensions.y; y++)
+		{
+			for (int32_t z = 0; z < dimensions.z; z++)
+			{
+			}
+		}
+	}
 }
 
 void VoxelRenderer::Render(Device* device)
