@@ -157,9 +157,9 @@ Engine::Engine()
 
 	vr = VoxelRenderer();
 	uint32_t algtimestart = SDL_GetTicks();
-	//vr.Update(&vm); // ~3310 ms
-	vr.UpdateAlg2(&vm); // ~1180ms
-	//vr.UpdateAlg3(&vm); //
+	vr.Update(&vm); // ~3310 ms
+	//vr.UpdateAlg2(&vm); // ~2685 ms
+	//r.UpdateAlg3(&vm); //
 	uint32_t algtimeend = SDL_GetTicks();
 	std::cout << "Algorithm took " << (algtimeend - algtimestart) << "ms\n";
 

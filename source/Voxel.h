@@ -7,7 +7,55 @@
 
 #include "glm/vec3.hpp"
 
-typedef glm::ivec3 IntVector;
+#include <iostream>
+
+//typedef glm::ivec3 IntVector;
+//typedef IntVector Color;
+
+struct IntVector
+{
+	int32_t X;
+	int32_t Y;
+	int32_t Z;
+
+	IntVector(int32_t x, int32_t y, int32_t z) : X(x), Y(y), Z(z) {}
+	IntVector(int32_t value) : IntVector(value, value, value) {}
+	IntVector() : IntVector(0) {}
+
+	int32_t& operator[](int32_t index)
+	{
+		switch (index)
+		{
+		case 0:
+			return X;
+		case 1:
+			return Y;
+		case 2:
+			return Z;
+		default:
+			std::cout << "OOB! intvector\n"; // TODO: err
+			return X;
+		}
+	}
+
+	inline glm::vec3 v3() const
+	{
+		return glm::vec3(X, Y, Z);
+	}
+
+};
+
+inline bool operator==(const IntVector& left, const IntVector& right)
+{
+	return (left.X == right.X && left.Y == right.Y && left.Z == right.Z);
+}
+
+inline IntVector operator+(const IntVector& left, const IntVector& right)
+{
+	return IntVector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+}
+
+
 typedef IntVector Color;
 
 const float BLOCK_SIZE = 1.0f;
@@ -41,7 +89,7 @@ struct BlockFace
 		Side = 0;
 	}
 
-	bool Equals(const BlockFace& other) const
+	inline bool Equals(const BlockFace& other) const
 	{
 		return other.Culled == Culled && other.Color == Color;
 	}
@@ -77,12 +125,10 @@ public:
 	VertexBuffer* VB;
 	IndexBuffer* IB;
 
-	BlockFace GetBlockFace(const IntVector& inCoordinate, uint8_t side) const;
+	inline BlockFace GetBlockFace(const IntVector& inCoordinate, uint8_t side) const;
 
 	void Init();
-	void Update(VoxelMap* mapINPUT);
-	void UpdateAlg2(VoxelMap* mapINPUT);
-	void UpdateAlg3(VoxelMap* mapINPUT);
+	void Update(VoxelMap* mapINPUT); // 3d texture for colors? (merges more faces)
 	void UpdateCulled(VoxelMap* mapINPUT);
 
 	void Render(Device* device);

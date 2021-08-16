@@ -30,7 +30,7 @@ Device::Device(SDL_Window* window)
 	}
 
 	// TODO: pipeline object?
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	//glEnable(GL_FRAMEBUFFER_SRGB);
 	glEnable(GL_DEPTH_TEST);
 
