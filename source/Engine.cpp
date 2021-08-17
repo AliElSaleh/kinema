@@ -216,7 +216,7 @@ void Engine::Update()
 			break;
 		}
 
-		if (ImGui::GetIO().WantCaptureMouse)
+		if (!capd && ImGui::GetIO().WantCaptureMouse)
 			break;
 
 		switch (event.type)
@@ -235,6 +235,7 @@ void Engine::Update()
 			{
 				pitch -= event.motion.yrel * mousesense;
 				yaw += event.motion.xrel * mousesense;
+				std::cout << "ev\n";
 			}
 			break;
 		case SDL_MOUSEWHEEL:
@@ -317,13 +318,42 @@ void Engine::Update()
 	ub->SetData(&camdat.View, sizeof(glm::mat4), sizeof(glm::mat4));
 }
 
+bool showDemoWindow = false;
+bool showAboutWindow = false;
+
 void Engine::Render()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::ShowDemoWindow();
+	{
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("Engine"))
+			{
+				if (ImGui::MenuItem("About"))		showAboutWindow = true;
+				if (ImGui::MenuItem("ImGui Demo"))	showDemoWindow = true;
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMainMenuBar();
+		}
+
+		if (showDemoWindow)
+		{
+			ImGui::ShowDemoWindow(&showDemoWindow);
+		}
+
+		if (showAboutWindow)
+		{
+			ImGui::SetNextWindowSize(ImVec2(0, 0));
+			ImGui::Begin("About", &showAboutWindow);
+			ImGui::Text("Kinema Engine\nCopyright 2021 William Yates\n");
+			ImGui::End();
+		}
+	}
 
 	ImGui::Render();
 

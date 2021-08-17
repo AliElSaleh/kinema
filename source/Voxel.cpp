@@ -778,7 +778,6 @@ void VoxelMap::RenderChunks(Device* device, Shader* shader)
 
 		shader->SetMatrix("model", voxmat);
 
-
 		device->Draw(Chunk.VB, Chunk.IB, Chunk.temp_indices_count);
 	}
 }
