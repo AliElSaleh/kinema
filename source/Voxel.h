@@ -95,12 +95,40 @@ struct BlockFace
 	}
 };
 
+class VoxelChunk
+{
+public:
+	std::vector<Block> Blocks;
+
+	IntVector Dimensions;
+	IntVector loc;
+
+	VertexBuffer* VB;
+	IndexBuffer* IB;
+
+	uint32_t temp_indices_count = 0;
+
+	VoxelChunk();
+
+	Block& GetBlock(int32_t x, int32_t y, int32_t z);
+	Block& GetBlock(IntVector coord);
+
+	void Update();
+
+private:
+	inline BlockFace GetBlockFace(const IntVector& inCoordinate, uint8_t side);
+};
+
 class VoxelMap
 {
 public:
 	VoxelMap() {}
 
+	std::vector<VoxelChunk> Chunks;
+	IntVector ChunkDims;
+
 	std::vector<Block> Blocks;
+	IntVector ChunkSize;
 	IntVector Size;
 
 	void generate(int x, int y, int z);
@@ -108,11 +136,16 @@ public:
 	Block& GetBlock(int32_t x, int32_t y, int32_t z);
 	Block& GetBlock(const IntVector& coordinates);
 
-	void LoadFromFile(const char* fileName);
-};
+	void InitChunks();
 
-class VoxelChunk
-{
+	void GenChunks();
+
+	VoxelChunk& GetChunk(int32_t x, int32_t y, int32_t z);
+	Block& GetBlock_Chunked(int32_t x, int32_t y, int32_t z);
+
+	void RenderChunks(Device* device, Shader* shader);
+
+	void LoadFromFile(const char* fileName);
 };
 
 class VoxelRenderer

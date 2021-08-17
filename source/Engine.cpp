@@ -153,14 +153,19 @@ Engine::Engine()
 
 	vm = VoxelMap();
 	vm.LoadFromFile("bin.map");
-	//vm.generate(64, 64, 64);
+	//vm.generate(512, 128, 512);
+
+	vm.InitChunks();
 
 	vr = VoxelRenderer();
+
 	uint32_t algtimestart = SDL_GetTicks();
-	vr.Update(&vm); // ~3310 ms
+	vm.GenChunks();
+	//vr.Update(&vm); // ~3310 ms
 	//vr.UpdateAlg2(&vm); // ~2685 ms
 	//r.UpdateAlg3(&vm); //
 	uint32_t algtimeend = SDL_GetTicks();
+
 	std::cout << "Algorithm took " << (algtimeend - algtimestart) << "ms\n";
 
 
@@ -368,7 +373,8 @@ void Engine::Render()
 	voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
 	litShader->SetMatrix("model", voxmat);
 
-	vr.Render(device);
+	//vr.Render(device);
+	vm.RenderChunks(device, litShader);
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
