@@ -161,9 +161,6 @@ Engine::Engine()
 
 	uint32_t algtimestart = SDL_GetTicks();
 	vm.GenChunks();
-	//vr.Update(&vm); // ~3310 ms
-	//vr.UpdateAlg2(&vm); // ~2685 ms
-	//r.UpdateAlg3(&vm); //
 	uint32_t algtimeend = SDL_GetTicks();
 
 	std::cout << "Algorithm took " << (algtimeend - algtimestart) << "ms\n";
@@ -235,7 +232,6 @@ void Engine::Update()
 			{
 				pitch -= event.motion.yrel * mousesense;
 				yaw += event.motion.xrel * mousesense;
-				std::cout << "ev\n";
 			}
 			break;
 		case SDL_MOUSEWHEEL:

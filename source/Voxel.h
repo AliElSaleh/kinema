@@ -12,51 +12,51 @@
 //typedef glm::ivec3 IntVector;
 //typedef IntVector Color;
 
-struct IntVector
-{
-	int32_t X;
-	int32_t Y;
-	int32_t Z;
+//struct IntVector
+//{
+//	int32_t X;
+//	int32_t Y;
+//	int32_t Z;
+//
+//	IntVector(int32_t x, int32_t y, int32_t z) : X(x), Y(y), Z(z) {}
+//	IntVector(int32_t value) : IntVector(value, value, value) {}
+//	IntVector() : IntVector(0) {}
+//
+//	int32_t& operator[](int32_t index)
+//	{
+//		switch (index)
+//		{
+//		case 0:
+//			return X;
+//		case 1:
+//			return Y;
+//		case 2:
+//			return Z;
+//		default:
+//			std::cout << "OOB! intvector\n"; // TODO: err
+//			return X;
+//		}
+//	}
+//
+//	inline glm::vec3 v3() const
+//	{
+//		return glm::vec3(X, Y, Z);
+//	}
+//
+//};
+//
+//inline bool operator==(const IntVector& left, const IntVector& right)
+//{
+//	return (left.X == right.X && left.Y == right.Y && left.Z == right.Z);
+//}
+//
+//inline IntVector operator+(const IntVector& left, const IntVector& right)
+//{
+//	return IntVector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+//}
 
-	IntVector(int32_t x, int32_t y, int32_t z) : X(x), Y(y), Z(z) {}
-	IntVector(int32_t value) : IntVector(value, value, value) {}
-	IntVector() : IntVector(0) {}
 
-	int32_t& operator[](int32_t index)
-	{
-		switch (index)
-		{
-		case 0:
-			return X;
-		case 1:
-			return Y;
-		case 2:
-			return Z;
-		default:
-			std::cout << "OOB! intvector\n"; // TODO: err
-			return X;
-		}
-	}
-
-	inline glm::vec3 v3() const
-	{
-		return glm::vec3(X, Y, Z);
-	}
-
-};
-
-inline bool operator==(const IntVector& left, const IntVector& right)
-{
-	return (left.X == right.X && left.Y == right.Y && left.Z == right.Z);
-}
-
-inline IntVector operator+(const IntVector& left, const IntVector& right)
-{
-	return IntVector(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
-}
-
-
-typedef IntVector Color;
+//typedef IntVector Color;
 
 const float BLOCK_SIZE = 1.0f;
 
@@ -64,12 +64,12 @@ struct Block
 {
 	bool Active;
 
-	IntVector Color;
+	glm::ivec3 Color;
 
 	Block()
 	{
 		Active = false;
-		Color = IntVector(127);
+		Color = glm::ivec3(127);
 	}
 
 	static Block Default;
@@ -78,14 +78,14 @@ struct Block
 struct BlockFace
 {
 	bool Culled;
-	IntVector Color;
+	glm::ivec3 Color;
 
 	uint8_t Side;
 
 	BlockFace()
 	{
 		Culled = false;
-		Color = IntVector(0, 0, 0);
+		Color = glm::ivec3(0, 0, 0);
 		Side = 0;
 	}
 
@@ -100,8 +100,8 @@ class VoxelChunk
 public:
 	std::vector<Block> Blocks;
 
-	IntVector Dimensions;
-	IntVector loc;
+	glm::ivec3 Dimensions;
+	glm::ivec3 loc;
 
 	VertexBuffer* VB;
 	IndexBuffer* IB;
@@ -111,12 +111,12 @@ public:
 	VoxelChunk();
 
 	Block& GetBlock(int32_t x, int32_t y, int32_t z);
-	Block& GetBlock(IntVector coord);
+	Block& GetBlock(glm::ivec3 coord);
 
 	void Update();
 
 private:
-	inline BlockFace GetBlockFace(const IntVector& inCoordinate, uint8_t side);
+	inline BlockFace GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side);
 };
 
 class VoxelMap
@@ -125,16 +125,16 @@ public:
 	VoxelMap() {}
 
 	std::vector<VoxelChunk> Chunks;
-	IntVector ChunkDims;
+	glm::ivec3 ChunkDims;
 
 	std::vector<Block> Blocks;
-	IntVector ChunkSize;
-	IntVector Size;
+	glm::ivec3 ChunkSize;
+	glm::ivec3 Size;
 
 	void generate(int x, int y, int z);
 
 	Block& GetBlock(int32_t x, int32_t y, int32_t z);
-	Block& GetBlock(const IntVector& coordinates);
+	Block& GetBlock(const glm::ivec3& coordinates);
 
 	void InitChunks();
 
@@ -158,7 +158,7 @@ public:
 	VertexBuffer* VB;
 	IndexBuffer* IB;
 
-	inline BlockFace GetBlockFace(const IntVector& inCoordinate, uint8_t side) const;
+	inline BlockFace GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side) const;
 
 	void Init();
 	void Update(VoxelMap* mapINPUT); // 3d texture for colors? (merges more faces)

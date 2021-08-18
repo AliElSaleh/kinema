@@ -9,20 +9,20 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 
-Color colorPalette[] = {
-	Color(255, 0, 0),
-	Color(63, 55, 55),
-	Color(33, 33, 38),
-	Color(255, 255, 0),
-	Color(181, 161, 159),
-	Color(64, 0, 0),
-	Color(137, 131, 97),
-	Color(255, 255, 255)
+glm::ivec3 colorPalette[] = {
+	glm::ivec3(255, 0, 0),
+	glm::ivec3(63, 55, 55),
+	glm::ivec3(33, 33, 38),
+	glm::ivec3(255, 255, 0),
+	glm::ivec3(181, 161, 159),
+	glm::ivec3(64, 0, 0),
+	glm::ivec3(137, 131, 97),
+	glm::ivec3(255, 255, 255)
 };
 
 void VoxelMap::generate(int x, int y, int z)
 {
-	Size = IntVector(x, y, z);
+	Size = glm::ivec3(x, y, z);
 
 	Blocks = std::vector<Block>(x * y * z);
 	for (int xp = 0; xp < x; xp++)
@@ -33,10 +33,10 @@ void VoxelMap::generate(int x, int y, int z)
 			{
 				Block nb;
 				nb.Active = true;
-				nb.Color = IntVector((float)xp / (float)x * 255.0f,
+				nb.Color = glm::ivec3((float)xp / (float)x * 255.0f,
 					(float)yp / (float)y * 255.0f,
 					(float)zp / (float)z * 255.0f);
-				nb.Color = IntVector(255,
+				nb.Color = glm::ivec3(255,
 					(float)yp / (float)y * 255.0f,
 					255);
 
@@ -58,35 +58,35 @@ Block Block::Default = Block();
 
 Block& VoxelMap::GetBlock(int32_t x, int32_t y, int32_t z)
 {
-	if (x >= Size.X || y >= Size.Y || z >= Size.Z ||
+	if (x >= Size.x || y >= Size.y || z >= Size.z ||
 		x < 0 || y < 0 || z < 0)
 	{
 		//assert(false);
 		return Block::Default;
 	}
 
-	uint32_t index = x + y * Size.X + z * Size.X * Size.Y;
+	uint32_t index = x + y * Size.x + z * Size.x * Size.y;
 	return Blocks[index];
 }
 
-Block& VoxelMap::GetBlock(const IntVector& coordinates)
+Block& VoxelMap::GetBlock(const glm::ivec3& coordinates)
 {
-	return GetBlock(coordinates.X, coordinates.Y, coordinates.Z);
+	return GetBlock(coordinates.x, coordinates.y, coordinates.z);
 }
 
-uint32_t indexget(int x, int y, int z, IntVector Size)
+uint32_t indexget(int x, int y, int z, glm::ivec3 Size)
 {
-	uint32_t index = x + y * Size.X + z * Size.X * Size.Y;
+	uint32_t index = x + y * Size.x + z * Size.x * Size.y;
 	return index;
 }
 void VoxelMap::LoadFromFile(const char* fileName)
 {
 	std::ifstream file(fileName, std::ios::binary);
 
-	file.read((char*)&Size, sizeof(IntVector));
-	Size = IntVector(Size.X, Size.Y, Size.Z);
+	file.read((char*)&Size, sizeof(glm::ivec3));
+	Size = glm::ivec3(Size.x, Size.y, Size.z);
 
-	uint32_t sizecubed = Size.X * Size.Y * Size.Z;
+	uint32_t sizecubed = Size.x * Size.y * Size.z;
 
 	std::vector<uint8_t> blockdata;
 	blockdata.resize(sizecubed);
@@ -94,19 +94,19 @@ void VoxelMap::LoadFromFile(const char* fileName)
 
 	file.read((char*)blockdata.data(), sizecubed);
 
-	std::cout << "Map size " << Size.X << ", " << Size.Y << ", " << Size.Z << "\n";
+	std::cout << "Map size " << Size.x << ", " << Size.y << ", " << Size.z << "\n";
 	//for (size_t i = 0; i < 
 
 	// convert yup zup
-	for (int32_t x = 0; x < Size.X; x++)
+	for (int32_t x = 0; x < Size.x; x++)
 	{
-		for (int32_t y = 0; y < Size.Y; y++)
+		for (int32_t y = 0; y < Size.y; y++)
 		{
-			for (int32_t z = 0; z < Size.Z; z++)
+			for (int32_t z = 0; z < Size.z; z++)
 			{
 				//uint32_t index = x + y * Size.x + z * Size.x * Size.y;
 				//convert index
-				IntVector sizeconv(Size.X, Size.Z, Size.Y);
+				glm::ivec3 sizeconv(Size.x, Size.z, Size.y);
 				uint32_t index2 = indexget(x, z, y, sizeconv);
 
 				uint32_t index = indexget(x, y, z, Size);
@@ -118,7 +118,7 @@ void VoxelMap::LoadFromFile(const char* fileName)
 				{
 					if (type > 7)
 					{
-						Blocks[index].Color = IntVector(81, 124, 0);
+						Blocks[index].Color = glm::ivec3(81, 124, 0);
 					}
 					else
 					{
@@ -137,43 +137,42 @@ void VoxelRenderer::Init()
 
 static const uint32_t BlockDirectionAxis[6] = { 1, 1, 2, 2, 0, 0 };
 
-static const IntVector BlockForwardDirections[6] =
+static const glm::ivec3 BlockForwardDirections[6] =
 {
-	IntVector(0, 1, 0),
-	IntVector(0, -1, 0),
-	IntVector(0, 0, -1),
-	IntVector(0, 0, 1),
-	IntVector(-1, 0, 0),
-	IntVector(1, 0, 0)
+	glm::ivec3(0, 1, 0),
+	glm::ivec3(0, -1, 0),
+	glm::ivec3(0, 0, -1),
+	glm::ivec3(0, 0, 1),
+	glm::ivec3(-1, 0, 0),
+	glm::ivec3(1, 0, 0)
 };
 
-typedef glm::vec3 Vector;
-static const Vector VertexOffsets[24] =
+static const glm::vec3 VertexOffsets[24] =
 {
-	Vector(0, 1, 0), Vector(1, 1, 0), Vector(1, 1, 1), Vector(0, 1, 1),
-	Vector(0, 0, 0), Vector(0, 0, 1), Vector(1, 0, 1), Vector(1, 0, 0),
-	Vector(0, 0, 0), Vector(1, 0, 0), Vector(1, 1, 0), Vector(0, 1, 0),
-	Vector(0, 0, 1), Vector(0, 1, 1), Vector(1, 1, 1), Vector(1, 0, 1),
-	Vector(0, 0, 0), Vector(0, 1, 0), Vector(0, 1, 1), Vector(0, 0, 1),
-	Vector(1, 0, 0), Vector(1, 0, 1), Vector(1, 1, 1), Vector(1, 1, 0),
+	glm::vec3(0, 1, 0), glm::vec3(1, 1, 0), glm::vec3(1, 1, 1), glm::vec3(0, 1, 1),
+	glm::vec3(0, 0, 0), glm::vec3(0, 0, 1), glm::vec3(1, 0, 1), glm::vec3(1, 0, 0),
+	glm::vec3(0, 0, 0), glm::vec3(1, 0, 0), glm::vec3(1, 1, 0), glm::vec3(0, 1, 0),
+	glm::vec3(0, 0, 1), glm::vec3(0, 1, 1), glm::vec3(1, 1, 1), glm::vec3(1, 0, 1),
+	glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), glm::vec3(0, 1, 1), glm::vec3(0, 0, 1),
+	glm::vec3(1, 0, 0), glm::vec3(1, 0, 1), glm::vec3(1, 1, 1), glm::vec3(1, 1, 0),
 };
 
-static const Vector BlockForwardVectors[6] =
+static const glm::vec3 BlockForwardVectors[6] =
 {
-	Vector(0, 1, 0),
-	Vector(0, -1, 0),
-	Vector(0, 0, -1),
-	Vector(0, 0, 1),
-	Vector(-1, 0, 0),
-	Vector(1, 0, 0)
+	glm::vec3(0, 1, 0),
+	glm::vec3(0, -1, 0),
+	glm::vec3(0, 0, -1),
+	glm::vec3(0, 0, 1),
+	glm::vec3(-1, 0, 0),
+	glm::vec3(1, 0, 0)
 };
 
-inline IntVector GetAdjacentCoordinate(IntVector x, uint8_t side)
+inline glm::ivec3 GetAdjacentCoordinate(glm::ivec3 x, uint8_t side)
 {
 	return x + BlockForwardDirections[side];
 }
 
-inline BlockFace VoxelRenderer::GetBlockFace(const IntVector& inCoordinate, uint8_t side) const
+inline BlockFace VoxelRenderer::GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side) const
 {
 	Block block = Map->GetBlock(inCoordinate);
 
@@ -184,8 +183,8 @@ inline BlockFace VoxelRenderer::GetBlockFace(const IntVector& inCoordinate, uint
 
 	if (!face.Culled)
 	{
-		IntVector adjacentCoordinate = GetAdjacentCoordinate(inCoordinate, side);
-		IntVector adjacentBlockType = Map->GetBlock(adjacentCoordinate).Color;
+		glm::ivec3 adjacentCoordinate = GetAdjacentCoordinate(inCoordinate, side);
+		glm::ivec3 adjacentBlockType = Map->GetBlock(adjacentCoordinate).Color;
 
 		if (Map->GetBlock(adjacentCoordinate).Active != 0)
 		{
@@ -200,15 +199,15 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 {
 	Map = mapINPUT;
 
-	IntVector volumeSize = Map->Size; // tt
+	glm::ivec3 volumeSize = Map->Size; // tt
 
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec3> colors;
 	std::vector<uint32_t> indices;
 
-	IntVector blockPosition(0, 0, 0);
-	IntVector blockOffset(0, 0, 0);
+	glm::ivec3 blockPosition(0, 0, 0);
+	glm::ivec3 blockOffset(0, 0, 0);
 
 	BlockFace faceA;
 	BlockFace faceB;
@@ -219,7 +218,7 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 	uint32_t indexOffset = 0;
 
 	std::vector<BlockFace> blockFaceMask;
-	blockFaceMask.resize(volumeSize.X * volumeSize.Y * volumeSize.Z);
+	blockFaceMask.resize(volumeSize.x * volumeSize.y * volumeSize.z);
 
 	int32_t uAxis = 0;
 	int32_t vAxis = 0;
@@ -232,7 +231,7 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 		uAxis = (axis + 1) % 3;
 		vAxis = (axis + 2) % 3;
 
-		blockPosition = IntVector(0, 0, 0);
+		blockPosition = glm::ivec3(0, 0, 0);
 		blockOffset = BlockForwardDirections[faceSide];
 
 		// loop through the current axis
@@ -247,7 +246,7 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 				{
 					faceB.Culled = true;
 					faceB.Side = faceSide;
-					faceB.Color = IntVector(255, 255, 255);
+					faceB.Color = glm::ivec3(255, 255, 255);
 
 					// face of this block
 					faceA = GetBlockFace(blockPosition, faceSide);
@@ -337,7 +336,7 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 						static int triangleIndices[6] = { 0, 1, 2, 2, 3, 0 };
 
 						uint8_t blockSide = blockFaceMask[maskIndex].Side;
-						IntVector blockColor = blockFaceMask[maskIndex].Color;
+						glm::ivec3 blockColor = blockFaceMask[maskIndex].Color;
 
 						for (int32_t vertexIndex = 0; vertexIndex < 4; ++vertexIndex)
 						{
@@ -345,11 +344,11 @@ void VoxelRenderer::Update(VoxelMap* mapINPUT)
 
 							vertexPosition[uAxis] *= faceWidth;
 							vertexPosition[vAxis] *= faceHeight;
-							vertexPosition += blockPosition.v3(); // TODO::!!!! check
+							vertexPosition += blockPosition; // TODO::!!!! check
 
 							vertices.push_back(vertexPosition * BLOCK_SIZE);
 							normals.push_back(BlockForwardVectors[blockSide]);
-							colors.push_back(blockColor.v3());
+							colors.push_back(blockColor);
 						}
 
 						indices.push_back(0 + indexOffset);
@@ -419,39 +418,39 @@ void VoxelRenderer::UpdateCulled(VoxelMap* mapINPUT)
 	std::vector<float> data;
 
 	//glm::ivec3 dimensions = mapINPUT->Size;
-	IntVector dimensions = mapINPUT->Size;
+	glm::ivec3 dimensions = mapINPUT->Size;
 
-	IntVector ChunkSize;
-	ChunkSize.X = dimensions.X;
-	ChunkSize.Y = dimensions.Y;
-	ChunkSize.Z = dimensions.Z;
+	glm::ivec3 ChunkSize;
+	ChunkSize.x = dimensions.x;
+	ChunkSize.y = dimensions.y;
+	ChunkSize.z = dimensions.z;
 
 	// naive implementation?
-	for (int32_t x = 0; x < dimensions.X; x++)
+	for (int32_t x = 0; x < dimensions.x; x++)
 	{
-		for (int32_t y = 0; y < dimensions.Y; y++)
+		for (int32_t y = 0; y < dimensions.y; y++)
 		{
-			for (int32_t z = 0; z < dimensions.Z; z++)
+			for (int32_t z = 0; z < dimensions.z; z++)
 			{
 				if (!mapINPUT->GetBlock(x, y, z).Active)
 					continue;
 
 				bool positiveX = true;
-				if (x < ChunkSize.X - 1)
+				if (x < ChunkSize.x - 1)
 					positiveX = !mapINPUT->GetBlock(x + 1, y, z).Active;
 				bool negativeX = true;
 				if (x > 0)
 					negativeX = !mapINPUT->GetBlock(x - 1, y, z).Active;
 
 				bool positiveY = true;
-				if (y < ChunkSize.Y - 1)
+				if (y < ChunkSize.y - 1)
 					positiveY = !mapINPUT->GetBlock(x, y + 1, z).Active;
 				bool negativeY = true;
 				if (y > 0)
 					negativeY = !mapINPUT->GetBlock(x, y - 1, z).Active;
 
 				bool positiveZ = true;
-				if (z < ChunkSize.Z - 1)
+				if (z < ChunkSize.z - 1)
 					positiveZ = !mapINPUT->GetBlock(x, y, z + 1).Active;
 				bool negativeZ = true;
 				if (z > 0)
@@ -468,10 +467,10 @@ VoxelChunk::VoxelChunk()
 	VB = nullptr;
 	IB = nullptr;
 
-	Dimensions = IntVector(0, 0, 0);
+	Dimensions = glm::ivec3(0, 0, 0);
 }
 
-inline BlockFace VoxelChunk::GetBlockFace(const IntVector& inCoordinate, uint8_t side)
+inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side)
 {
 	Block block = GetBlock(inCoordinate);
 
@@ -482,8 +481,8 @@ inline BlockFace VoxelChunk::GetBlockFace(const IntVector& inCoordinate, uint8_t
 
 	if (!face.Culled)
 	{
-		IntVector adjacentCoordinate = GetAdjacentCoordinate(inCoordinate, side);
-		IntVector adjacentBlockType = GetBlock(adjacentCoordinate).Color;
+		glm::ivec3 adjacentCoordinate = GetAdjacentCoordinate(inCoordinate, side);
+		glm::ivec3 adjacentBlockType = GetBlock(adjacentCoordinate).Color;
 
 		if (GetBlock(adjacentCoordinate).Active != 0)
 		{
@@ -494,22 +493,22 @@ inline BlockFace VoxelChunk::GetBlockFace(const IntVector& inCoordinate, uint8_t
 	return face;
 }
 
-Block& VoxelChunk::GetBlock(IntVector coord)
+Block& VoxelChunk::GetBlock(glm::ivec3 coord)
 {
-	return GetBlock(coord.X, coord.Y, coord.Z);
+	return GetBlock(coord.x, coord.y, coord.z);
 }
 
 void VoxelChunk::Update()
 {
-	IntVector volumeSize = Dimensions;
+	glm::ivec3 volumeSize = Dimensions;
 
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec3> colors;
 	std::vector<uint32_t> indices;
 
-	IntVector blockPosition(0, 0, 0);
-	IntVector blockOffset(0, 0, 0);
+	glm::ivec3 blockPosition(0, 0, 0);
+	glm::ivec3 blockOffset(0, 0, 0);
 
 	BlockFace faceA;
 	BlockFace faceB;
@@ -520,7 +519,7 @@ void VoxelChunk::Update()
 	uint32_t indexOffset = 0;
 
 	std::vector<BlockFace> blockFaceMask;
-	blockFaceMask.resize(volumeSize.X * volumeSize.Y * volumeSize.Z);
+	blockFaceMask.resize(volumeSize.x * volumeSize.y * volumeSize.z);
 
 	int32_t uAxis = 0;
 	int32_t vAxis = 0;
@@ -533,7 +532,7 @@ void VoxelChunk::Update()
 		uAxis = (axis + 1) % 3;
 		vAxis = (axis + 2) % 3;
 
-		blockPosition = IntVector(0, 0, 0);
+		blockPosition = glm::ivec3(0, 0, 0);
 		blockOffset = BlockForwardDirections[faceSide];
 
 		// loop through the current axis
@@ -548,7 +547,7 @@ void VoxelChunk::Update()
 				{
 					faceB.Culled = true;
 					faceB.Side = faceSide;
-					faceB.Color = IntVector(255, 255, 255);
+					faceB.Color = glm::ivec3(255, 255, 255);
 
 					// face of this block
 					faceA = GetBlockFace(blockPosition, faceSide);
@@ -638,7 +637,7 @@ void VoxelChunk::Update()
 						static int triangleIndices[6] = { 0, 1, 2, 2, 3, 0 };
 
 						uint8_t blockSide = blockFaceMask[maskIndex].Side;
-						IntVector blockColor = blockFaceMask[maskIndex].Color;
+						glm::ivec3 blockColor = blockFaceMask[maskIndex].Color;
 
 						for (int32_t vertexIndex = 0; vertexIndex < 4; ++vertexIndex)
 						{
@@ -646,11 +645,11 @@ void VoxelChunk::Update()
 
 							vertexPosition[uAxis] *= faceWidth;
 							vertexPosition[vAxis] *= faceHeight;
-							vertexPosition += blockPosition.v3(); // TODO::!!!! check
+							vertexPosition += blockPosition; // TODO::!!!! check
 
 							vertices.push_back(vertexPosition * BLOCK_SIZE);
 							normals.push_back(BlockForwardVectors[blockSide]);
-							colors.push_back(blockColor.v3());
+							colors.push_back(blockColor);
 						}
 
 						indices.push_back(0 + indexOffset);
@@ -705,53 +704,53 @@ void VoxelChunk::Update()
 
 	temp_indices_count = indices.size();
 
-	std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
+	//std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
 }
 
 Block& VoxelChunk::GetBlock(int32_t x, int32_t y, int32_t z)
 {
-	if (x >= Dimensions.X || y >= Dimensions.Y || z >= Dimensions.Z ||
+	if (x >= Dimensions.x || y >= Dimensions.y || z >= Dimensions.z ||
 		x < 0 || y < 0 || z < 0)
 	{
 		//assert(false);
 		return Block::Default;
 	}
 
-	uint32_t index = x + y * Dimensions.X + z * Dimensions.X * Dimensions.Y;
+	uint32_t index = x + y * Dimensions.x + z * Dimensions.x * Dimensions.y;
 	return Blocks[index];
 }
 
 void VoxelMap::InitChunks()
 {
-	ChunkSize = IntVector(32, 32, 32);
+	ChunkSize = glm::ivec3(32, 32, 32);
 
-	int32_t ChunksWidth = ceilf((float)Size.X / (float)ChunkSize.X);
-	int32_t ChunksHeight = ceilf((float)Size.Y / (float)ChunkSize.Y);
-	int32_t ChunksDepth = ceilf((float)Size.Z / (float)ChunkSize.Z);
+	int32_t ChunksWidth = ceilf((float)Size.x / (float)ChunkSize.x);
+	int32_t ChunksHeight = ceilf((float)Size.y / (float)ChunkSize.y);
+	int32_t ChunksDepth = ceilf((float)Size.z / (float)ChunkSize.z);
 
-	ChunkDims = IntVector(ChunksWidth, ChunksHeight, ChunksDepth);
+	ChunkDims = glm::ivec3(ChunksWidth, ChunksHeight, ChunksDepth);
 
 	Chunks.resize(ChunksWidth * ChunksHeight * ChunksDepth);
 
 	for (VoxelChunk& Chunk : Chunks)
 	{
-		Chunk.Blocks.resize(ChunkSize.X * ChunkSize.Y * ChunkSize.Z);
+		Chunk.Blocks.resize(ChunkSize.x * ChunkSize.y * ChunkSize.z);
 		Chunk.Dimensions = ChunkSize;
 	}
 
-	for (int32_t x = 0; x < Size.X; x++)
+	for (int32_t x = 0; x < Size.x; x++)
 	{
-		for (int32_t y = 0; y < Size.Y; y++)
+		for (int32_t y = 0; y < Size.y; y++)
 		{
-			for (int32_t z = 0; z < Size.Z; z++)
+			for (int32_t z = 0; z < Size.z; z++)
 			{
 				GetBlock_Chunked(x, y, z) = GetBlock(x, y, z);
 				GetChunk(x, y, z).Dimensions = ChunkSize;
 
-				int32_t ChunkX = x / ChunkSize.X;
-				int32_t ChunkY = y / ChunkSize.Y;
-				int32_t ChunkZ = z / ChunkSize.Z;
-				GetChunk(x, y, z).loc = IntVector(ChunkX, ChunkY, ChunkZ);
+				int32_t ChunkX = x / ChunkSize.x;
+				int32_t ChunkY = y / ChunkSize.y;
+				int32_t ChunkZ = z / ChunkSize.z;
+				GetChunk(x, y, z).loc = glm::ivec3(ChunkX, ChunkY, ChunkZ);
 			}
 		}
 	}
@@ -772,7 +771,7 @@ void VoxelMap::RenderChunks(Device* device, Shader* shader)
 	{
 		glm::mat4 voxmat(1.0f);
 		voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
-		voxmat = glm::translate(voxmat, Chunk.loc.v3() * ChunkSize.v3());
+		voxmat = glm::translate(voxmat, (glm::vec3)(Chunk.loc * ChunkSize));
 
 		voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
 
@@ -785,26 +784,26 @@ void VoxelMap::RenderChunks(Device* device, Shader* shader)
 
 VoxelChunk& VoxelMap::GetChunk(int32_t x, int32_t y, int32_t z)
 {
-	int32_t ChunkX = x / ChunkSize.X;
-	int32_t ChunkY = y / ChunkSize.Y;
-	int32_t ChunkZ = z / ChunkSize.Z;
+	int32_t ChunkX = x / ChunkSize.x;
+	int32_t ChunkY = y / ChunkSize.y;
+	int32_t ChunkZ = z / ChunkSize.z;
 
-	int32_t chunkIndex = ChunkX + ChunkY * ChunkDims.X + ChunkZ * ChunkDims.X * ChunkDims.Y;
+	int32_t chunkIndex = ChunkX + ChunkY * ChunkDims.x + ChunkZ * ChunkDims.x * ChunkDims.y;
 	return Chunks[chunkIndex];
 }
 
 Block& VoxelMap::GetBlock_Chunked(int32_t x, int32_t y, int32_t z)
 {
-	int32_t ChunkX = x / ChunkSize.X;
-	int32_t ChunkY = y / ChunkSize.Y;
-	int32_t ChunkZ = z / ChunkSize.Z;
+	int32_t ChunkX = x / ChunkSize.x;
+	int32_t ChunkY = y / ChunkSize.y;
+	int32_t ChunkZ = z / ChunkSize.z;
 
-	int32_t BlockX = x % ChunkSize.X;
-	int32_t BlockY = y % ChunkSize.Y;
-	int32_t BlockZ = z % ChunkSize.Z;
+	int32_t BlockX = x % ChunkSize.x;
+	int32_t BlockY = y % ChunkSize.y;
+	int32_t BlockZ = z % ChunkSize.z;
 
-	int32_t chunkIndex = ChunkX + ChunkY * ChunkDims.X + ChunkZ * ChunkDims.X * ChunkDims.Y;
-	int32_t blockIndex = BlockX + BlockY * ChunkSize.X + BlockZ * ChunkSize.X * ChunkSize.Y;
+	int32_t chunkIndex = ChunkX + ChunkY * ChunkDims.x + ChunkZ * ChunkDims.x * ChunkDims.y;
+	int32_t blockIndex = BlockX + BlockY * ChunkSize.x + BlockZ * ChunkSize.x * ChunkSize.y;
 
 	return Chunks[chunkIndex].Blocks[blockIndex];
 }
