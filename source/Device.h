@@ -20,6 +20,7 @@ public:
 
 	void Draw(VertexBuffer* vertexBuffer, uint32_t count);
 	void Draw(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, uint32_t count);
+	void DrawLines(VertexBuffer* vertexBuffer, uint32_t count);
 
 	void CheckErrorTemp();
 

@@ -82,6 +82,15 @@ void Device::Draw(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, uint32_t
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
 }
 
+void Device::DrawLines(VertexBuffer* vertexBuffer, uint32_t count)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer->BufferObject);
+
+	SetupVertexAttributes(vertexBuffer->Attributes);
+
+	glDrawArrays(GL_LINES, 0, count);
+}
+
 void Device::SetupVertexAttributes(const std::vector<VertexAttribute>& attributes)
 {
 	uint32_t attributeNumber = 0;

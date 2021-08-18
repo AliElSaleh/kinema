@@ -11,6 +11,7 @@
 #include "VertexBuffer.h"
 #include "UniformBuffer.h"
 #include "Voxel.h"
+#include "DebugRendering.h"
 
 struct CameraData
 {
@@ -53,6 +54,8 @@ public:
 
 	VoxelMap vm;
 	VoxelRenderer vr;
+
+	DebugRendering* db;
 
 private:
 	SDL_Window* Window;

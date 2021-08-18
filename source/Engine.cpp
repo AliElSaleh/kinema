@@ -148,6 +148,8 @@ Engine::Engine()
 	colorShader->SetMatrix("model", glm::mat4(1.0f));
 	colorShader->SetUniformBuffer("camera", ub);
 
+	db = new DebugRendering(ub);
+
 	device->CheckErrorTemp();
 
 
@@ -160,7 +162,7 @@ Engine::Engine()
 	vr = VoxelRenderer();
 
 	uint32_t algtimestart = SDL_GetTicks();
-	vm.GenChunks();
+	vm.GenChunksGreedy();
 	uint32_t algtimeend = SDL_GetTicks();
 
 	std::cout << "Algorithm took " << (algtimeend - algtimestart) << "ms\n";
@@ -364,7 +366,7 @@ void Engine::Render()
 	mat = glm::rotate(mat, glm::radians(tick * 0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
 	colorShader->SetMatrix("model", mat);
 
-	device->Draw(squareVB, squareIB, 6);
+	//device->Draw(squareVB, squareIB, 6);
 
 
 	// triangle1
@@ -401,6 +403,15 @@ void Engine::Render()
 
 	//vr.Render(device);
 	vm.RenderChunks(device, litShader);
+
+	glm::vec3 zero(0.0f);
+	glm::vec3 xvec(1, 0, 0);
+	glm::vec3 yvec(0, 1, 0);
+	glm::vec3 zvec(0, 0, 1);
+
+	db->DrawLine(device, zero, xvec, glm::vec3(1, 0, 0));
+	db->DrawLine(device, zero, yvec, glm::vec3(0, 1, 0));
+	db->DrawLine(device, zero, zvec, glm::vec3(0, 0, 1));
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

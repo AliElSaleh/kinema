@@ -13,4 +13,5 @@ IndexBuffer::IndexBuffer(class Engine* device, const uint32_t* data, uint32_t si
 IndexBuffer::~IndexBuffer()
 {
 	// TODO:
+	glDeleteBuffers(1, &BufferObject);
 }
