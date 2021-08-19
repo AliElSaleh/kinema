@@ -9,6 +9,8 @@
 
 #include <iostream>
 
+#include "DebugRendering.h"
+
 const float BLOCK_SIZE = 1.0f;
 
 struct Block
@@ -67,6 +69,8 @@ public:
 
 	void Update();
 
+	void DrawChunkBoundary(Device* device, DebugRendering* db);
+
 private:
 	inline BlockFace GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side);
 };
@@ -75,6 +79,8 @@ class VoxelMap
 {
 public:
 	VoxelMap() {}
+
+	DebugRendering* tempdb;
 
 	std::vector<VoxelChunk> Chunks;
 	glm::ivec3 ChunkDims;

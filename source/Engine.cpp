@@ -325,6 +325,7 @@ void Engine::Render()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
+	// imgui windows temp
 	{
 		if (ImGui::BeginMainMenuBar())
 		{
@@ -351,6 +352,11 @@ void Engine::Render()
 			ImGui::Text("Kinema Engine\nCopyright 2021 William Yates\n");
 			ImGui::End();
 		}
+
+		ImGui::SetNextWindowSize(ImVec2(0, 0));
+		ImGui::Begin("Voxels");
+		ImGui::Text("Test");
+		ImGui::End();
 	}
 
 	ImGui::Render();
@@ -401,6 +407,12 @@ void Engine::Render()
 	voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
 	litShader->SetMatrix("model", voxmat);
 
+	for (VoxelChunk& ch : vm.Chunks)
+	{
+		ch.DrawChunkBoundary(device, db);
+	}
+
+	vm.tempdb = db;
 	//vr.Render(device);
 	vm.RenderChunks(device, litShader);
 
@@ -412,6 +424,10 @@ void Engine::Render()
 	db->DrawLine(device, zero, xvec, glm::vec3(1, 0, 0));
 	db->DrawLine(device, zero, yvec, glm::vec3(0, 1, 0));
 	db->DrawLine(device, zero, zvec, glm::vec3(0, 0, 1));
+
+	db->DrawCube(device, glm::vec3(0, 0, 4), glm::vec3(2, 2, 2), glm::vec3(0, 1, 0));
+
+	db->Render(device);
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

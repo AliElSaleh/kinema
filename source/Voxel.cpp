@@ -245,6 +245,22 @@ Block& VoxelChunk::GetBlock(glm::ivec3 coord)
 	return GetBlock(coord.x, coord.y, coord.z);
 }
 
+void VoxelChunk::DrawChunkBoundary(Device* device, DebugRendering* db)
+{
+	//voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
+	//voxmat = glm::translate(voxmat, (glm::vec3)(Chunk.loc * ChunkSize));
+
+	//voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
+
+	glm::vec3 start = (glm::vec3)loc * (glm::vec3)Dimensions * 0.1f;
+	glm::vec3 ext = (glm::vec3)Dimensions * BLOCK_SIZE;
+
+	start += glm::vec3(0, 0, 32.0f * 0.1f);
+	ext *= 0.1f;
+	
+	db->DrawCube(device, start, ext, glm::vec3(1, 1, 0));
+}
+
 void VoxelChunk::Update()
 {
 	glm::ivec3 volumeSize = Dimensions;

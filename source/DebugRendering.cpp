@@ -4,8 +4,6 @@
 
 DebugRendering::DebugRendering(UniformBuffer* camub)
 {
-	points.resize(1024);
-
 	shader = Shader::FromSource(nullptr,
 		File::ReadAllText("shaders/screen.vert").data(),
 		File::ReadAllText("shaders/screen.frag").data());
@@ -28,40 +26,74 @@ void DebugRendering::DrawLine(Device* device, glm::vec3 start, glm::vec3 end, gl
 		data.push_back(vector.z);
 	};
 
-	std::vector<float> verts;
+	pushvector(vertexdata, start);
+	pushvector(vertexdata, color);
+	pushvector(vertexdata, end);
+	pushvector(vertexdata, color);
 
-	pushvector(verts, start);
-	pushvector(verts, color);
-	pushvector(verts, end);
-	pushvector(verts, color);
+	linecount++;
 
-	vb = new VertexBuffer(nullptr, verts.data(), verts.size() * sizeof(float),
-		{
-			{ AttributeType::FLOAT, 3, 3 * sizeof(float), 0 },
-			{ AttributeType::FLOAT, 3, 3 * sizeof(float), 3 * sizeof(float) }
-		});
+	//vb = new VertexBuffer(nullptr, verts.data(), verts.size() * sizeof(float),
+	//	{
+	//		{ AttributeType::FLOAT, 3, 6 * sizeof(float), 0 },
+	//		{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
+	//	});
 
-	device->SetShader(shader);
+	//device->SetShader(shader);
 
-	device->DrawLines(vb, 2);
+	//device->DrawLines(vb, 2);
 }
 
 void DebugRendering::DrawMesh(std::vector<glm::vec3> vertices, std::vector<uint32_t> indices)
 {
 }
 
+void DebugRendering::DrawCube(Device* device, glm::vec3 corner, glm::vec3 extents, glm::vec3 color)
+{
+	glm::vec3 ex(extents.x, 0, 0);
+	glm::vec3 ey(0, extents.y, 0);
+	glm::vec3 ez(0, 0, extents.z);
+
+	DrawLine(device, corner, corner + ex, color);
+	DrawLine(device, corner, corner + ey, color);
+	DrawLine(device, corner, corner + ez, color);
+
+	DrawLine(device, corner + ex, corner + ex + ey, color);
+	DrawLine(device, corner + ex, corner + ex + ez, color);
+
+	DrawLine(device, corner + ez, corner + ez + ey, color);
+	DrawLine(device, corner + ez, corner + ez + ex, color);
+
+	DrawLine(device, corner + ey, corner + ey + ex, color);
+	DrawLine(device, corner + ey, corner + ey + ez, color);
+
+	DrawLine(device, corner + ex + ez, corner + ex + ez + ey, color);
+	DrawLine(device, corner + ex + ey, corner + ex + ey + ez, color);
+	DrawLine(device, corner + ez + ey, corner + ez + ey + ex, color);
+}
+
 void DebugRendering::Render(Device* device)
 {
-	VertexBuffer* vb = new VertexBuffer(nullptr, nullptr, 1,
+	if (vb)
+	{
+		delete vb;
+		vb = nullptr;
+	}
+
+	// TODO: copy instead of creating new vb using vb methods
+	vb = new VertexBuffer(nullptr, vertexdata.data(), vertexdata.size() * sizeof(float),
 		{
-			{ AttributeType::FLOAT, 3, 3 * sizeof(float), 0 }
+			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 0 },
+			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
 		});
 
-	IndexBuffer* ib = new IndexBuffer(nullptr, nullptr, 1);
+	device->SetShader(shader);
 
-	device->Draw(vb, ib, temp_indices_count);
+	device->DrawLines(vb, linecount * 2);
 
 	// reset
-	temp_indices_count = 0;
-	temp_vert_count = 0;
+	vertexdata.clear();
+	linecount = 0;
+
+
 }
