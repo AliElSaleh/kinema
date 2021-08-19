@@ -6,6 +6,11 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 
+#include <thread>
+
+#include "SDL2/SDL.h"
+
+
 // TODO: for voxels
 // 3d texture for colors? (merges more faces) (x, y, z iteration instead of top, bottom, left, right, forward back)
 
@@ -258,17 +263,36 @@ void VoxelChunk::DrawChunkBoundary(Device* device, DebugRendering* db)
 	start += glm::vec3(0, 0, 32.0f * 0.1f);
 	ext *= 0.1f;
 	
-	db->DrawCube(device, start, ext, glm::vec3(1, 1, 0));
+	glm::vec3 color(1.0f);
+	if (ready)
+		color = glm::vec3(0, 1, 0);
+	else
+		color = glm::vec3(1, 1, 0);
+
+	db->DrawCube(device, start, ext, color);
 }
 
 void VoxelChunk::Update()
 {
+	ready = false;
+
+	if (VB)
+	{
+		delete VB;
+		VB = nullptr;
+	}
+	if (IB)
+	{
+		delete IB;
+		IB = nullptr;
+	}
+
 	glm::ivec3 volumeSize = Dimensions;
 
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec3> normals;
-	std::vector<glm::vec3> colors;
-	std::vector<uint32_t> indices;
+	vertices.clear();
+	normals.clear();
+	colors.clear();
+	indices.clear();
 
 	glm::ivec3 blockPosition(0, 0, 0);
 	glm::ivec3 blockOffset(0, 0, 0);
@@ -440,6 +464,28 @@ void VoxelChunk::Update()
 		}
 	}
 
+	ready = true;
+	//std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
+}
+
+void VoxelChunk::cleardata()
+{
+	ready = false;
+
+	if (VB)
+	{
+		delete VB;
+		VB = nullptr;
+	}
+	if (IB)
+	{
+		delete IB;
+		IB = nullptr;
+	}
+}
+
+void VoxelChunk::Update_Upload()
+{
 	std::vector<float> vbdata;
 
 	auto pushvector = [](std::vector<float>& data, glm::vec3 vector)
@@ -466,8 +512,6 @@ void VoxelChunk::Update()
 	IB = new IndexBuffer(nullptr, indices.data(), indices.size() * sizeof(uint32_t));
 
 	temp_indices_count = indices.size();
-
-	//std::cout << "Generated " << vertices.size() << " vertices with " << indices.size() << " indices\n";
 }
 
 Block& VoxelChunk::GetBlock(int32_t x, int32_t y, int32_t z)
@@ -483,19 +527,101 @@ Block& VoxelChunk::GetBlock(int32_t x, int32_t y, int32_t z)
 	return Blocks[index];
 }
 
-void VoxelMap::GenChunksGreedy()
+
+
+
+
+void VoxelMap::GenChunksGreedy(int cnumthreads)
+{
+	//for (VoxelChunk& Chunk : Chunks)
+	//{
+	//	Chunk.Update();
+	//}
+
+	// the easy way
+
+	starttime = SDL_GetTicks();
+
+	generating = true;
+
+	const int numthreads = cnumthreads;
+
+	threads.clear();
+	threads.resize(numthreads);
+
+	int chunksalloc = 0;
+	int totalchunks = Chunks.size();
+
+	for (int i = 0; i < numthreads; i++)
+	{
+		std::vector<VoxelChunk*> tchunks;
+
+		int totaltocopy = totalchunks / numthreads;
+
+		if (i == numthreads - 1)
+		{
+			totaltocopy += totalchunks % numthreads;
+		}
+
+		tchunks.resize(totaltocopy);
+		for (int z = 0; z < totaltocopy; z++)
+		{
+			tchunks[z] = &Chunks[chunksalloc];
+			chunksalloc++;
+		}
+
+		threads[i] = new ChunkGenThreadObj();
+		threads[i]->start(tchunks);
+	}
+}
+
+void VoxelMap::CheckThreads()
+{
+	if (!generating)
+		return;
+
+	for (auto thread : threads)
+	{
+		if (!thread->finished)
+		{
+			return;
+		}
+	}
+
+	for (auto thread : threads)
+	{
+		thread->ourthread.join();
+	}
+
+	std::cout << Chunks.size() << " generated\n";
+
+	generating = false;
+	endtime = SDL_GetTicks();
+
+	lasttime = endtime - starttime;
+}
+
+void VoxelMap::UploadAllChunks()
 {
 	for (VoxelChunk& Chunk : Chunks)
 	{
-		Chunk.Update();
+		Chunk.Update_Upload();
 	}
-	std::cout << Chunks.size() << " generated\n";
+	std::cout << "All chunks uploaded\n";
 }
 
 void VoxelMap::RenderChunks(Device* device, Shader* shader)
 {
 	for (VoxelChunk& Chunk : Chunks)
 	{
+		if (!Chunk.ready)
+			continue;
+
+		if (!Chunk.VB)
+		{
+			Chunk.Update_Upload();
+		}
+
 		glm::mat4 voxmat(1.0f);
 		voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
 		voxmat = glm::translate(voxmat, (glm::vec3)(Chunk.loc * ChunkSize));

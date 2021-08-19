@@ -8,6 +8,9 @@
 #include "glm/vec3.hpp"
 
 #include <iostream>
+#include <atomic>
+
+#include <thread>
 
 #include "DebugRendering.h"
 
@@ -51,7 +54,14 @@ struct BlockFace
 class VoxelChunk
 {
 public:
+	bool ready = false;
+
 	std::vector<Block> Blocks;
+
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> colors;
+	std::vector<uint32_t> indices;
 
 	glm::ivec3 Dimensions;
 	glm::ivec3 loc;
@@ -68,11 +78,44 @@ public:
 	Block& GetBlock(glm::ivec3 coord);
 
 	void Update();
+	void Update_Upload();
+
+	void cleardata();
 
 	void DrawChunkBoundary(Device* device, DebugRendering* db);
 
 private:
 	inline BlockFace GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side);
+};
+
+struct ChunkGenThreadObj
+{
+	ChunkGenThreadObj()
+	{
+
+	}
+
+	std::vector<VoxelChunk*> chunks;
+	std::atomic<bool> finished{ false };
+
+	void start(std::vector<VoxelChunk*> chunksz)
+	{
+		std::cout << "starting thread with " << chunksz.size() << " chunks.\n";
+		chunks = chunksz;
+		ourthread = std::thread(&ChunkGenThreadObj::GenThesePlease, this);
+	}
+
+	void GenThesePlease()
+	{
+		for (VoxelChunk* chunk : chunks)
+		{
+			chunk->Update();
+		}
+
+		finished = true;
+	}
+
+	std::thread ourthread;
 };
 
 class VoxelMap
@@ -81,6 +124,15 @@ public:
 	VoxelMap() {}
 
 	DebugRendering* tempdb;
+
+	bool generating = false;
+	//std::atomic<bool> generating{ false };
+
+	std::vector<ChunkGenThreadObj*> threads;
+
+	int starttime = 0;
+	int endtime = 0;
+	int lasttime = 0;
 
 	std::vector<VoxelChunk> Chunks;
 	glm::ivec3 ChunkDims;
@@ -96,8 +148,12 @@ public:
 	void GenerateWave(int x, int y, int z);
 	void InitChunks();
 
-	void GenChunksGreedy();
+	void GenChunksGreedy(int cnumthreads);
 	void GenChunksCulled();
+
+	void UploadAllChunks();
+
+	void CheckThreads();
 
 	VoxelChunk& GetChunk(int32_t x, int32_t y, int32_t z);
 	Block& GetBlock_Chunked(int32_t x, int32_t y, int32_t z);

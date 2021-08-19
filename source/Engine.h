@@ -12,6 +12,7 @@
 #include "UniformBuffer.h"
 #include "Voxel.h"
 #include "DebugRendering.h"
+#include <thread>
 
 struct CameraData
 {
@@ -37,6 +38,8 @@ public:
 	float pitch = 0;
 	float yaw = 0;
 
+	std::thread generationThread;
+
 	Device* device;
 
 	Shader* colorShader;
@@ -52,7 +55,7 @@ public:
 
 	UniformBuffer* ub;
 
-	VoxelMap vm;
+	VoxelMap* vm;
 	VoxelRenderer vr;
 
 	DebugRendering* db;

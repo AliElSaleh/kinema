@@ -17,6 +17,8 @@
 
 #include <fstream>
 
+#include <thread>
+
 void pvec3(glm::vec3 vec)
 {
 	std::cout << vec.x << " " << vec.y << " " << vec.z;;
@@ -153,20 +155,14 @@ Engine::Engine()
 	device->CheckErrorTemp();
 
 
-	vm = VoxelMap();
-	vm.LoadFromFile("bin.map");
+	//vm = VoxelMap();
+	vm = new VoxelMap();
+	vm->LoadFromFile("bin.map");
 	//vm.generate(512, 128, 512);
 
-	vm.InitChunks();
+	vm->InitChunks();
 
 	vr = VoxelRenderer();
-
-	uint32_t algtimestart = SDL_GetTicks();
-	vm.GenChunksGreedy();
-	uint32_t algtimeend = SDL_GetTicks();
-
-	std::cout << "Algorithm took " << (algtimeend - algtimestart) << "ms\n";
-
 
 	// imgui
 	ImGui::CreateContext();
@@ -319,6 +315,10 @@ void Engine::Update()
 bool showDemoWindow = false;
 bool showAboutWindow = false;
 
+bool drawbounds = false;
+
+int32_t imthr = 4;
+
 void Engine::Render()
 {
 	ImGui_ImplOpenGL3_NewFrame();
@@ -355,9 +355,51 @@ void Engine::Render()
 
 		ImGui::SetNextWindowSize(ImVec2(0, 0));
 		ImGui::Begin("Voxels");
-		ImGui::Text("Test");
+		ImGui::Checkbox("Show bounds", &drawbounds);
+		ImGui::InputInt("Threads", &imthr);
+		ImGui::Text("Last Time: %dms", vm->lasttime);
+		if (ImGui::Button("Clear data"))
+		{
+			if (!vm->generating)
+			{
+				for (VoxelChunk& chunk : vm->Chunks)
+				{
+					chunk.cleardata();
+				}
+			}
+		}
+		if (ImGui::Button("Generate (Greedy)"))
+		{
+			if (!vm->generating)
+			{
+				for (VoxelChunk& chunk : vm->Chunks)
+				{
+					chunk.cleardata();
+				}
+
+				std::cout << "Starting generation..\n";
+				 
+
+				vm->GenChunksGreedy(imthr);
+
+			}
+		}
 		ImGui::End();
 	}
+
+	vm->CheckThreads();
+
+	//if (/*generationThread.joinable() && */!vm->generating)
+	//{
+	//	//generationThread.join();
+	//	algtimeend = SDL_GetTicks();
+
+	//	lastalgtime = algtimeend - algtimestart;
+
+	//	std::cout << "Work finished!\n";
+
+	//	//vm->UploadAllChunks();
+	//}
 
 	ImGui::Render();
 
@@ -407,14 +449,17 @@ void Engine::Render()
 	voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
 	litShader->SetMatrix("model", voxmat);
 
-	for (VoxelChunk& ch : vm.Chunks)
+	if (drawbounds)
 	{
-		ch.DrawChunkBoundary(device, db);
+		for (VoxelChunk& ch : vm->Chunks)
+		{
+			ch.DrawChunkBoundary(device, db);
+		}
 	}
 
-	vm.tempdb = db;
+	vm->tempdb = db;
 	//vr.Render(device);
-	vm.RenderChunks(device, litShader);
+	vm->RenderChunks(device, litShader);
 
 	glm::vec3 zero(0.0f);
 	glm::vec3 xvec(1, 0, 0);
@@ -425,7 +470,7 @@ void Engine::Render()
 	db->DrawLine(device, zero, yvec, glm::vec3(0, 1, 0));
 	db->DrawLine(device, zero, zvec, glm::vec3(0, 0, 1));
 
-	db->DrawCube(device, glm::vec3(0, 0, 4), glm::vec3(2, 2, 2), glm::vec3(0, 1, 0));
+	db->DrawCube(device, glm::vec3(8, 0, 0), glm::vec3(2, 2, 2), glm::vec3(0, 1, 0));
 
 	db->Render(device);
 
