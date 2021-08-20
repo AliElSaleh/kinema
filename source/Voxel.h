@@ -83,7 +83,7 @@ public:
 
 	void cleardata();
 
-	void DrawChunkBoundary(Device* device, DebugRendering* db);
+	void DrawChunkBoundary(Device* device, DebugRendering* db, glm::mat4 t);
 
 private:
 	inline BlockFace GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side);
@@ -134,6 +134,8 @@ public:
 	int starttime = 0;
 	int endtime = 0;
 	int lasttime = 0;
+
+	glm::mat4 maptransform;
 
 	std::vector<VoxelChunk> Chunks;
 	glm::ivec3 ChunkDims;

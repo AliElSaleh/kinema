@@ -238,8 +238,6 @@ void Engine::Update()
 				t.color = glm::vec3(1, 0, 1);
 				t.ticksleft = 720;
 
-				std::cout << "erm.. " << glm::distance(t.end, t.start) << "\n";
-
 				templines.push_back(t);
 
 				Block b;
@@ -469,7 +467,7 @@ void Engine::Render()
 
 	//device->Draw(squareVB, squareIB, 6);
 
-
+	
 	// triangle1
 	glm::mat4 mat2(1.0f);
 	mat2 = glm::translate(mat2, glm::vec3(1.5f, 0.0f, 0.0f));
@@ -506,12 +504,14 @@ void Engine::Render()
 	{
 		for (VoxelChunk& ch : vm->Chunks)
 		{
-			ch.DrawChunkBoundary(device, db);
+			ch.DrawChunkBoundary(device, db, vm->maptransform);
 		}
 	}
 
 	vm->tempdb = db;
 	//vr.Render(device);
+	vm->maptransform = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 8));
+	//->maptransform = glm::rotate(vm->maptransform, glm::radians(90.0f), glm::vec3(1, 0, 0)); // rotations dont work with mouse
 	vm->RenderChunks(device, litShader);
 
 	glm::vec3 zero(0.0f);

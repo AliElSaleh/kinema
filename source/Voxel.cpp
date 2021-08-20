@@ -96,6 +96,19 @@ void VoxelMap::LoadFromFile(const char* fileName)
 			}
 		}
 	}
+
+	Block endblock;
+	endblock.Color = glm::vec3(255.0f, 0.0f, 255.0f);
+	endblock.Active = true;
+
+	Blocks[indexget(0, 0, 0, Size)] = endblock;
+	Blocks[indexget(Size.x - 1, 0, 0, Size)] = endblock;
+	Blocks[indexget(0, Size.y - 1, 0, Size)] = endblock;
+	Blocks[indexget(0, 0, Size.z - 1, Size)] = endblock;
+	Blocks[indexget(Size.x - 1, 0, Size.z - 1, Size)] = endblock;
+	Blocks[indexget(Size.x - 1, Size.y - 1, Size.z - 1, Size)] = endblock;
+	Blocks[indexget(Size.x - 1, Size.y - 1, 0, Size)] = endblock;
+	Blocks[indexget(0, Size.y - 1, Size.z - 1, Size)] = endblock;
 }
 
 void VoxelMap::GenerateWave(int x, int y, int z)
@@ -266,7 +279,7 @@ Block& VoxelChunk::GetBlockLocal(glm::ivec3 coord)
 	return GetBlockLocal(coord.x, coord.y, coord.z);
 }
 
-void VoxelChunk::DrawChunkBoundary(Device* device, DebugRendering* db)
+void VoxelChunk::DrawChunkBoundary(Device* device, DebugRendering* db, glm::mat4 t)
 {
 	//voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
 	//voxmat = glm::translate(voxmat, (glm::vec3)(Chunk.loc * ChunkSize));
@@ -276,9 +289,14 @@ void VoxelChunk::DrawChunkBoundary(Device* device, DebugRendering* db)
 	glm::vec3 start = (glm::vec3)loc * (glm::vec3)Dimensions * 0.1f;
 	glm::vec3 ext = (glm::vec3)Dimensions * BLOCK_SIZE;
 
-	start += glm::vec3(0, 0, 32.0f * 0.1f);
-	ext *= 0.1f;
-	
+	glm::vec4 newstart(start.x, start.y, start.z, 1.0);
+	newstart = t * newstart;
+
+	start = newstart;
+
+	//start += glm::vec3(0, 0, 32.0f * 0.1f);
+	//ext *= 0.1f;
+
 	glm::vec3 color(1.0f);
 	if (ready)
 		color = glm::vec3(0, 1, 0);
@@ -643,7 +661,8 @@ void VoxelMap::RenderChunks(Device* device, Shader* shader)
 		}
 
 		glm::mat4 voxmat(1.0f);
-		//voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
+
+		voxmat *= maptransform;
 		voxmat = glm::translate(voxmat, (glm::vec3)((glm::vec3)Chunk.loc * (glm::vec3)ChunkSize * BLOCK_SIZE));
 
 		//voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
@@ -795,7 +814,17 @@ bool VoxelMap::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, B
 
 void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Block block)
 {
+	std::cout << "position before " << position.x << " " << position.y << " " << position.z << "\n";
+
+	glm::vec4 newpos = glm::inverse(maptransform) * glm::vec4(position, 1.0f);
+	position = newpos;
+	position = position * newpos.w;
+
 	position /= BLOCK_SIZE;
+
+	//rection = (maptransform) * glm::vec4(direction, 1.0f);
+
+	std::cout << "position after " << position.x << " " << position.y << " " << position.z << "\n";
 
 	glm::ivec3 intPosition = glm::floor(position);
 	glm::vec3 step = glm::sign(direction);
