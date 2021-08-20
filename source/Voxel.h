@@ -14,7 +14,7 @@
 
 #include "DebugRendering.h"
 
-const float BLOCK_SIZE = 1.0f;
+const float BLOCK_SIZE = 0.1f;
 
 struct Block
 {
@@ -55,6 +55,7 @@ class VoxelChunk
 {
 public:
 	bool ready = false;
+	bool needsupdate = false;
 
 	std::vector<Block> Blocks;
 
@@ -74,8 +75,8 @@ public:
 	VoxelChunk();
 	~VoxelChunk();
 
-	Block& GetBlock(int32_t x, int32_t y, int32_t z);
-	Block& GetBlock(glm::ivec3 coord);
+	Block& GetBlockLocal(int32_t x, int32_t y, int32_t z);
+	Block& GetBlockLocal(glm::ivec3 coord);
 
 	void Update();
 	void Update_Upload();
@@ -157,8 +158,14 @@ public:
 
 	VoxelChunk& GetChunk(int32_t x, int32_t y, int32_t z);
 	Block& GetBlock_Chunked(int32_t x, int32_t y, int32_t z);
+	Block& GetBlock_Chunked(glm::ivec3 pos);
+
+	void makechunkupdateforblock(glm::ivec3 pos);
 
 	void RenderChunks(Device* device, Shader* shader);
+
+	bool callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, Block block);
+	void Raycast(glm::vec3 position, glm::vec3 direction, float distance, Block block);
 };
 
 class VoxelRenderer

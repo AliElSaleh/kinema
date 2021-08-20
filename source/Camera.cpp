@@ -82,5 +82,5 @@ void Camera::UpdateView()
 
 void Camera::UpdateProjection()
 {
-	Projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
+	Projection = glm::perspective(glm::radians(FieldOfView), 1280.0f / 720.0f, 0.1f, 1000.0f);
 }

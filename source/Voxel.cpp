@@ -102,7 +102,9 @@ void VoxelMap::GenerateWave(int x, int y, int z)
 {
 	Size = glm::ivec3(x, y, z);
 
-	Blocks = std::vector<Block>(x * y * z);
+	uint64_t sizenew = (size_t)x * (size_t)y * (size_t)z;
+
+	Blocks.resize(sizenew);
 	for (int xp = 0; xp < x; xp++)
 	{
 		for (int yp = 0; yp < y; yp++)
@@ -224,7 +226,7 @@ VoxelChunk::~VoxelChunk()
 
 inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side)
 {
-	Block block = GetBlock(inCoordinate);
+	Block block = GetBlockLocal(inCoordinate);
 
 	BlockFace face;
 	face.Side = side;
@@ -234,9 +236,9 @@ inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_
 	if (!face.Culled)
 	{
 		glm::ivec3 adjacentCoordinate = GetAdjacentCoordinate(inCoordinate, side);
-		glm::ivec3 adjacentBlockType = GetBlock(adjacentCoordinate).Color;
+		glm::ivec3 adjacentBlockType = GetBlockLocal(adjacentCoordinate).Color;
 
-		if (GetBlock(adjacentCoordinate).Active != 0)
+		if (GetBlockLocal(adjacentCoordinate).Active != 0)
 		{
 			face.Culled = true;
 		}
@@ -245,9 +247,23 @@ inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_
 	return face;
 }
 
-Block& VoxelChunk::GetBlock(glm::ivec3 coord)
+Block& VoxelChunk::GetBlockLocal(int32_t x, int32_t y, int32_t z)
 {
-	return GetBlock(coord.x, coord.y, coord.z);
+	if (x >= Dimensions.x || y >= Dimensions.y || z >= Dimensions.z ||
+		x < 0 || y < 0 || z < 0)
+	{
+		//assert(false);
+		return Block::Default;
+	}
+
+	uint32_t index = x + y * Dimensions.x + z * Dimensions.x * Dimensions.y;
+	return Blocks[index];
+}
+
+
+Block& VoxelChunk::GetBlockLocal(glm::ivec3 coord)
+{
+	return GetBlockLocal(coord.x, coord.y, coord.z);
 }
 
 void VoxelChunk::DrawChunkBoundary(Device* device, DebugRendering* db)
@@ -486,6 +502,17 @@ void VoxelChunk::cleardata()
 
 void VoxelChunk::Update_Upload()
 {
+	if (VB)
+	{
+		delete VB;
+		VB = nullptr;
+	}
+	if (IB)
+	{
+		delete IB;
+		IB = nullptr;
+	}
+
 	std::vector<float> vbdata;
 
 	auto pushvector = [](std::vector<float>& data, glm::vec3 vector)
@@ -514,18 +541,6 @@ void VoxelChunk::Update_Upload()
 	temp_indices_count = indices.size();
 }
 
-Block& VoxelChunk::GetBlock(int32_t x, int32_t y, int32_t z)
-{
-	if (x >= Dimensions.x || y >= Dimensions.y || z >= Dimensions.z ||
-		x < 0 || y < 0 || z < 0)
-	{
-		//assert(false);
-		return Block::Default;
-	}
-
-	uint32_t index = x + y * Dimensions.x + z * Dimensions.x * Dimensions.y;
-	return Blocks[index];
-}
 
 
 
@@ -617,16 +632,21 @@ void VoxelMap::RenderChunks(Device* device, Shader* shader)
 		if (!Chunk.ready)
 			continue;
 
+		if (Chunk.needsupdate)
+		{
+			Chunk.Update_Upload();
+		}
+
 		if (!Chunk.VB)
 		{
 			Chunk.Update_Upload();
 		}
 
 		glm::mat4 voxmat(1.0f);
-		voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
-		voxmat = glm::translate(voxmat, (glm::vec3)(Chunk.loc * ChunkSize));
+		//voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
+		voxmat = glm::translate(voxmat, (glm::vec3)((glm::vec3)Chunk.loc * (glm::vec3)ChunkSize * BLOCK_SIZE));
 
-		voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
+		//voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
 
 		shader->SetMatrix("model", voxmat);
 
@@ -659,6 +679,31 @@ Block& VoxelMap::GetBlock_Chunked(int32_t x, int32_t y, int32_t z)
 	int32_t blockIndex = BlockX + BlockY * ChunkSize.x + BlockZ * ChunkSize.x * ChunkSize.y;
 
 	return Chunks[chunkIndex].Blocks[blockIndex];
+}
+Block& VoxelMap::GetBlock_Chunked(glm::ivec3 pos)
+{
+	return GetBlock_Chunked(pos.x, pos.y, pos.z);
+}
+
+void VoxelMap::makechunkupdateforblock(glm::ivec3 pos)
+{
+	int x = pos.x;
+	int y = pos.y;
+	int z = pos.z;
+
+	int32_t ChunkX = x / ChunkSize.x;
+	int32_t ChunkY = y / ChunkSize.y;
+	int32_t ChunkZ = z / ChunkSize.z;
+
+	int32_t chunkIndex = ChunkX + ChunkY * ChunkDims.x + ChunkZ * ChunkDims.x * ChunkDims.y;
+
+	Chunks[chunkIndex].needsupdate = true;
+
+	Chunks[chunkIndex].Update();
+
+	Chunks[chunkIndex].needsupdate = false;
+
+	std::cout << "Updated chunk for block " << pos.x << " " << pos.y << " " << pos.z << "\n";
 }
 
 void VoxelMap::GenChunksCulled()
@@ -705,6 +750,127 @@ void VoxelMap::GenChunksCulled()
 
 				// ... proc generate
 
+			}
+		}
+	}
+}
+
+float rem(float value, float modulus) // So temporary
+{
+	//return value % modulus;
+	return fmodf((fmodf(value, modulus) + modulus), modulus);
+}
+float intbound(float s, float ds)
+{
+	if (ds < 0)
+		return intbound(-s, -ds);
+
+	s = rem(s, 1);
+	return (1 - s) / ds;
+
+}
+
+glm::vec3 intbound(glm::vec3 left, glm::vec3 right)
+{
+	glm::vec3 result;
+	result.x = intbound(left.x, right.x);
+	result.y = intbound(left.y, right.y);
+	result.z = intbound(left.z, right.z);
+	return result;
+}
+
+bool VoxelMap::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, Block block)
+{
+	if (GetBlock_Chunked(copy).Active)
+	{
+		if (block.Active)
+			copy += face;
+
+		GetBlock_Chunked(copy) = block;
+		makechunkupdateforblock(copy);
+		return true;
+	}
+	return false;
+}
+
+void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Block block)
+{
+	position /= BLOCK_SIZE;
+
+	glm::ivec3 intPosition = glm::floor(position);
+	glm::vec3 step = glm::sign(direction);
+	glm::vec3 max = intbound(position, direction);
+	glm::vec3 delta = step / direction;
+	glm::ivec3 face(0);
+
+	if (glm::length(direction) == 0.0f)
+	{
+		std::cout << "Raycast with 0 length\n";
+		return;
+	}
+
+	radius /= glm::sqrt(
+		direction.x * direction.x +
+		direction.y * direction.y +
+		direction.z * direction.z);
+
+	while (
+		(step.x > 0 ? intPosition.x < Size.x : intPosition.x >= 0) &&
+		(step.y > 0 ? intPosition.y < Size.y : intPosition.y >= 0) &&
+		(step.z > 0 ? intPosition.z < Size.z : intPosition.z >= 0))
+	{
+		if (!(intPosition.x < 0 || intPosition.y < 0 || intPosition.z < 0 ||
+			intPosition.x >= Size.x || intPosition.y >= Size.y || intPosition.z >= Size.z))
+		{
+			if (callback(intPosition, face, direction, block))
+				return;
+		}
+
+		if (max.x < max.y)
+		{
+			if (max.x < max.z)
+			{
+				if (max.x > radius)
+					break;
+
+				intPosition.x += step.x;
+				max.x += delta.x;
+
+				face = glm::ivec3(-step.x, 0, 0);
+			}
+			else
+			{
+				if (max.z > radius)
+					break;
+
+				intPosition.z += step.z;
+				max.z += delta.z;
+
+				face = glm::ivec3(0, 0, -step.z);
+			}
+		}
+		else
+		{
+			if (max.y < max.z)
+			{
+				if (max.y > radius)
+					break;
+
+				intPosition.y += step.y;
+				max.y += delta.y;
+
+				face = glm::ivec3(0, -step.y, 0);
+			}
+			else
+			{
+				// Identical to the second case, repeated for simplicity in
+				// the conditionals.
+				if (max.z > radius)
+					break;
+				intPosition.z += step.z;
+				max.z += delta.z;
+
+				face = glm::ivec3(0, 0, -step.z);
 			}
 		}
 	}

@@ -20,6 +20,15 @@ struct CameraData
 	glm::mat4 View;
 };
 
+struct templine
+{
+	glm::vec3 start;
+	glm::vec3 end;
+	glm::vec3 color;
+	int32_t ticksleft;
+};
+
+
 class Engine
 {
 public:
@@ -37,6 +46,9 @@ public:
 
 	float pitch = 0;
 	float yaw = 0;
+
+
+	std::vector<templine> templines;
 
 	std::thread generationThread;
 

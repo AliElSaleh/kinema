@@ -158,7 +158,7 @@ Engine::Engine()
 	//vm = VoxelMap();
 	vm = new VoxelMap();
 	vm->LoadFromFile("bin.map");
-	//vm.generate(512, 128, 512);
+	//vm->GenerateWave(2048, 64, 2048);
 
 	vm->InitChunks();
 
@@ -224,6 +224,42 @@ void Engine::Update()
 				SDL_SetRelativeMouseMode(SDL_TRUE);
 				capd = true;
 			}
+			else
+			{
+				// voxelclick
+				glm::vec3 start = camera.GetPosition();
+				glm::vec3 dir = camera.GetForward();
+
+				float radius = (500.0f * BLOCK_SIZE);
+
+				templine t;
+				t.start = start;
+				t.end = start + dir * (radius * BLOCK_SIZE);
+				t.color = glm::vec3(1, 0, 1);
+				t.ticksleft = 720;
+
+				std::cout << "erm.. " << glm::distance(t.end, t.start) << "\n";
+
+				templines.push_back(t);
+
+				Block b;
+				if (event.button.button == SDL_BUTTON_LEFT)
+				{
+					b.Active = false;
+					b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
+				}
+				else if (event.button.button == SDL_BUTTON_RIGHT)
+				{
+					b.Active = true;
+					b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
+				}
+
+				vm->Raycast(start, dir, radius, b);
+
+				//db->DrawLine(device, start, start + dir * 5.0f, glm::vec3(1.0f, 0.0f, 1.0f));
+
+				//vm->Raycast();
+			}
 			break;
 		case SDL_MOUSEMOTION:
 			if (capd)
@@ -251,6 +287,19 @@ void Engine::Update()
 				std::cout << "Camspeed " << movspeed << "\n";
 			}
 			break;
+		}
+	}
+
+	for (templine& t : templines)
+	{
+		t.ticksleft -= 1;
+		if (t.ticksleft < 1)
+		{
+			templines.erase(templines.begin()); // wont work for different times tho lol
+		}
+		else
+		{
+			db->DrawLine(device, t.start, t.end, t.color);
 		}
 	}
 
@@ -308,8 +357,9 @@ void Engine::Update()
 
 	CameraData camdat;
 	camdat.View = camera.GetView();
+	camdat.Projection = camera.GetProjection();
 
-	ub->SetData(&camdat.View, sizeof(glm::mat4), sizeof(glm::mat4));
+	ub->SetData(&camdat, 0, sizeof(camdat));
 }
 
 bool showDemoWindow = false;
@@ -319,6 +369,7 @@ bool drawbounds = false;
 
 int32_t imthr = 4;
 
+float fov = 90.0f;
 void Engine::Render()
 {
 	ImGui_ImplOpenGL3_NewFrame();
@@ -386,6 +437,8 @@ void Engine::Render()
 		}
 		ImGui::End();
 	}
+
+	camera.SetFieldOfView(fov);
 
 	vm->CheckThreads();
 
