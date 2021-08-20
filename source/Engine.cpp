@@ -510,8 +510,12 @@ void Engine::Render()
 
 	vm->tempdb = db;
 	//vr.Render(device);
-	vm->maptransform = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 8));
-	//->maptransform = glm::rotate(vm->maptransform, glm::radians(90.0f), glm::vec3(1, 0, 0)); // rotations dont work with mouse
+	vm->maptransform = glm::mat4(1.0f);
+	vm->maptransform = glm::translate(vm->maptransform, glm::vec3(15, 42, 8));
+	vm->maptransform = glm::rotate(vm->maptransform, glm::radians(75.0f), glm::vec3(1, 1, 0));
+
+	vm->maprot = glm::rotate(glm::mat4(1.0f), glm::radians(75.0f), glm::vec3(1, 1, 0));
+
 	vm->RenderChunks(device, litShader);
 
 	glm::vec3 zero(0.0f);

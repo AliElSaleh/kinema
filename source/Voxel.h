@@ -136,6 +136,7 @@ public:
 	int lasttime = 0;
 
 	glm::mat4 maptransform;
+	glm::mat4 maprot;
 
 	std::vector<VoxelChunk> Chunks;
 	glm::ivec3 ChunkDims;

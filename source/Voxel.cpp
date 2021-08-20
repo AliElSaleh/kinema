@@ -814,7 +814,7 @@ bool VoxelMap::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, B
 
 void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Block block)
 {
-	std::cout << "position before " << position.x << " " << position.y << " " << position.z << "\n";
+	std::cout << "direction before " << direction.x << " " << direction.y << " " << direction.z << "\n";
 
 	glm::vec4 newpos = glm::inverse(maptransform) * glm::vec4(position, 1.0f);
 	position = newpos;
@@ -822,9 +822,11 @@ void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Bl
 
 	position /= BLOCK_SIZE;
 
-	//rection = (maptransform) * glm::vec4(direction, 1.0f);
 
-	std::cout << "position after " << position.x << " " << position.y << " " << position.z << "\n";
+
+	direction = glm::inverse(maprot) * glm::vec4(direction, 1.0f);
+
+	std::cout << "direction after " << direction.x << " " << direction.y << " " << direction.z << "\n";
 
 	glm::ivec3 intPosition = glm::floor(position);
 	glm::vec3 step = glm::sign(direction);
