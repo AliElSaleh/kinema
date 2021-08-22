@@ -106,25 +106,25 @@ Engine::Engine()
 
 	device = new Device(Window);
 
-	squareVB = new VertexBuffer(this, squareVertices, sizeof(squareVertices),
+	squareVB = new VertexBuffer(squareVertices, sizeof(squareVertices),
 		{
 			{ AttributeType::FLOAT, 3, 3 * sizeof(float), 0 }
-		});
+		}, BufferUsage::Static);
 
-	squareIB = new IndexBuffer(this, squareIndices, sizeof(squareIndices));
+	squareIB = new IndexBuffer(squareIndices, sizeof(squareIndices), BufferUsage::Static);
 
-	triangleVB = new VertexBuffer(this, triangleVertices, sizeof(triangleVertices),
+	triangleVB = new VertexBuffer(triangleVertices, sizeof(triangleVertices),
 		{
 			{ AttributeType::FLOAT, 2, 5 * sizeof(float), 0 },
 			{ AttributeType::FLOAT, 3, 5 * sizeof(float), 2 * sizeof(float) }
-		});
-	triangleIB = new IndexBuffer(this, triangleIndices, sizeof(triangleIndices));
+		}, BufferUsage::Static);
+	triangleIB = new IndexBuffer(triangleIndices, sizeof(triangleIndices), BufferUsage::Static);
 
-	cubeVB = new VertexBuffer(this, cubeVertices, sizeof(cubeVertices),
+	cubeVB = new VertexBuffer(cubeVertices, sizeof(cubeVertices),
 		{
 			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 0 },
 			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
-		});
+		}, BufferUsage::Static);
 
 	camera.SetPosition(glm::vec3(0, 0, 5));
 	std::cout << camera.GetForward().x << " " << camera.GetForward().y << " " << camera.GetForward().z << "\n";
@@ -235,7 +235,7 @@ void Engine::Update()
 				templine t;
 				t.start = start;
 				t.end = start + dir * (radius * BLOCK_SIZE);
-				t.color = glm::vec3(1, 0, 1);
+				t.color = glm::vec3(1, 1, 0);
 				t.ticksleft = 720;
 
 				templines.push_back(t);
@@ -454,7 +454,6 @@ void Engine::Render()
 
 	ImGui::Render();
 
-
 	device->Clear();
 
 	device->SetShader(colorShader);
@@ -504,17 +503,21 @@ void Engine::Render()
 	{
 		for (VoxelChunk& ch : vm->Chunks)
 		{
+			// TODO: this doesnt respect transformations with rotation (debug box assumes orientation)
 			ch.DrawChunkBoundary(device, db, vm->maptransform);
 		}
 	}
 
+	static float rot = 0.0f;
+	//rot += 5.0f / 144.0f;
+
 	vm->tempdb = db;
 	//vr.Render(device);
 	vm->maptransform = glm::mat4(1.0f);
-	vm->maptransform = glm::translate(vm->maptransform, glm::vec3(15, 42, 8));
-	vm->maptransform = glm::rotate(vm->maptransform, glm::radians(75.0f), glm::vec3(1, 1, 0));
+	vm->maptransform = glm::translate(vm->maptransform, glm::vec3(0, 0, 8));
+	vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
 
-	vm->maprot = glm::rotate(glm::mat4(1.0f), glm::radians(75.0f), glm::vec3(1, 1, 0));
+	vm->maprot = glm::rotate(glm::mat4(1.0f), glm::radians(rot), glm::vec3(1, 1, 0));
 
 	vm->RenderChunks(device, litShader);
 

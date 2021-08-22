@@ -17,6 +17,8 @@ void main()
 
     float diffuse = max(dot(normal, lightdir), 0.0);
 
-    color = vec4(diffuse * iColor + vec3(0.025), 1.0);
+    vec3 ambient = iColor * 0.025;
+
+    color = vec4(diffuse * iColor + ambient, 1.0);
     color.rgb = pow(color.rgb, vec3(1.0 / 2.2));
 }

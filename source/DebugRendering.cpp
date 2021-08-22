@@ -81,11 +81,11 @@ void DebugRendering::Render(Device* device)
 	}
 
 	// TODO: copy instead of creating new vb using vb methods
-	vb = new VertexBuffer(nullptr, vertexdata.data(), vertexdata.size() * sizeof(float),
+	vb = new VertexBuffer(vertexdata.data(), vertexdata.size() * sizeof(float),
 		{
 			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 0 },
 			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
-		});
+		}, BufferUsage::Dynamic);
 
 	device->SetShader(shader);
 

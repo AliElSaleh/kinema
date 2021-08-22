@@ -548,13 +548,13 @@ void VoxelChunk::Update_Upload()
 		pushvector(vbdata, normals[blockno]);
 	}
 
-	VB = new VertexBuffer(nullptr, vbdata.data(), vbdata.size() * sizeof(float),
+	VB = new VertexBuffer(vbdata.data(), vbdata.size() * sizeof(float),
 		{
 			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 0 },
 			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 3 * sizeof(float) },
 			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
-		});
-	IB = new IndexBuffer(nullptr, indices.data(), indices.size() * sizeof(uint32_t));
+		}, BufferUsage::Dynamic);
+	IB = new IndexBuffer(indices.data(), indices.size() * sizeof(uint32_t), BufferUsage::Dynamic);
 
 	temp_indices_count = indices.size();
 }
@@ -684,8 +684,16 @@ VoxelChunk& VoxelMap::GetChunk(int32_t x, int32_t y, int32_t z)
 	return Chunks[chunkIndex];
 }
 
+Block fakeblock; // TODO: lol
 Block& VoxelMap::GetBlock_Chunked(int32_t x, int32_t y, int32_t z)
 {
+	if (x >= Size.x || y >= Size.y || z >= Size.z ||
+		x < 0 || y < 0 || z < 0)
+	{
+		return fakeblock;
+		//return Block::Default;
+	}
+
 	int32_t ChunkX = x / ChunkSize.x;
 	int32_t ChunkY = y / ChunkSize.y;
 	int32_t ChunkZ = z / ChunkSize.z;
@@ -814,19 +822,15 @@ bool VoxelMap::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, B
 
 void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Block block)
 {
-	std::cout << "direction before " << direction.x << " " << direction.y << " " << direction.z << "\n";
-
 	glm::vec4 newpos = glm::inverse(maptransform) * glm::vec4(position, 1.0f);
 	position = newpos;
 	position = position * newpos.w;
 
 	position /= BLOCK_SIZE;
 
-
-
 	direction = glm::inverse(maprot) * glm::vec4(direction, 1.0f);
 
-	std::cout << "direction after " << direction.x << " " << direction.y << " " << direction.z << "\n";
+
 
 	glm::ivec3 intPosition = glm::floor(position);
 	glm::vec3 step = glm::sign(direction);

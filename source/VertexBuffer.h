@@ -8,6 +8,12 @@ enum class AttributeType : uint32_t
 	FLOAT
 };
 
+enum class BufferUsage : uint32_t
+{
+	Static,
+	Dynamic
+};
+
 struct VertexAttribute
 {
 	AttributeType Type;
@@ -19,15 +25,10 @@ struct VertexAttribute
 class VertexBuffer
 {
 public:
-	VertexBuffer(class Engine* device, const float* data, uint32_t size, std::vector<VertexAttribute> attributes);
+	VertexBuffer(const float* data, uint32_t size, std::vector<VertexAttribute> attributes, BufferUsage hint);
 	~VertexBuffer();
 
-	template <typename T>
-	static VertexBuffer* Create(class Engine* device, const T* data, uint32_t size)
-	{
-		return nullptr;
-		//VertexBuffer* vertexBuffer = new VertexBuffer(device, 
-	}
+	void SetData(const float* data, uint32_t size, uint32_t offset);
 
 private:
 public:
@@ -36,3 +37,10 @@ public:
 
 	std::vector<VertexAttribute> Attributes;
 };
+
+//template <typename T>
+//static VertexBuffer* Create(class Engine* device, const T* data, uint32_t size)
+//{
+//	return nullptr;
+//	//VertexBuffer* vertexBuffer = new VertexBuffer(device, 
+//}
