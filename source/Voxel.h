@@ -159,6 +159,9 @@ public:
 
 	void CheckThreads();
 
+	void tempSave();
+	void tempLoad();
+
 	VoxelChunk& GetChunk(int32_t x, int32_t y, int32_t z);
 	Block& GetBlock_Chunked(int32_t x, int32_t y, int32_t z);
 	Block& GetBlock_Chunked(glm::ivec3 pos);

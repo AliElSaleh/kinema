@@ -448,6 +448,16 @@ void Engine::Render()
 
 			}
 		}
+
+		//if (ImGui::Button("Save"))
+		//{
+		//	vm->tempSave();
+		//}
+		//if (ImGui::Button("Load"))
+		//{
+		//	vm->tempLoad();
+		//}
+
 		ImGui::End();
 	}
 
