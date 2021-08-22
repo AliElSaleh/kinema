@@ -12,7 +12,7 @@
 
 #include <thread>
 
-#include "DebugRendering.h"
+#include "DebugRenderer.h"
 
 const float BLOCK_SIZE = 0.1f;
 
@@ -83,7 +83,7 @@ public:
 
 	void cleardata();
 
-	void DrawChunkBoundary(Device* device, DebugRendering* db, glm::mat4 t);
+	void DrawChunkBoundary(Device* device, DebugRenderer* db, glm::mat4 t);
 
 private:
 	inline BlockFace GetBlockFace(const glm::ivec3& inCoordinate, uint8_t side);
@@ -124,7 +124,7 @@ class VoxelMap
 public:
 	VoxelMap() {}
 
-	DebugRendering* tempdb;
+	DebugRenderer* tempdb;
 
 	bool generating = false;
 	//std::atomic<bool> generating{ false };

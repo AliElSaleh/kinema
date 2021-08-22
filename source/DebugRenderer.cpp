@@ -1,8 +1,8 @@
-#include "DebugRendering.h"
+#include "DebugRenderer.h"
 
 #include "File.h"
 
-DebugRendering::DebugRendering(UniformBuffer* camub)
+DebugRenderer::DebugRenderer(UniformBuffer* camub)
 {
 	shader = Shader::FromSource(nullptr,
 		File::ReadAllText("shaders/screen.vert").data(),
@@ -11,7 +11,7 @@ DebugRendering::DebugRendering(UniformBuffer* camub)
 	shader->SetUniformBuffer("camera", camub);
 }
 
-void DebugRendering::DrawLine(Device* device, glm::vec3 start, glm::vec3 end, glm::vec3 color)
+void DebugRenderer::DrawLine(Device* device, glm::vec3 start, glm::vec3 end, glm::vec3 color)
 {
 	if (vb) 
 	{
@@ -44,11 +44,11 @@ void DebugRendering::DrawLine(Device* device, glm::vec3 start, glm::vec3 end, gl
 	//device->DrawLines(vb, 2);
 }
 
-void DebugRendering::DrawMesh(std::vector<glm::vec3> vertices, std::vector<uint32_t> indices)
+void DebugRenderer::DrawMesh(std::vector<glm::vec3> vertices, std::vector<uint32_t> indices)
 {
 }
 
-void DebugRendering::DrawCube(Device* device, glm::vec3 corner, glm::vec3 extents, glm::vec3 color)
+void DebugRenderer::DrawCube(Device* device, glm::vec3 corner, glm::vec3 extents, glm::vec3 color)
 {
 	glm::vec3 ex(extents.x, 0, 0);
 	glm::vec3 ey(0, extents.y, 0);
@@ -72,7 +72,7 @@ void DebugRendering::DrawCube(Device* device, glm::vec3 corner, glm::vec3 extent
 	DrawLine(device, corner + ez + ey, corner + ez + ey + ex, color);
 }
 
-void DebugRendering::Render(Device* device)
+void DebugRenderer::Render(Device* device)
 {
 	if (vb)
 	{

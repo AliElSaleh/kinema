@@ -23,10 +23,10 @@ struct Line // TODO: impl
 	}
 };
 
-class DebugRendering
+class DebugRenderer
 {
 public:
-	DebugRendering(UniformBuffer* camub);
+	DebugRenderer(UniformBuffer* camub);
 
 	std::vector<float> vertexdata;
 	uint32_t linecount = 0;

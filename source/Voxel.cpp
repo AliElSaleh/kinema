@@ -279,7 +279,7 @@ Block& VoxelChunk::GetBlockLocal(glm::ivec3 coord)
 	return GetBlockLocal(coord.x, coord.y, coord.z);
 }
 
-void VoxelChunk::DrawChunkBoundary(Device* device, DebugRendering* db, glm::mat4 t)
+void VoxelChunk::DrawChunkBoundary(Device* device, DebugRenderer* db, glm::mat4 t)
 {
 	//voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
 	//voxmat = glm::translate(voxmat, (glm::vec3)(Chunk.loc * ChunkSize));

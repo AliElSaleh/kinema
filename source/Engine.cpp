@@ -165,14 +165,14 @@ Engine::Engine()
 	colorShader->SetMatrix("model", glm::mat4(1.0f));
 	colorShader->SetUniformBuffer("camera", ub);
 
-	db = new DebugRendering(ub);
+	db = new DebugRenderer(ub);
 
 	device->CheckErrorTemp();
 
 
 	//vm = VoxelMap();
 	vm = new VoxelMap();
-	vm->LoadFromFile("bin.map");
+	vm->LoadFromFile("test.map");
 	//vm->GenerateWave(2048, 64, 2048);
 
 	vm->InitChunks();
