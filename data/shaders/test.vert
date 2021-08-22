@@ -17,7 +17,7 @@
     void main()
     {
 		iColor = color;
-		iNormal = normal;
+		iNormal = mat3(model) * normal;
 
 		fragpos = vec3(model * vec4(position, 1.0));
 

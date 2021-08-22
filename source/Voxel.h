@@ -119,6 +119,8 @@ struct ChunkGenThreadObj
 	std::thread ourthread;
 };
 
+// TODO: compression via zlib
+// TODO: palettes for memory save
 class VoxelMap
 {
 public:
@@ -159,8 +161,8 @@ public:
 
 	void CheckThreads();
 
-	void tempSave();
-	void tempLoad();
+	//void tempSave();
+	//void tempLoad();
 
 	VoxelChunk& GetChunk(int32_t x, int32_t y, int32_t z);
 	Block& GetBlock_Chunked(int32_t x, int32_t y, int32_t z);

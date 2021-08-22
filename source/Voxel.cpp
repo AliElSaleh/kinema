@@ -831,8 +831,8 @@ void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Bl
 
 	position /= BLOCK_SIZE;
 
-	direction = glm::inverse(maprot) * glm::vec4(direction, 1.0f);
-
+	//direction = glm::inverse(maprot) * glm::vec4(direction, 1.0f);
+	direction = glm::inverse(glm::mat3(maptransform)) * direction; // epic
 
 
 	glm::ivec3 intPosition = glm::floor(position);
@@ -914,69 +914,69 @@ void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Bl
 	}
 }
 
-void VoxelMap::tempSave()
-{
-	std::ofstream out("new.vxlm", std::ios::binary);
-
-	MemoryStream mem;
-
-	mem.Write<int>(Size.x);
-	mem.Write<int>(Size.y);
-	mem.Write<int>(Size.z);
-
-	for (int x = 0; x < Size.x; x++)
-	{
-		for (int y = 0; y < Size.y; y++)
-		{
-			for (int z = 0; z < Size.z; z++)
-			{
-				mem.Write<int32_t>((int32_t)GetBlock_Chunked(x, y, z).Active);
-				mem.Write<float>(GetBlock_Chunked(x, y, z).Color.r);
-				mem.Write<float>(GetBlock_Chunked(x, y, z).Color.g);
-				mem.Write<float>(GetBlock_Chunked(x, y, z).Color.b);
-			}
-		}
-	}
-
-	out.write((char*)mem.GetData(), mem.GetSize());
-}
-
-void VoxelMap::tempLoad()
-{
-	std::ifstream in("new.vxlm", std::ios::binary);
-
-	in.seekg(0, std::ios::end);
-	size_t size = in.tellg();
-	in.seekg(0, std::ios::beg);
-	std::vector<uint8_t> bytes(size);
-	in.read((char*)bytes.data(), size);
-
-	MemoryStream mem(bytes);
-
-	Size = glm::vec3(0);
-
-	Size.x = mem.Read<int>();
-	Size.y = mem.Read<int>();
-	Size.z = mem.Read<int>();
-
-	Blocks.resize(Size.x * Size.y * Size.z);
-
-	for (int x = 0; x < Size.x; x++)
-	{
-		for (int y = 0; y < Size.y; y++)
-		{
-			for (int z = 0; z < Size.z; z++)
-			{
-				Block b;
-				b.Active = mem.Read<int32_t>();
-				b.Color.r = mem.Read<float>();
-				b.Color.g = mem.Read<float>();
-				b.Color.b = mem.Read<float>();
-
-				GetBlock(x, y, z) = b;
-			}
-		}
-	}
-
-	InitChunks();
-}
+//void VoxelMap::tempSave()
+//{
+//	std::ofstream out("new.vxlm", std::ios::binary);
+//
+//	MemoryStream mem;
+//
+//	mem.Write<int>(Size.x);
+//	mem.Write<int>(Size.y);
+//	mem.Write<int>(Size.z);
+//
+//	for (int x = 0; x < Size.x; x++)
+//	{
+//		for (int y = 0; y < Size.y; y++)
+//		{
+//			for (int z = 0; z < Size.z; z++)
+//			{
+//				mem.Write<int32_t>((int32_t)GetBlock_Chunked(x, y, z).Active);
+//				mem.Write<float>(GetBlock_Chunked(x, y, z).Color.r);
+//				mem.Write<float>(GetBlock_Chunked(x, y, z).Color.g);
+//				mem.Write<float>(GetBlock_Chunked(x, y, z).Color.b);
+//			}
+//		}
+//	}
+//
+//	out.write((char*)mem.GetData(), mem.GetSize());
+//}
+//
+//void VoxelMap::tempLoad()
+//{
+//	std::ifstream in("new.vxlm", std::ios::binary);
+//
+//	in.seekg(0, std::ios::end);
+//	size_t size = in.tellg();
+//	in.seekg(0, std::ios::beg);
+//	std::vector<uint8_t> bytes(size);
+//	in.read((char*)bytes.data(), size);
+//
+//	MemoryStream mem(bytes);
+//
+//	Size = glm::vec3(0);
+//
+//	Size.x = mem.Read<int>();
+//	Size.y = mem.Read<int>();
+//	Size.z = mem.Read<int>();
+//
+//	Blocks.resize(Size.x * Size.y * Size.z);
+//
+//	for (int x = 0; x < Size.x; x++)
+//	{
+//		for (int y = 0; y < Size.y; y++)
+//		{
+//			for (int z = 0; z < Size.z; z++)
+//			{
+//				Block b;
+//				b.Active = mem.Read<int32_t>();
+//				b.Color.r = mem.Read<float>();
+//				b.Color.g = mem.Read<float>();
+//				b.Color.b = mem.Read<float>();
+//
+//				GetBlock(x, y, z) = b;
+//			}
+//		}
+//	}
+//
+//	InitChunks();
+//}

@@ -449,6 +449,19 @@ void Engine::Render()
 			}
 		}
 
+		if (ImGui::Button("Reload shader\n"))
+		{
+			Shader* news = Shader::FromSource(this,
+				File::ReadAllText("shaders/test.vert").data(),
+				File::ReadAllText("shaders/test.frag").data());
+
+			if (news != nullptr)
+			{
+				delete litShader;
+				litShader = news;
+			}
+		}
+
 		//if (ImGui::Button("Save"))
 		//{
 		//	vm->tempSave();
@@ -534,15 +547,13 @@ void Engine::Render()
 	}
 
 	static float rot = 0.0f;
-	//rot += 5.0f / 144.0f;
+	rot += 5.0f / 144.0f;
 
 	vm->tempdb = db;
 	//vr.Render(device);
 	vm->maptransform = glm::mat4(1.0f);
 	vm->maptransform = glm::translate(vm->maptransform, glm::vec3(0, 0, 8));
 	vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
-
-	vm->maprot = glm::rotate(glm::mat4(1.0f), glm::radians(rot), glm::vec3(1, 1, 0));
 
 	vm->RenderChunks(device, litShader);
 
