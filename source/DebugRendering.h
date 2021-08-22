@@ -11,6 +11,18 @@
 
 #include "UniformBuffer.h"
 
+struct Line // TODO: impl
+{
+	glm::vec3 Start;
+	glm::vec3 End;
+	glm::vec3 Color;
+	float Time;
+
+	Line() : Start(0), End(0), Color(255), Time(5.0f)
+	{
+	}
+};
+
 class DebugRendering
 {
 public:

@@ -19,6 +19,8 @@
 
 #include <thread>
 
+#include "MemoryStream.h"
+
 void pvec3(glm::vec3 vec)
 {
 	std::cout << vec.x << " " << vec.y << " " << vec.z;;
@@ -92,6 +94,19 @@ float cubeVertices[] = {
 	  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
 	 -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
 	 -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f
+};
+
+struct teststruct
+{
+	int a;
+	char b[8];
+	float c;
+	int64_t d;
+
+	void print()
+	{
+		std::cout << a << " " << b << " " << c << " " << d << "\n";
+	}
 };
 
 Engine::Engine()
