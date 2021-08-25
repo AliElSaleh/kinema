@@ -547,7 +547,7 @@ void Engine::Render()
 	}
 
 	static float rot = 0.0f;
-	rot += 5.0f / 144.0f;
+	//rot += 5.0f / 144.0f;
 
 	vm->tempdb = db;
 	//vr.Render(device);

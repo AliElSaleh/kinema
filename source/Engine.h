@@ -11,6 +11,7 @@
 #include "VertexBuffer.h"
 #include "UniformBuffer.h"
 #include "Voxel.h"
+#include "VoxelMesh.h"
 #include "DebugRenderer.h"
 #include <thread>
 
