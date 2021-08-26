@@ -171,13 +171,15 @@ Engine::Engine()
 
 
 	//vm = VoxelMap();
-	vm = new VoxelMap();
+	vm = new VoxelMesh();
 	vm->LoadFromFile("test.map");
 	//vm->GenerateWave(2048, 64, 2048);
 
 	vm->InitChunks();
 
 	vr = VoxelRenderer();
+
+	currentvm = vm;
 
 	// imgui
 	ImGui::CreateContext();
@@ -417,61 +419,69 @@ void Engine::Render()
 			ImGui::End();
 		}
 
-		ImGui::SetNextWindowSize(ImVec2(0, 0));
-		ImGui::Begin("Voxels");
-		ImGui::Checkbox("Show bounds", &drawbounds);
-		ImGui::InputInt("Threads", &imthr);
-		ImGui::Text("Last Time: %dms", vm->lasttime);
-		if (ImGui::Button("Clear data"))
 		{
-			if (!vm->generating)
+			float voxpos[3] =
 			{
-				for (VoxelChunk& chunk : vm->Chunks)
+				currentvm->pos.x,
+				currentvm->pos.y,
+				currentvm->pos.z
+			};
+
+			ImGui::SetNextWindowSize(ImVec2(0, 0));
+			ImGui::Begin("Voxels");
+			ImGui::InputFloat3("Position", voxpos);
+			ImGui::Checkbox("Show bounds", &drawbounds);
+			ImGui::InputInt("Threads", &imthr);
+			ImGui::Text("Last Time: %dms", vm->lasttime);
+			if (ImGui::Button("Clear data"))
+			{
+				if (!vm->generating)
 				{
-					chunk.cleardata();
+					for (VoxelChunk& chunk : vm->Chunks)
+					{
+						chunk.cleardata();
+					}
 				}
 			}
-		}
-		if (ImGui::Button("Generate (Greedy)"))
-		{
-			if (!vm->generating)
+			if (ImGui::Button("Generate (Greedy)"))
 			{
-				for (VoxelChunk& chunk : vm->Chunks)
+				if (!vm->generating)
 				{
-					chunk.cleardata();
+					for (VoxelChunk& chunk : vm->Chunks)
+					{
+						chunk.cleardata();
+					}
+
+					std::cout << "Starting generation..\n";
+
+
+					vm->GenChunksGreedy(imthr);
+
 				}
-
-				std::cout << "Starting generation..\n";
-				 
-
-				vm->GenChunksGreedy(imthr);
-
 			}
-		}
 
-		if (ImGui::Button("Reload shader\n"))
-		{
-			Shader* news = Shader::FromSource(this,
-				File::ReadAllText("shaders/test.vert").data(),
-				File::ReadAllText("shaders/test.frag").data());
+			//if (ImGui::Button("Save"))
+			//{
+			//	vm->tempSave();
+			//}
+			//if (ImGui::Button("Load"))
+			//{
+			//	vm->tempLoad();
+			//}
 
-			if (news != nullptr)
+			ImGui::End();
+
+			if (currentvm)
 			{
-				delete litShader;
-				litShader = news;
+				glm::vec3 pos(voxpos[0], voxpos[1], voxpos[2]);
+				currentvm->pos = pos;
 			}
 		}
 
-		//if (ImGui::Button("Save"))
-		//{
-		//	vm->tempSave();
-		//}
-		//if (ImGui::Button("Load"))
-		//{
-		//	vm->tempLoad();
-		//}
+		{
+			//ImGui::SetNextWindowSize(ImVec2(0, 0));
+		}
 
-		ImGui::End();
 	}
 
 	camera.SetFieldOfView(fov);
@@ -494,48 +504,43 @@ void Engine::Render()
 
 	device->Clear();
 
-	device->SetShader(colorShader);
+	//device->SetShader(colorShader);
 
-	// square1
-	glm::mat4 mat(1.0f);
-	uint32_t tick = SDL_GetTicks();
-	mat = glm::rotate(mat, glm::radians(tick * 0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
-	colorShader->SetMatrix("model", mat);
+	//// square1
+	//glm::mat4 mat(1.0f);
+	//uint32_t tick = SDL_GetTicks();
+	//mat = glm::rotate(mat, glm::radians(tick * 0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//colorShader->SetMatrix("model", mat);
 
-	//device->Draw(squareVB, squareIB, 6);
+	////device->Draw(squareVB, squareIB, 6);
 
-	
-	// triangle1
-	glm::mat4 mat2(1.0f);
-	mat2 = glm::translate(mat2, glm::vec3(1.5f, 0.0f, 0.0f));
-	mat2 = glm::rotate(mat2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	colorShader->SetMatrix("model", mat2);
+	//
+	//// triangle1
+	//glm::mat4 mat2(1.0f);
+	//mat2 = glm::translate(mat2, glm::vec3(1.5f, 0.0f, 0.0f));
+	//mat2 = glm::rotate(mat2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//colorShader->SetMatrix("model", mat2);
 
-	device->Draw(triangleVB, triangleIB, 3);
-
-
-	// cube1
-	glm::mat4 mat3(1.0f);
-	mat3 = glm::translate(mat3, glm::vec3(-1.5f, 0.0f, 0.0f));
-	colorShader->SetMatrix("model", mat3 * mat * mat * mat);
-
-	device->Draw(cubeVB, 36);
+	//device->Draw(triangleVB, triangleIB, 3);
 
 
-	// cube2
-	mat3 = glm::translate(mat3, glm::vec3(0, 2.0f, 0.0f));
-	mat3 = glm::rotate(mat3, glm::radians(tick * -0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
-	mat3 = glm::scale(mat3, glm::vec3(2 + (sin(tick * 0.0025f) + 1) * 0.25f, 0.25f + (cos(tick * 0.005f) + 1) * 0.25f, 0.5f + cos(tick * 0.01f) + 1));
-	colorShader->SetMatrix("model", mat3);
+	//// cube1
+	//glm::mat4 mat3(1.0f);
+	//mat3 = glm::translate(mat3, glm::vec3(-1.5f, 0.0f, 0.0f));
+	//colorShader->SetMatrix("model", mat3 * mat * mat * mat);
 
-	device->Draw(cubeVB, 36);
+	//device->Draw(cubeVB, 36);
+
+
+	//// cube2
+	//mat3 = glm::translate(mat3, glm::vec3(0, 2.0f, 0.0f));
+	//mat3 = glm::rotate(mat3, glm::radians(tick * -0.25f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//mat3 = glm::scale(mat3, glm::vec3(2 + (sin(tick * 0.0025f) + 1) * 0.25f, 0.25f + (cos(tick * 0.005f) + 1) * 0.25f, 0.5f + cos(tick * 0.01f) + 1));
+	//colorShader->SetMatrix("model", mat3);
+
+	//device->Draw(cubeVB, 36);
 
 	device->SetShader(litShader);
-
-	glm::mat4 voxmat(1.0f);
-	voxmat = glm::translate(voxmat, glm::vec3(0, 0, 8.0f));
-	voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
-	litShader->SetMatrix("model", voxmat);
 
 	if (drawbounds)
 	{
@@ -552,7 +557,7 @@ void Engine::Render()
 	vm->tempdb = db;
 	//vr.Render(device);
 	vm->maptransform = glm::mat4(1.0f);
-	vm->maptransform = glm::translate(vm->maptransform, glm::vec3(0, 0, 8));
+	vm->maptransform = glm::translate(vm->maptransform, vm->pos);
 	vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
 
 	vm->RenderChunks(device, litShader);
@@ -566,7 +571,7 @@ void Engine::Render()
 	db->DrawLine(device, zero, yvec, glm::vec3(0, 1, 0));
 	db->DrawLine(device, zero, zvec, glm::vec3(0, 0, 1));
 
-	db->DrawCube(device, glm::vec3(8, 0, 0), glm::vec3(2, 2, 2), glm::vec3(0, 1, 0));
+	//db->DrawCube(device, glm::vec3(8, 0, 0), glm::vec3(2, 2, 2), glm::vec3(0, 1, 0));
 
 	db->Render(device);
 

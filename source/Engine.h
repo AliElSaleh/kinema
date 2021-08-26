@@ -68,7 +68,8 @@ public:
 
 	UniformBuffer* ub;
 
-	VoxelMap* vm;
+	VoxelMesh* currentvm = nullptr;
+	VoxelMesh* vm;
 	VoxelRenderer vr;
 
 	DebugRenderer* db;

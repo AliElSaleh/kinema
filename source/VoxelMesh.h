@@ -38,10 +38,10 @@ struct ChunkGenThreadObj
 	std::thread ourthread;
 };
 
-class VoxelMap
+class VoxelMesh
 {
 public:
-	VoxelMap() {}
+	VoxelMesh() {}
 
 	DebugRenderer* tempdb;
 
@@ -54,6 +54,7 @@ public:
 	int endtime = 0;
 	int lasttime = 0;
 
+	glm::vec3 pos = glm::vec3(0);
 	glm::mat4 maptransform;
 	glm::mat4 maprot;
 

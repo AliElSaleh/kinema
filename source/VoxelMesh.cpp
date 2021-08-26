@@ -2,18 +2,12 @@
 
 #include <fstream>
 
+#include "SDL2/SDL.h"
+#include "glm/gtc/matrix_transform.hpp"
 
 #include "MemoryStream.h"
 
-#include "SDL2/SDL.h"
-
-#include <thread>
-
-#include <iostream>
-
-#include "glm/gtc/matrix_transform.hpp"
-
-Block& VoxelMap::GetBlock(int32_t x, int32_t y, int32_t z)
+Block& VoxelMesh::GetBlock(int32_t x, int32_t y, int32_t z)
 {
 	if (x >= Size.x || y >= Size.y || z >= Size.z ||
 		x < 0 || y < 0 || z < 0)
@@ -26,11 +20,10 @@ Block& VoxelMap::GetBlock(int32_t x, int32_t y, int32_t z)
 	return Blocks[index];
 }
 
-Block& VoxelMap::GetBlock(const glm::ivec3& coordinates)
+Block& VoxelMesh::GetBlock(const glm::ivec3& coordinates)
 {
 	return GetBlock(coordinates.x, coordinates.y, coordinates.z);
 }
-
 
 glm::ivec3 colorPalette[] = {
 	glm::ivec3(255, 0, 0),
@@ -43,7 +36,7 @@ glm::ivec3 colorPalette[] = {
 	glm::ivec3(255, 255, 255)
 };
 
-void VoxelMap::GenerateWave(int x, int y, int z)
+void VoxelMesh::GenerateWave(int x, int y, int z)
 {
 	Size = glm::ivec3(x, y, z);
 
@@ -79,7 +72,7 @@ void VoxelMap::GenerateWave(int x, int y, int z)
 	}
 }
 
-void VoxelMap::InitChunks()
+void VoxelMesh::InitChunks()
 {
 	ChunkSize = glm::ivec3(32, 32, 32);
 
@@ -120,7 +113,7 @@ uint32_t indexget(int x, int y, int z, glm::ivec3 Size)
 	uint32_t index = x + y * Size.x + z * Size.x * Size.y;
 	return index;
 }
-void VoxelMap::LoadFromFile(const char* fileName)
+void VoxelMesh::LoadFromFile(const char* fileName)
 {
 	std::ifstream file(fileName, std::ios::binary);
 
@@ -181,7 +174,7 @@ void VoxelMap::LoadFromFile(const char* fileName)
 	Blocks[indexget(0, Size.y - 1, Size.z - 1, Size)] = endblock;
 }
 
-void VoxelMap::GenChunksGreedy(int cnumthreads)
+void VoxelMesh::GenChunksGreedy(int cnumthreads)
 {
 	//for (VoxelChunk& Chunk : Chunks)
 	//{
@@ -227,7 +220,7 @@ void VoxelMap::GenChunksGreedy(int cnumthreads)
 
 
 
-void VoxelMap::CheckThreads()
+void VoxelMesh::CheckThreads()
 {
 	if (!generating)
 		return;
@@ -253,7 +246,7 @@ void VoxelMap::CheckThreads()
 	lasttime = endtime - starttime;
 }
 
-void VoxelMap::UploadAllChunks()
+void VoxelMesh::UploadAllChunks()
 {
 	for (VoxelChunk& Chunk : Chunks)
 	{
@@ -262,7 +255,7 @@ void VoxelMap::UploadAllChunks()
 	std::cout << "All chunks uploaded\n";
 }
 
-void VoxelMap::RenderChunks(Device* device, Shader* shader)
+void VoxelMesh::RenderChunks(Device* device, Shader* shader)
 {
 	for (VoxelChunk& Chunk : Chunks)
 	{
@@ -293,7 +286,7 @@ void VoxelMap::RenderChunks(Device* device, Shader* shader)
 }
 
 
-VoxelChunk& VoxelMap::GetChunk(int32_t x, int32_t y, int32_t z)
+VoxelChunk& VoxelMesh::GetChunk(int32_t x, int32_t y, int32_t z)
 {
 	int32_t ChunkX = x / ChunkSize.x;
 	int32_t ChunkY = y / ChunkSize.y;
@@ -304,7 +297,7 @@ VoxelChunk& VoxelMap::GetChunk(int32_t x, int32_t y, int32_t z)
 }
 
 Block fakeblock; // TODO: lol
-Block& VoxelMap::GetBlock_Chunked(int32_t x, int32_t y, int32_t z)
+Block& VoxelMesh::GetBlock_Chunked(int32_t x, int32_t y, int32_t z)
 {
 	if (x >= Size.x || y >= Size.y || z >= Size.z ||
 		x < 0 || y < 0 || z < 0)
@@ -326,12 +319,12 @@ Block& VoxelMap::GetBlock_Chunked(int32_t x, int32_t y, int32_t z)
 
 	return Chunks[chunkIndex].Blocks[blockIndex];
 }
-Block& VoxelMap::GetBlock_Chunked(glm::ivec3 pos)
+Block& VoxelMesh::GetBlock_Chunked(glm::ivec3 pos)
 {
 	return GetBlock_Chunked(pos.x, pos.y, pos.z);
 }
 
-void VoxelMap::makechunkupdateforblock(glm::ivec3 pos)
+void VoxelMesh::makechunkupdateforblock(glm::ivec3 pos)
 {
 	int x = pos.x;
 	int y = pos.y;
@@ -352,7 +345,7 @@ void VoxelMap::makechunkupdateforblock(glm::ivec3 pos)
 	std::cout << "Updated chunk for block " << pos.x << " " << pos.y << " " << pos.z << "\n";
 }
 
-void VoxelMap::GenChunksCulled()
+void VoxelMesh::GenChunksCulled()
 {
 	std::vector<float> data;
 
@@ -425,7 +418,7 @@ glm::vec3 intbound(glm::vec3 left, glm::vec3 right)
 	return result;
 }
 
-bool VoxelMap::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, Block block)
+bool VoxelMesh::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, Block block)
 {
 	if (GetBlock_Chunked(copy).Active)
 	{
@@ -439,7 +432,7 @@ bool VoxelMap::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, B
 	return false;
 }
 
-void VoxelMap::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Block block)
+void VoxelMesh::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Block block)
 {
 	glm::vec4 newpos = glm::inverse(maptransform) * glm::vec4(position, 1.0f);
 	position = newpos;
