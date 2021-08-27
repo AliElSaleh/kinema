@@ -523,9 +523,12 @@ void VoxelMesh::Raycast(glm::vec3 position, glm::vec3 direction, float radius, B
 	}
 }
 
-
-
-
+void swap(float& left, float& right)
+{
+	float a = left;
+	left = right;
+	right = a;
+}
 
 
 //void VoxelMap::tempSave()

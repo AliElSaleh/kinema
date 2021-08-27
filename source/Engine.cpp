@@ -21,6 +21,8 @@
 
 #include "MemoryStream.h"
 
+#include <sstream>
+
 void pvec3(glm::vec3 vec)
 {
 	std::cout << vec.x << " " << vec.y << " " << vec.z;;
@@ -171,15 +173,20 @@ Engine::Engine()
 
 
 	//vm = VoxelMap();
-	vm = new VoxelMesh();
+	VoxelMesh* vm = new VoxelMesh();
 	vm->LoadFromFile("test.map");
 	//vm->GenerateWave(2048, 64, 2048);
 
 	vm->InitChunks();
 
-	vr = VoxelRenderer();
-
+	meshii.push_back(vm);
 	currentvm = vm;
+
+	VoxelMesh* num2 = new VoxelMesh();
+	num2->GenerateWave(64, 16, 64);
+
+	num2->InitChunks();
+	meshii.push_back(num2);
 
 	// imgui
 	ImGui::CreateContext();
@@ -193,13 +200,23 @@ Engine::Engine()
 	Running = true;
 	while (Running)
 	{
+		auto startTime = std::chrono::high_resolution_clock::now();
 		Update();
 		Render();
 
 		SDL_GL_SwapWindow(Window);
-	}
 
-	// delete.. todo:
+		auto endTime = std::chrono::high_resolution_clock::now();
+
+		f += std::chrono::duration_cast<std::chrono::microseconds>(
+			endTime - startTime).count() / 1000.0;
+		if (f >= (1000.0 / 10.0))
+		{
+			f = 0.0;
+			frameTime = std::chrono::duration_cast<std::chrono::microseconds>(
+				endTime - startTime).count() / 1000.0;
+		}
+	}
 }
 
 Engine::~Engine()
@@ -269,7 +286,10 @@ void Engine::Update()
 					b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
 				}
 
-				vm->Raycast(start, dir, radius, b);
+				for (VoxelMesh* vm : meshii)
+				{
+					vm->Raycast(start, dir, radius, b);
+				}
 
 				//db->DrawLine(device, start, start + dir * 5.0f, glm::vec3(1.0f, 0.0f, 1.0f));
 
@@ -420,6 +440,28 @@ void Engine::Render()
 		}
 
 		{
+			ImGui::SetNextWindowSize(ImVec2(0, 0));
+			ImGui::Begin("Voxels");
+
+			static int currentSelection = 0;
+			if (ImGui::BeginListBox("Voxel Meshes"))
+			{
+				for (int n = 0; n < meshii.size(); n++)
+				{
+					std::stringstream s;
+					s << "VoxelMesh #" << n;
+
+					const bool is_selected = currentSelection == n;
+					if (ImGui::Selectable(s.str().c_str(), is_selected))
+					{
+						currentSelection = n;
+						currentvm = meshii[n];
+					}
+				}
+
+				ImGui::EndListBox();
+			}
+
 			float voxpos[3] =
 			{
 				currentvm->pos.x,
@@ -427,17 +469,15 @@ void Engine::Render()
 				currentvm->pos.z
 			};
 
-			ImGui::SetNextWindowSize(ImVec2(0, 0));
-			ImGui::Begin("Voxels");
 			ImGui::InputFloat3("Position", voxpos);
 			ImGui::Checkbox("Show bounds", &drawbounds);
 			ImGui::InputInt("Threads", &imthr);
-			ImGui::Text("Last Time: %dms", vm->lasttime);
+			ImGui::Text("Last Time: %dms", currentvm->lasttime);
 			if (ImGui::Button("Clear data"))
 			{
-				if (!vm->generating)
+				if (!currentvm->generating)
 				{
-					for (VoxelChunk& chunk : vm->Chunks)
+					for (VoxelChunk& chunk : currentvm->Chunks)
 					{
 						chunk.cleardata();
 					}
@@ -445,9 +485,9 @@ void Engine::Render()
 			}
 			if (ImGui::Button("Generate (Greedy)"))
 			{
-				if (!vm->generating)
+				if (!currentvm->generating)
 				{
-					for (VoxelChunk& chunk : vm->Chunks)
+					for (VoxelChunk& chunk : currentvm->Chunks)
 					{
 						chunk.cleardata();
 					}
@@ -455,7 +495,7 @@ void Engine::Render()
 					std::cout << "Starting generation..\n";
 
 
-					vm->GenChunksGreedy(imthr);
+					currentvm->GenChunksGreedy(imthr);
 
 				}
 			}
@@ -479,6 +519,16 @@ void Engine::Render()
 		}
 
 		{
+			ImGui::SetNextWindowSize(ImVec2(0, 0));
+			ImGui::Begin("Peformance");
+
+			ImGui::Text("Frametime: %.3f", (float)frameTime);
+			ImGui::Text("Average FPS: %.1f", 1000.0f / (float)frameTime);
+
+			ImGui::End();
+		}
+
+		{
 			//ImGui::SetNextWindowSize(ImVec2(0, 0));
 		}
 
@@ -486,7 +536,10 @@ void Engine::Render()
 
 	camera.SetFieldOfView(fov);
 
-	vm->CheckThreads();
+	for (VoxelMesh* m : meshii)
+	{
+		m->CheckThreads();
+	}
 
 	//if (/*generationThread.joinable() && */!vm->generating)
 	//{
@@ -544,23 +597,26 @@ void Engine::Render()
 
 	if (drawbounds)
 	{
-		for (VoxelChunk& ch : vm->Chunks)
+		for (VoxelChunk& ch : currentvm->Chunks)
 		{
 			// TODO: this doesnt respect transformations with rotation (debug box assumes orientation)
-			ch.DrawChunkBoundary(device, db, vm->maptransform);
+			ch.DrawChunkBoundary(device, db, currentvm->maptransform);
 		}
 	}
 
 	static float rot = 0.0f;
 	//rot += 5.0f / 144.0f;
 
-	vm->tempdb = db;
-	//vr.Render(device);
-	vm->maptransform = glm::mat4(1.0f);
-	vm->maptransform = glm::translate(vm->maptransform, vm->pos);
-	vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
+	for (VoxelMesh* vm : meshii)
+	{
+		vm->tempdb = db;
+		//vr.Render(device);
+		vm->maptransform = glm::mat4(1.0f);
+		vm->maptransform = glm::translate(vm->maptransform, vm->pos);
+		vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
 
-	vm->RenderChunks(device, litShader);
+		vm->RenderChunks(device, litShader);
+	}
 
 	glm::vec3 zero(0.0f);
 	glm::vec3 xvec(1, 0, 0);

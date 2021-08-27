@@ -68,14 +68,16 @@ public:
 
 	UniformBuffer* ub;
 
+	std::vector<VoxelMesh*> meshii;
 	VoxelMesh* currentvm = nullptr;
-	VoxelMesh* vm;
-	VoxelRenderer vr;
 
 	DebugRenderer* db;
 
 private:
 	SDL_Window* Window;
+
+	double frameTime;
+	double f;
 
 	void Update();
 	void Render();
