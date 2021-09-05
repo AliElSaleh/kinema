@@ -61,12 +61,12 @@ inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_
 	BlockFace face;
 	face.Side = side;
 	face.Culled = !block.Active;
-	face.Color = block.Color;
+	face.Type = block.Type;
 
 	if (!face.Culled)
 	{
 		glm::ivec3 adjacentCoordinate = GetAdjacentCoordinate(inCoordinate, side);
-		glm::ivec3 adjacentBlockType = GetBlockLocal(adjacentCoordinate).Color;
+		uint8_t adjacentBlockType = GetBlockLocal(adjacentCoordinate).Type;
 
 		if (GetBlockLocal(adjacentCoordinate).Active != 0)
 		{
@@ -141,7 +141,8 @@ void VoxelChunk::Update()
 
 	vertices.clear();
 	normals.clear();
-	colors.clear();
+	//colors.clear();
+	types.clear();
 	indices.clear();
 
 	glm::ivec3 blockPosition(0, 0, 0);
@@ -184,7 +185,7 @@ void VoxelChunk::Update()
 				{
 					faceB.Culled = true;
 					faceB.Side = faceSide;
-					faceB.Color = glm::ivec3(255, 255, 255);
+					faceB.Type = 0;
 
 					// face of this block
 					faceA = GetBlockFace(blockPosition, faceSide);
@@ -274,7 +275,8 @@ void VoxelChunk::Update()
 						static int triangleIndices[6] = { 0, 1, 2, 2, 3, 0 };
 
 						uint8_t blockSide = blockFaceMask[maskIndex].Side;
-						glm::ivec3 blockColor = blockFaceMask[maskIndex].Color;
+						//glm::ivec3 blockColor = blockFaceMask[maskIndex].Color;
+						uint8_t blockType = blockFaceMask[maskIndex].Type;
 
 						for (int32_t vertexIndex = 0; vertexIndex < 4; ++vertexIndex)
 						{
@@ -286,7 +288,8 @@ void VoxelChunk::Update()
 
 							vertices.push_back(vertexPosition * BLOCK_SIZE);
 							normals.push_back(BlockForwardVectors[blockSide]);
-							colors.push_back(blockColor);
+							//colors.push_back(blockColor);
+							types.push_back(blockType);
 						}
 
 						indices.push_back(0 + indexOffset);
@@ -360,15 +363,18 @@ void VoxelChunk::Update_Upload()
 	for (uint32_t blockno = 0; blockno < vertices.size(); blockno++)
 	{
 		pushvector(vbdata, vertices[blockno]);
-		pushvector(vbdata, colors[blockno] / 255.0f);
+		//pushvector(vbdata, colors[blockno] / 255.0f);
 		pushvector(vbdata, normals[blockno]);
+		vbdata.push_back(types[blockno]);
+
 	}
 
 	VB = new VertexBuffer(vbdata.data(), vbdata.size() * sizeof(float),
 		{
-			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 0 },
-			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 3 * sizeof(float) },
-			{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
+			{ AttributeType::FLOAT, 3, 7 * sizeof(float), 0 },
+			{ AttributeType::FLOAT, 3, 7 * sizeof(float), 3 * sizeof(float) },
+			{ AttributeType::FLOAT, 1, 7 * sizeof(float), 6 * sizeof(float) }
+			//{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
 		}, BufferUsage::Dynamic);
 	IB = new IndexBuffer(indices.data(), indices.size() * sizeof(uint32_t), BufferUsage::Dynamic);
 

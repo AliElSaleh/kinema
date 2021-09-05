@@ -8,12 +8,12 @@ struct Block
 {
 	bool Active;
 
-	glm::ivec3 Color;
+	uint8_t Type;
 
 	Block()
 	{
 		Active = false;
-		Color = glm::ivec3(127);
+		Type = 0;
 	}
 
 	static Block Default;
@@ -22,20 +22,20 @@ struct Block
 struct BlockFace
 {
 	bool Culled;
-	glm::ivec3 Color;
+	uint8_t Type;
 
 	uint8_t Side;
 
 	BlockFace()
 	{
 		Culled = false;
-		Color = glm::ivec3(0, 0, 0);
+		Type = 0;
 		Side = 0;
 	}
 
 	inline bool Equals(const BlockFace& other) const
 	{
-		return other.Culled == Culled && other.Color == Color;
+		return other.Culled == Culled && other.Type == Type;
 	}
 };
 

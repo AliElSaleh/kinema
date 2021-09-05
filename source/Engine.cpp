@@ -139,6 +139,7 @@ Engine::Engine()
 		return;
 	}
 
+	
 	//
 
 	Window = SDL_CreateWindow(
@@ -304,12 +305,14 @@ void Engine::Update()
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
 					b.Active = false;
-					b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
+					b.Type = 0;
+					//b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
 				}
 				else if (event.button.button == SDL_BUTTON_RIGHT)
 				{
 					b.Active = true;
-					b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
+					b.Type = 8;
+					//b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
 				}
 
 				for (VoxelMesh* vm : meshii)

@@ -25,16 +25,16 @@ Block& VoxelMesh::GetBlock(const glm::ivec3& coordinates)
 	return GetBlock(coordinates.x, coordinates.y, coordinates.z);
 }
 
-glm::ivec3 colorPalette[] = {
-	glm::ivec3(255, 0, 0),
-	glm::ivec3(63, 55, 55),
-	glm::ivec3(33, 33, 38),
-	glm::ivec3(255, 255, 0),
-	glm::ivec3(181, 161, 159),
-	glm::ivec3(64, 0, 0),
-	glm::ivec3(137, 131, 97),
-	glm::ivec3(255, 255, 255)
-};
+//glm::ivec3 colorPalette[] = {
+//	glm::ivec3(255, 0, 0),
+//	glm::ivec3(63, 55, 55),
+//	glm::ivec3(33, 33, 38),
+//	glm::ivec3(255, 255, 0),
+//	glm::ivec3(181, 161, 159),
+//	glm::ivec3(64, 0, 0),
+//	glm::ivec3(137, 131, 97),
+//	glm::ivec3(255, 255, 255)
+//};
 
 void VoxelMesh::GenerateWave(int x, int y, int z)
 {
@@ -51,12 +51,16 @@ void VoxelMesh::GenerateWave(int x, int y, int z)
 			{
 				Block nb;
 				nb.Active = true;
-				nb.Color = glm::ivec3((float)xp / (float)x * 255.0f,
-					(float)yp / (float)y * 255.0f,
-					(float)zp / (float)z * 255.0f);
-				nb.Color = glm::ivec3(255,
-					(float)yp / (float)y * 255.0f,
-					255);
+				//nb.Color = glm::ivec3((float)xp / (float)x * 255.0f,
+				//	(float)yp / (float)y * 255.0f,
+				//	(float)zp / (float)z * 255.0f);
+				//nb.Color = glm::ivec3(255,
+				//	(float)yp / (float)y * 255.0f,
+				//	255);
+				int type = (yp / y) * 255;
+				if (type > 255) type = 255;
+				else if (type < 0) type = 0;
+				nb.Type = type;
 
 				float lol = (sin((float)xp / (float)x * 8 * 3.14159) + 1) / 2;
 				lol *= (float)y;
@@ -145,23 +149,27 @@ void VoxelMesh::LoadFromFile(const char* fileName)
 				uint8_t type = blockdata[index2];
 				Blocks[index].Active = type > 0;
 
-				if (type > 0)
-				{
-					if (type > 7)
-					{
-						Blocks[index].Color = glm::ivec3(81, 124, 0);
-					}
-					else
-					{
-						Blocks[index].Color = colorPalette[type];
-					}
-				}
+				if (type > 7)
+					Blocks[index].Type = 9;
+				else
+					Blocks[index].Type = type;
+				//if (type > 0)
+				//{
+				//	if (type > 7)
+				//	{
+				//		Blocks[index].Color = glm::ivec3(81, 124, 0);
+				//	}
+				//	else
+				//	{
+				//		Blocks[index].Color = colorPalette[type];
+				//	}
+				//}
 			}
 		}
 	}
 
 	Block endblock;
-	endblock.Color = glm::vec3(255.0f, 0.0f, 255.0f);
+	endblock.Type = 8;
 	endblock.Active = true;
 
 	Blocks[indexget(0, 0, 0, Size)] = endblock;
