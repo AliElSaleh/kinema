@@ -523,7 +523,7 @@ void Engine::Render()
 			ImGui::Begin("Peformance");
 
 			ImGui::Text("Frametime: %.3f", (float)frameTime);
-			ImGui::Text("Average FPS: %.1f", 1000.0f / (float)frameTime);
+			ImGui::Text("FPS: %.1f", 1000.0f / (float)frameTime);
 
 			ImGui::End();
 		}
