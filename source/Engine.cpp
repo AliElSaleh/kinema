@@ -23,6 +23,8 @@
 
 #include <sstream>
 
+#include "PhysX/PxPhysicsAPI.h"
+
 void pvec3(glm::vec3 vec)
 {
 	std::cout << vec.x << " " << vec.y << " " << vec.z;;
@@ -111,9 +113,33 @@ struct teststruct
 	}
 };
 
+static physx::PxDefaultAllocator physAllocator;
+static physx::PxDefaultErrorCallback physErrCallback;
+
+static physx::PxFoundation* foundation = nullptr;
+
+static physx::PxPhysics* physics = nullptr;
+
 Engine::Engine()
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+
+	// temp physx init
+	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, physAllocator, physErrCallback);
+	if (!foundation)
+	{
+		std::cout << "PhysX failed to init\n";
+		return;
+	}
+
+	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale(), true, nullptr);
+	if (!physics)
+	{
+		std::cout << "PhysX physics engine failed to init\n";
+		return;
+	}
+
+	//
 
 	Window = SDL_CreateWindow(
 		"Kinema",

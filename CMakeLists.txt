@@ -11,7 +11,7 @@ source_group(TREE ${CMAKE_SOURCE_DIR}/source FILES ${KINEMA_FILES})
 add_executable(${PROJECT_NAME} ${KINEMA_FILES})
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty/binaries)
-target_link_libraries(${PROJECT_NAME} SDL2 SDL2main)
+target_link_libraries(${PROJECT_NAME} SDL2 SDL2main PhysX_64 PhysXCommon_64 PhysXFoundation_64 PhysXCooking_64 PhysXExtensions_static_64)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty)
 
