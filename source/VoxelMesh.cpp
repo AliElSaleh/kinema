@@ -51,13 +51,8 @@ void VoxelMesh::GenerateWave(int x, int y, int z)
 			{
 				Block nb;
 				nb.Active = true;
-				//nb.Color = glm::ivec3((float)xp / (float)x * 255.0f,
-				//	(float)yp / (float)y * 255.0f,
-				//	(float)zp / (float)z * 255.0f);
-				//nb.Color = glm::ivec3(255,
-				//	(float)yp / (float)y * 255.0f,
-				//	255);
-				int type = (yp / y) * 255;
+
+				int type = ((float)yp / (float)y) * 10; // 10 is current palette size
 				if (type > 255) type = 255;
 				else if (type < 0) type = 0;
 				nb.Type = type;

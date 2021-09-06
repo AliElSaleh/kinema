@@ -122,26 +122,6 @@ static physx::PxPhysics* physics = nullptr;
 
 Engine::Engine()
 {
-	int norm = 7;
-	int x = 127;
-	int y = 53;
-	int z = 95;
-	int color = 0;
-	uint32_t xx = ((x & 127) | (y & 127) << 7 | (z & 127) << 14 | (color & 255) << 21 | (norm & 7) << 29);
-	std::cout << xx << "\n";
-	
-	xx = 134217856;
-
-	int a = xx & 127;
-	int b = xx >> 7 & 127;
-	int c = xx >> 14 & 127;
-	int e = xx >> 21 & 7;
-	int d = xx >> 24 & 255;
-
-	printf("%d %d %d %d %d\n", a, b, c, d, e);
-
-
-
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
 	// temp physx init
