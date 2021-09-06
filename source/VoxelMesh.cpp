@@ -155,6 +155,94 @@ void VoxelMesh::LoadFromFile(const char* fileName)
 	Blocks[indexget(0, Size.y - 1, Size.z - 1, Size)] = endblock;
 }
 
+void VoxelMesh::LoadXRAW(const char* fileName)
+{
+	std::ifstream file(fileName, std::ios::binary);
+
+	char header[4];
+
+	uint8_t colorChannelDataType = 0;
+	uint8_t numberColorChannels = 0;
+	uint8_t bitsPerChannel = 0;
+	uint8_t bitsPerIndex = 0;
+
+	uint32_t width = 0;
+	uint32_t height = 0;
+	uint32_t depth = 0;
+
+	uint32_t paletteSize = 0;
+
+	file.read((char*)header, 4); // 4 bytes header
+
+	file.read((char*)&colorChannelDataType, 1);
+	file.read((char*)&numberColorChannels, 1);
+	file.read((char*)&bitsPerChannel, 1);
+	file.read((char*)&bitsPerIndex, 1);
+
+	file.read((char*)&width, 4);
+	file.read((char*)&height, 4);
+	file.read((char*)&depth, 4);
+	file.read((char*)&paletteSize, 4);
+
+	printf("XRAW with dims %d %d %d\n", width, height, depth);
+
+	printf("Color type: %d\nColor channels: %d\nBits per channel: %d\n", colorChannelDataType, numberColorChannels, bitsPerChannel);
+
+	if (bitsPerIndex != 8)
+	{
+		std::cout << "invalid palette setting\n";
+		return; // TODO: err
+	}
+
+	uint32_t sizecubed = width * height * depth;
+
+	std::vector<uint8_t> blocks;
+	blocks.resize(sizecubed);
+	Blocks.resize(sizecubed);
+
+	file.read((char*)blocks.data(), sizecubed);
+
+	Size = glm::ivec3(width, height, depth);
+
+	for (int32_t x = 0; x < Size.x; x++)
+	{
+		for (int32_t y = 0; y < Size.y; y++)
+		{
+			for (int32_t z = 0; z < Size.z; z++)
+			{
+				glm::ivec3 sizeconv(Size.x, Size.z, Size.y);
+				uint32_t index2 = indexget(x, z, y, sizeconv);
+
+				uint32_t index = indexget(x, y, z, Size);
+
+				uint8_t type = blocks[index2];
+				Blocks[index].Active = type > 0;
+			}
+		}
+	}
+
+	if (colorChannelDataType != 0 ||
+		numberColorChannels != 4 ||
+		bitsPerChannel != 8)
+	{
+		std::cout << "invalid color params\n";
+		return; // TODO: err
+	}
+
+	std::vector<uint32_t> palette;
+	palette.resize(256 * numberColorChannels);
+
+	file.read((char*)palette.data(), 256 * numberColorChannels);
+
+	for (int32_t i = 0; i < 255 * numberColorChannels; i += 4)
+	{
+		tempPalette.push_back(palette[i]);
+		tempPalette.push_back(palette[i + 1]);
+		tempPalette.push_back(palette[i + 2]);
+		tempPalette.push_back(palette[i + 4]);
+	}
+}
+
 void VoxelMesh::GenChunksGreedy(int cnumthreads)
 {
 	//for (VoxelChunk& Chunk : Chunks)

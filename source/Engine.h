@@ -84,6 +84,7 @@ public:
 
 	UniformBuffer* cameraUB;
 	UniformBuffer* voxelUB;
+	UniformBuffer* mengerUB;
 
 	std::vector<VoxelMesh*> meshii;
 	VoxelMesh* currentvm = nullptr;

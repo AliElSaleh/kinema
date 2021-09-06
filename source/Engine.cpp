@@ -260,7 +260,25 @@ Engine::Engine()
 	device->CheckErrorTemp();
 
 
-	//vm = VoxelMap();
+	// menger
+	VoxelMesh* menger = new VoxelMesh();
+	menger->LoadXRAW("menger.xraw");
+
+	menger->InitChunks();
+
+	menger->pos = glm::vec3(9.6f, 0, -9.6f);
+
+	VoxelMesh* xrcube = new VoxelMesh();
+	xrcube->LoadXRAW("cube.xraw");
+
+	xrcube->InitChunks();
+
+	xrcube->pos = glm::vec3(-9.6f, 0, -9.6f);
+
+	//mengerUB = new UniformBuffer(this, menger->tempPalette.data(), menger->tempPalette.size());
+	//litShader->SetUniformBuffer("voxel", mengerUB);
+
+	// map
 	VoxelMesh* vm = new VoxelMesh();
 	vm->LoadFromFile("test.map");
 	//vm->GenerateWave(2048, 64, 2048);
@@ -268,6 +286,8 @@ Engine::Engine()
 	vm->InitChunks();
 
 	meshii.push_back(vm);
+	meshii.push_back(menger);
+	meshii.push_back(xrcube);
 	currentvm = vm;
 
 	VoxelMesh* num2 = new VoxelMesh();

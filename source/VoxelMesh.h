@@ -65,10 +65,13 @@ public:
 	glm::ivec3 ChunkSize;
 	glm::ivec3 Size;
 
+	std::vector<float> tempPalette;
+
 	Block& GetBlock(int32_t x, int32_t y, int32_t z);
 	Block& GetBlock(const glm::ivec3& coordinates);
 
 	void LoadFromFile(const char* fileName);
+	void LoadXRAW(const char* fileName);
 	void GenerateWave(int x, int y, int z);
 	void InitChunks();
 
