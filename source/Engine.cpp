@@ -122,6 +122,24 @@ static physx::PxPhysics* physics = nullptr;
 
 Engine::Engine()
 {
+	int norm = 7;
+	int x = 127;
+	int y = 53;
+	int z = 95;
+	int color = 0;
+	uint32_t xx = ((x & 127) | (y & 127) << 7 | (z & 127) << 14 | (color & 255) << 21 | (norm & 7) << 29);
+	std::cout << xx << "\n";
+	
+	int a = xx & 127;
+	int b = xx >> 7 & 127;
+	int c = xx >> 14 & 127;
+	int d = xx >> 21 & 255;
+	int e = xx >> 29 & 7;
+
+	printf("%d %d %d %d %d\n", a, b, c, d, e);
+
+
+
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
 	// temp physx init
@@ -181,7 +199,23 @@ Engine::Engine()
 	camData.Projection = camera.GetProjection();
 	camData.View = camera.GetView();
 
-	ub = new UniformBuffer(this, &camData, sizeof(camData));
+	cameraUB = new UniformBuffer(this, &camData, sizeof(camData));
+
+	// vec3s are secretly vec4/16 bytes in glsl?
+	static glm::vec4 palette[256] = {
+		glm::vec4(255, 0, 0, 0),
+		glm::vec4(63, 55, 55, 0),
+		glm::vec4(33, 33, 38, 0),
+		glm::vec4(255, 255, 0, 0),
+		glm::vec4(181, 161, 159, 0),
+		glm::vec4(64, 0, 0, 0),
+		glm::vec4(137, 131, 97, 0),
+		glm::vec4(255, 255, 255, 0),
+		glm::vec4(255, 0, 110, 0),
+		glm::vec4(81, 124, 0, 0)
+	};
+
+	voxelUB = new UniformBuffer(this, &palette, sizeof(glm::vec4) * 256);
 
 	colorShader = Shader::FromSource(this,
 		File::ReadAllText("shaders/vertColor.vert").data(),
@@ -192,9 +226,13 @@ Engine::Engine()
 		File::ReadAllText("shaders/test.frag").data());
 
 	colorShader->SetMatrix("model", glm::mat4(1.0f));
-	colorShader->SetUniformBuffer("camera", ub);
+	colorShader->SetUniformBuffer("camera", cameraUB);
 
-	db = new DebugRenderer(ub);
+	// litShader camera???
+	litShader->SetUniformBuffer("camera", cameraUB);
+	litShader->SetUniformBuffer("voxel", voxelUB);
+
+	db = new DebugRenderer(cameraUB);
 
 	device->CheckErrorTemp();
 
@@ -423,7 +461,7 @@ void Engine::Update()
 	camdat.View = camera.GetView();
 	camdat.Projection = camera.GetProjection();
 
-	ub->SetData(&camdat, 0, sizeof(camdat));
+	cameraUB->SetData(&camdat, 0, sizeof(camdat));
 }
 
 bool showDemoWindow = false;

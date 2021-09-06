@@ -111,7 +111,7 @@ void Shader::SetUniformBuffer(const char* name, UniformBuffer* value)
 	if (location != -1)
 	{
 		glUseProgram(ShaderProgram);
-		glUniformBlockBinding(ShaderProgram, location, 0); // TODO: 0 = uniformbuffer id
+		glUniformBlockBinding(ShaderProgram, location, value->index); // TODO: 0 = uniformbuffer id
 	}
 	else
 	{

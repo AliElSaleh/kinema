@@ -153,17 +153,6 @@ void VoxelMesh::LoadFromFile(const char* fileName)
 					Blocks[index].Type = 9;
 				else
 					Blocks[index].Type = type;
-				//if (type > 0)
-				//{
-				//	if (type > 7)
-				//	{
-				//		Blocks[index].Color = glm::ivec3(81, 124, 0);
-				//	}
-				//	else
-				//	{
-				//		Blocks[index].Color = colorPalette[type];
-				//	}
-				//}
 			}
 		}
 	}

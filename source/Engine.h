@@ -66,7 +66,8 @@ public:
 
 	VertexBuffer* cubeVB;
 
-	UniformBuffer* ub;
+	UniformBuffer* cameraUB;
+	UniformBuffer* voxelUB;
 
 	std::vector<VoxelMesh*> meshii;
 	VoxelMesh* currentvm = nullptr;

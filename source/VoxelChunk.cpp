@@ -97,11 +97,6 @@ Block& VoxelChunk::GetBlockLocal(glm::ivec3 coord)
 
 void VoxelChunk::DrawChunkBoundary(Device* device, DebugRenderer* db, glm::mat4 t)
 {
-	//voxmat = glm::scale(voxmat, glm::vec3(0.1f, 0.1f, 0.1f));
-	//voxmat = glm::translate(voxmat, (glm::vec3)(Chunk.loc * ChunkSize));
-
-	//voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
-
 	glm::vec3 start = (glm::vec3)loc * (glm::vec3)Dimensions * 0.1f;
 	glm::vec3 ext = (glm::vec3)Dimensions * BLOCK_SIZE;
 
@@ -109,9 +104,6 @@ void VoxelChunk::DrawChunkBoundary(Device* device, DebugRenderer* db, glm::mat4 
 	newstart = t * newstart;
 
 	start = newstart;
-
-	//start += glm::vec3(0, 0, 32.0f * 0.1f);
-	//ext *= 0.1f;
 
 	glm::vec3 color(1.0f);
 	if (ready)
@@ -141,7 +133,6 @@ void VoxelChunk::Update()
 
 	vertices.clear();
 	normals.clear();
-	//colors.clear();
 	types.clear();
 	indices.clear();
 
@@ -275,7 +266,6 @@ void VoxelChunk::Update()
 						static int triangleIndices[6] = { 0, 1, 2, 2, 3, 0 };
 
 						uint8_t blockSide = blockFaceMask[maskIndex].Side;
-						//glm::ivec3 blockColor = blockFaceMask[maskIndex].Color;
 						uint8_t blockType = blockFaceMask[maskIndex].Type;
 
 						for (int32_t vertexIndex = 0; vertexIndex < 4; ++vertexIndex)
@@ -288,7 +278,6 @@ void VoxelChunk::Update()
 
 							vertices.push_back(vertexPosition * BLOCK_SIZE);
 							normals.push_back(BlockForwardVectors[blockSide]);
-							//colors.push_back(blockColor);
 							types.push_back(blockType);
 						}
 
@@ -339,6 +328,7 @@ void VoxelChunk::cleardata()
 
 void VoxelChunk::Update_Upload()
 {
+	// TODO: fix this nonsense
 	if (VB)
 	{
 		delete VB;
@@ -374,7 +364,6 @@ void VoxelChunk::Update_Upload()
 			{ AttributeType::FLOAT, 3, 7 * sizeof(float), 0 },
 			{ AttributeType::FLOAT, 3, 7 * sizeof(float), 3 * sizeof(float) },
 			{ AttributeType::FLOAT, 1, 7 * sizeof(float), 6 * sizeof(float) }
-			//{ AttributeType::FLOAT, 3, 9 * sizeof(float), 6 * sizeof(float) }
 		}, BufferUsage::Dynamic);
 	IB = new IndexBuffer(indices.data(), indices.size() * sizeof(uint32_t), BufferUsage::Dynamic);
 

@@ -5,6 +5,8 @@
 class UniformBuffer
 {
 public:
+	int index;
+
 	UniformBuffer(class Engine* device, const void* data, uint32_t size);
 	~UniformBuffer();
 
