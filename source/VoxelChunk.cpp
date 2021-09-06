@@ -1,9 +1,12 @@
 #include "VoxelChunk.h"
 
+#include "Engine.h"
+
 VoxelChunk::VoxelChunk()
 {
 	VB = nullptr;
 	IB = nullptr;
+	rigidbody = nullptr;
 
 	Dimensions = glm::ivec3(0, 0, 0);
 }
@@ -133,6 +136,8 @@ void VoxelChunk::Update()
 
 	vertices.clear();
 	indices.clear();
+
+	verticesCollision.clear();
 
 	glm::ivec3 blockPosition(0, 0, 0);
 	glm::ivec3 blockOffset(0, 0, 0);
@@ -274,6 +279,10 @@ void VoxelChunk::Update()
 							vertexPosition[vAxis] *= faceHeight;
 							vertexPosition += blockPosition; // TODO::!!!! check
 
+							verticesCollision.push_back(vertexPosition.x * BLOCK_SIZE);
+							verticesCollision.push_back(vertexPosition.y * BLOCK_SIZE);
+							verticesCollision.push_back(vertexPosition.z * BLOCK_SIZE);
+
 							int xpos = vertexPosition.x;
 							int ypos = vertexPosition.y;
 							int zpos = vertexPosition.z;
@@ -345,6 +354,12 @@ void VoxelChunk::Update_Upload()
 		IB = nullptr;
 	}
 
+	if (rigidbody)
+	{
+		rigidbody->release();
+		rigidbody = nullptr;
+	}
+
 	VB = new VertexBuffer(vertices.data(), vertices.size() * sizeof(uint32_t),
 		{
 			{ AttributeType::UnsignedInt, 1, 1 * sizeof(uint32_t)}
@@ -352,6 +367,41 @@ void VoxelChunk::Update_Upload()
 	IB = new IndexBuffer(indices.data(), indices.size() * sizeof(uint32_t), BufferUsage::Dynamic);
 
 	temp_indices_count = indices.size();
+
+	if (indices.size() <= 0)
+		return; // TODO: do this for above as well
+
+	// Physics
+	PxTriangleMeshDesc meshDesc;
+	meshDesc.points.count = verticesCollision.size() / 3;
+	meshDesc.points.stride = sizeof(float) * 3;
+	meshDesc.points.data = verticesCollision.data();
+
+	meshDesc.triangles.count = indices.size() / 3;
+	meshDesc.triangles.stride = 3 * sizeof(uint32_t);
+	meshDesc.triangles.data = indices.data();
+
+	// TODO: debug only
+	bool validation = cooking->validateTriangleMesh(meshDesc);
+	PX_ASSERT(validation);
+
+	PxTriangleMesh* triangleMesh = cooking->createTriangleMesh(meshDesc, physics->getPhysicsInsertionCallback());
+
+	glm::vec3 position = (glm::vec3)loc * 32.0f * BLOCK_SIZE;
+	PxVec3 pxPos(position.x, position.y, position.z);
+
+	rigidbody = physics->createRigidStatic(PxTransform(pxPos));
+
+	auto meshgeo = PxTriangleMeshGeometry(triangleMesh);
+
+	PxShape* shape = physics->createShape(meshgeo, *material);
+
+	rigidbody->attachShape(*shape);
+
+	scene->addActor(*rigidbody);
+
+	shape->release();
+	triangleMesh->release();
 }
 
 

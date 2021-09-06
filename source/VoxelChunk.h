@@ -11,6 +11,9 @@
 #include "DebugRenderer.h"
 #include "Voxel.h"
 
+#include "PhysX/PxPhysicsAPI.h"
+using namespace physx;
+
 class VoxelChunk
 {
 public:
@@ -20,6 +23,7 @@ public:
 	std::vector<Block> Blocks;
 
 	std::vector<uint32_t> vertices;
+	std::vector<float> verticesCollision;
 	std::vector<uint32_t> indices;
 
 	glm::ivec3 Dimensions;
@@ -27,6 +31,8 @@ public:
 
 	VertexBuffer* VB;
 	IndexBuffer* IB;
+
+	PxRigidStatic* rigidbody;
 
 	uint32_t temp_indices_count = 0;
 

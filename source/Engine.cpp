@@ -24,7 +24,6 @@
 
 #include <sstream>
 
-#include "PhysX/PxPhysicsAPI.h"
 
 void pvec3(glm::vec3 vec)
 {
@@ -106,23 +105,21 @@ struct teststruct
 static physx::PxDefaultAllocator physAllocator;
 static physx::PxDefaultErrorCallback physErrCallback;
 
-static physx::PxFoundation* foundation = nullptr;
+physx::PxFoundation* foundation = nullptr;
 
-static physx::PxPhysics* physics = nullptr;
+physx::PxPhysics* physics = nullptr;
 
-static physx::PxCooking* cooking = nullptr;
+physx::PxCooking* cooking = nullptr;
 
-static physx::PxDefaultCpuDispatcher* dispatcher = nullptr;
+physx::PxDefaultCpuDispatcher* dispatcher = nullptr;
 
-static physx::PxScene* scene = nullptr;
+physx::PxScene* scene = nullptr;
 
-static physx::PxMaterial* material = nullptr;
+physx::PxMaterial* material = nullptr;
 
-static std::vector<physx::PxRigidActor*> actors;
+std::vector<physx::PxRigidActor*> actors;
 
-using namespace physx;
-
-static PxShape* shape = nullptr;
+extern PxShape* shape = nullptr;
 
 void createCubePhys(PxTransform t)
 {
@@ -153,7 +150,11 @@ Engine::Engine()
 		return;
 	}
 
-	cooking = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, physx::PxCookingParams(scale));
+	PxCookingParams cookingps(scale);
+	cookingps.meshPreprocessParams |= PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH;
+	cookingps.meshPreprocessParams |= PxMeshPreprocessingFlag::eDISABLE_ACTIVE_EDGES_PRECOMPUTE;
+	//cookingps.midphaseDesc.mBVH33Desc // TODO: ?? eCOOKING_PERFORMANCE
+	cooking = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, cookingps);
 	if (!cooking)
 	{
 		std::cout << "Failed to init physx cooking\n";
@@ -637,7 +638,8 @@ void Engine::Render()
 			ImGui::Checkbox("Simulate", &simulatePhysics);
 			if (ImGui::Button("Add cube"))
 			{
-				createCubePhys(PxTransform(PxVec3(0, 8.0f, 0)));
+				glm::vec3 result = camera.GetPosition() + camera.GetForward() * 4.0f;
+				createCubePhys(PxTransform(PxVec3(result.x, result.y, result.z)));
 			}
 
 			ImGui::End();

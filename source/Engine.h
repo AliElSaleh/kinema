@@ -14,6 +14,7 @@
 #include "VoxelMesh.h"
 #include "DebugRenderer.h"
 #include <thread>
+#include "PhysX/PxPhysicsAPI.h"
 
 struct CameraData
 {
@@ -29,6 +30,26 @@ struct templine
 	int32_t ticksleft;
 };
 
+using namespace physx;
+
+
+
+extern physx::PxFoundation* foundation;
+
+extern physx::PxPhysics* physics;
+
+extern physx::PxCooking* cooking;
+
+extern physx::PxDefaultCpuDispatcher* dispatcher;
+
+extern physx::PxScene* scene;
+
+extern physx::PxMaterial* material;
+
+extern std::vector<physx::PxRigidActor*> actors;
+
+
+extern PxShape* shape;
 
 class Engine
 {
