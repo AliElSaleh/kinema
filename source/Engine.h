@@ -58,13 +58,8 @@ public:
 	Shader* colorShader;
 	Shader* litShader;
 
-	VertexBuffer* squareVB;
-	IndexBuffer* squareIB;
-
-	VertexBuffer* triangleVB;
-	IndexBuffer* triangleIB;
-
 	VertexBuffer* cubeVB;
+	IndexBuffer* cubeIB;
 
 	UniformBuffer* cameraUB;
 	UniformBuffer* voxelUB;

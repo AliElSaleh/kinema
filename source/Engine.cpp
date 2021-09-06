@@ -8,6 +8,7 @@
 #include "Camera.h"
 
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
@@ -57,47 +58,36 @@ float triangleVertices[] =
 uint32_t triangleIndices[] = { 0, 1, 2 };
 
 float cubeVertices[] = {
-	 -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-	  0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-	  0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-	  0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-	 -0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-	 -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+	-0.5, -0.5,  0.5, 0, 0, 1,
+	 0.5, -0.5,  0.5, 0, 1, 0,
+	 0.5,  0.5,  0.5, 0, 1, 1,
+	-0.5,  0.5,  0.5, 1, 0, 0,
+	// back
+	-0.5, -0.5, -0.5, 1, 0, 1,
+	 0.5, -0.5, -0.5, 1, 1, 0,
+	 0.5,  0.5, -0.5, 1, 1, 1,
+	-0.5,  0.5, -0.5, 0, 0, 1
+};
 
-	 -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-
-	 -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-
-	  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-
-	 -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-
-	 -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f,
-	 -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f
+uint32_t cubeIndices[] = {
+	// front
+	0, 1, 2,
+	2, 3, 0,
+	// right
+	1, 5, 6,
+	6, 2, 1,
+	// back
+	7, 6, 5,
+	5, 4, 7,
+	// left
+	4, 0, 3,
+	3, 7, 4,
+	// bottom
+	4, 5, 1,
+	1, 0, 4,
+	// top
+	3, 2, 6,
+	6, 7, 3
 };
 
 struct teststruct
@@ -120,6 +110,29 @@ static physx::PxFoundation* foundation = nullptr;
 
 static physx::PxPhysics* physics = nullptr;
 
+static physx::PxCooking* cooking = nullptr;
+
+static physx::PxDefaultCpuDispatcher* dispatcher = nullptr;
+
+static physx::PxScene* scene = nullptr;
+
+static physx::PxMaterial* material = nullptr;
+
+static std::vector<physx::PxRigidActor*> actors;
+
+using namespace physx;
+
+static PxShape* shape = nullptr;
+
+void createCubePhys(PxTransform t)
+{
+	PxRigidDynamic* body = physics->createRigidDynamic(t);
+	body->attachShape(*shape);
+	PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+	scene->addActor(*body);
+	actors.push_back(body);
+}
+
 Engine::Engine()
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
@@ -132,14 +145,53 @@ Engine::Engine()
 		return;
 	}
 
-	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale(), true, nullptr);
+	physx::PxTolerancesScale scale;
+	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, scale, true, nullptr);
 	if (!physics)
 	{
 		std::cout << "PhysX physics engine failed to init\n";
 		return;
 	}
 
+	cooking = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, physx::PxCookingParams(scale));
+	if (!cooking)
+	{
+		std::cout << "Failed to init physx cooking\n";
+		return;
+	}
 	
+	PxSceneDesc sceneDesc(physics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	dispatcher = PxDefaultCpuDispatcherCreate(2);
+	sceneDesc.cpuDispatcher = dispatcher;
+	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	scene = physics->createScene(sceneDesc);
+
+	material = physics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	PxRigidStatic* ground = PxCreatePlane(*physics, PxPlane(0, 1, 0, 0), *material);
+	scene->addActor(*ground);
+
+	{
+		//PxShape* shape = physics->createShape(PxBoxGeometry(0.5f, 0.5f, 0.5f), *material);
+		shape = physics->createShape(PxBoxGeometry(0.5f, 0.5f, 0.5f), *material);
+
+		uint32_t count = 3;
+		static PxTransform transforms[] =
+		{
+			PxTransform(PxVec3(-0.75f, 5.0f, 0.0f)),
+			PxTransform(PxVec3(0.75f, 5.0f, 0.0f)),
+			PxTransform(PxVec3(0.0f, 7.0f, 0.0f))
+		};
+
+		for (int i = 0; i < count; i++)
+		{
+			createCubePhys(transforms[i]);
+		}
+
+		//shape->release();
+	}
+
 	//
 
 	Window = SDL_CreateWindow(
@@ -150,25 +202,13 @@ Engine::Engine()
 
 	device = new Device(Window);
 
-	squareVB = new VertexBuffer(squareVertices, sizeof(squareVertices),
-		{
-			{ AttributeType::Float, 3, 3 * sizeof(float), 0 }
-		}, BufferUsage::Static);
-
-	squareIB = new IndexBuffer(squareIndices, sizeof(squareIndices), BufferUsage::Static);
-
-	triangleVB = new VertexBuffer(triangleVertices, sizeof(triangleVertices),
-		{
-			{ AttributeType::Float, 2, 5 * sizeof(float), 0 },
-			{ AttributeType::Float, 3, 5 * sizeof(float), 2 * sizeof(float) }
-		}, BufferUsage::Static);
-	triangleIB = new IndexBuffer(triangleIndices, sizeof(triangleIndices), BufferUsage::Static);
-
 	cubeVB = new VertexBuffer(cubeVertices, sizeof(cubeVertices),
 		{
 			{ AttributeType::Float, 3, 6 * sizeof(float), 0 },
 			{ AttributeType::Float, 3, 6 * sizeof(float), 3 * sizeof(float) }
 		}, BufferUsage::Static);
+
+	cubeIB = new IndexBuffer(cubeIndices, sizeof(cubeIndices), BufferUsage::Static);
 
 	camera.SetPosition(glm::vec3(0, 0, 5));
 	std::cout << camera.GetForward().x << " " << camera.GetForward().y << " " << camera.GetForward().z << "\n";
@@ -276,9 +316,22 @@ float minspd = 0.001f;
 float maxspd = .25f;
 float movspeed = 0.01f * 5.0f;
 
+static bool simulatePhysics = false;
+
 bool capd = false;
 void Engine::Update()
 {
+	// physics!
+	if (simulatePhysics)
+	{
+		scene->simulate(1.0f / 144.0f);
+		scene->fetchResults(true);
+	}
+
+	//
+
+
+
 	const float mousesense = 0.04f;
 
 	SDL_Event event;
@@ -578,7 +631,16 @@ void Engine::Render()
 		}
 
 		{
-			//ImGui::SetNextWindowSize(ImVec2(0, 0));
+			ImGui::SetNextWindowSize(ImVec2(0, 0));
+			ImGui::Begin("Physics");
+
+			ImGui::Checkbox("Simulate", &simulatePhysics);
+			if (ImGui::Button("Add cube"))
+			{
+				createCubePhys(PxTransform(PxVec3(0, 8.0f, 0)));
+			}
+
+			ImGui::End();
 		}
 
 	}
@@ -666,6 +728,24 @@ void Engine::Render()
 
 		vm->RenderChunks(device, litShader);
 	}
+
+	// Physics render test
+	for (PxRigidActor* actor : actors)
+	{
+		PxTransform t = actor->getGlobalPose();
+		PxMat44 mat = PxMat44(t);
+
+		glm::mat4 gmat = glm::make_mat4(mat.front());
+
+		colorShader->SetMatrix("model", gmat);
+
+		//colorShader->SetMatrix("model",
+
+		device->Draw(cubeVB, cubeIB, 36);
+	}
+
+
+	//
 
 	glm::vec3 zero(0.0f);
 	glm::vec3 xvec(1, 0, 0);

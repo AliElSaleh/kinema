@@ -25,17 +25,6 @@ Block& VoxelMesh::GetBlock(const glm::ivec3& coordinates)
 	return GetBlock(coordinates.x, coordinates.y, coordinates.z);
 }
 
-//glm::ivec3 colorPalette[] = {
-//	glm::ivec3(255, 0, 0),
-//	glm::ivec3(63, 55, 55),
-//	glm::ivec3(33, 33, 38),
-//	glm::ivec3(255, 255, 0),
-//	glm::ivec3(181, 161, 159),
-//	glm::ivec3(64, 0, 0),
-//	glm::ivec3(137, 131, 97),
-//	glm::ivec3(255, 255, 255)
-//};
-
 void VoxelMesh::GenerateWave(int x, int y, int z)
 {
 	Size = glm::ivec3(x, y, z);
