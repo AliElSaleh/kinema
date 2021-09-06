@@ -14,7 +14,7 @@ constexpr GLenum GetUsage(BufferUsage hint)
 	}
 }
 
-VertexBuffer::VertexBuffer(const float* data, uint32_t size, std::vector<VertexAttribute> attributes, BufferUsage hint)
+VertexBuffer::VertexBuffer(const void* data, uint32_t size, std::vector<VertexAttribute> attributes, BufferUsage hint)
 {
 	glGenBuffers(1, &BufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, BufferObject);
@@ -29,7 +29,7 @@ VertexBuffer::~VertexBuffer()
 	glDeleteBuffers(1, &BufferObject);
 }
 
-void VertexBuffer::SetData(const float* data, uint32_t size, uint32_t offset)
+void VertexBuffer::SetData(const void* data, uint32_t size, uint32_t offset)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, BufferObject);
 	glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);

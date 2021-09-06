@@ -134,6 +134,7 @@ void VoxelChunk::Update()
 	vertices.clear();
 	normals.clear();
 	types.clear();
+	newverts.clear();
 	indices.clear();
 
 	glm::ivec3 blockPosition(0, 0, 0);
@@ -279,6 +280,37 @@ void VoxelChunk::Update()
 							vertices.push_back(vertexPosition * BLOCK_SIZE);
 							normals.push_back(BlockForwardVectors[blockSide]);
 							types.push_back(blockType);
+
+							// new test
+
+							//int norm = 7;
+							//int x = 127;
+							//int y = 53;
+							//int z = 95;
+							//int color = 0;
+							//uint32_t xx = ((x & 127) | (y & 127) << 7 | (z & 127) << 14 | (color & 255) << 21 | (norm & 7) << 29);
+
+							//int a = xx & 127;
+							//int b = xx >> 7 & 127;
+							//int c = xx >> 14 & 127;
+							//int d = xx >> 21 & 255;
+							//int e = xx >> 29 & 7;
+
+							int xpos = vertexPosition.x;
+							int ypos = vertexPosition.y;
+							int zpos = vertexPosition.z;
+							int norm = blockSide;
+							int color = blockType;
+
+							uint32_t vertex = ((xpos & 127) | (ypos & 127) << 7 | (zpos & 127) << 14 |
+								(norm & 7) << 21 | (color & 255) << 24);
+
+							//float newmem = *reinterpret_cast<float*>(&vertex);
+							float newmem;
+							assert(sizeof(newmem) == sizeof(vertex));
+							memcpy(&newmem, &vertex, sizeof(float));
+
+							newverts.push_back(newmem);
 						}
 
 						indices.push_back(0 + indexOffset);
@@ -356,14 +388,15 @@ void VoxelChunk::Update_Upload()
 		//pushvector(vbdata, colors[blockno] / 255.0f);
 		pushvector(vbdata, normals[blockno]);
 		vbdata.push_back(types[blockno]);
-
+		vbdata.push_back(newverts[blockno]);
 	}
 
 	VB = new VertexBuffer(vbdata.data(), vbdata.size() * sizeof(float),
 		{
-			{ AttributeType::FLOAT, 3, 7 * sizeof(float), 0 },
-			{ AttributeType::FLOAT, 3, 7 * sizeof(float), 3 * sizeof(float) },
-			{ AttributeType::FLOAT, 1, 7 * sizeof(float), 6 * sizeof(float) }
+			{ AttributeType::Float, 3, 8 * sizeof(float), 0 },
+			{ AttributeType::Float, 3, 8 * sizeof(float), 3 * sizeof(float) },
+			{ AttributeType::Float, 1, 8 * sizeof(float), 6 * sizeof(float) },
+			{ AttributeType::UnsignedInt, 1, 8 * sizeof(float), 7 * sizeof(float) },
 		}, BufferUsage::Dynamic);
 	IB = new IndexBuffer(indices.data(), indices.size() * sizeof(uint32_t), BufferUsage::Dynamic);
 

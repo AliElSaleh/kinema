@@ -96,13 +96,29 @@ void Device::SetupVertexAttributes(const std::vector<VertexAttribute>& attribute
 	uint32_t attributeNumber = 0;
 	for (const VertexAttribute& attribute : attributes)
 	{
-		glVertexAttribPointer(
-			attributeNumber,
-			attribute.Count,
-			GL_FLOAT,
-			GL_FALSE,
-			attribute.Stride,
-			(void*)uintptr_t(attribute.Offset));
+		GLenum type = GL_FLOAT;
+		if (attribute.Type == AttributeType::Float) type = GL_FLOAT;
+		else if (attribute.Type == AttributeType::UnsignedInt) type = GL_UNSIGNED_INT;
+
+		if (attribute.Type != AttributeType::UnsignedInt)
+		{
+			glVertexAttribPointer(
+				attributeNumber,
+				attribute.Count,
+				type,
+				GL_FALSE,
+				attribute.Stride,
+				(void*)uintptr_t(attribute.Offset));
+		}
+		else
+		{
+			glVertexAttribIPointer(
+				attributeNumber,
+				attribute.Count,
+				type,
+				attribute.Stride,
+				(void*)uintptr_t(attribute.Offset));
+		}
 
 		glEnableVertexAttribArray(attributeNumber);
 		//std::cout << attributeNumber << " enabled!\n";

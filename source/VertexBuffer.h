@@ -5,7 +5,8 @@
 
 enum class AttributeType : uint32_t
 {
-	FLOAT
+	Float,
+	UnsignedInt
 };
 
 enum class BufferUsage : uint32_t
@@ -25,10 +26,10 @@ struct VertexAttribute
 class VertexBuffer
 {
 public:
-	VertexBuffer(const float* data, uint32_t size, std::vector<VertexAttribute> attributes, BufferUsage hint);
+	VertexBuffer(const void* data, uint32_t size, std::vector<VertexAttribute> attributes, BufferUsage hint);
 	~VertexBuffer();
 
-	void SetData(const float* data, uint32_t size, uint32_t offset);
+	void SetData(const void* data, uint32_t size, uint32_t offset);
 
 private:
 public:

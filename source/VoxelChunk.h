@@ -22,6 +22,7 @@ public:
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normals;
 	std::vector<float> types;
+	std::vector<float> newverts;
 	std::vector<uint32_t> indices;
 
 	glm::ivec3 Dimensions;

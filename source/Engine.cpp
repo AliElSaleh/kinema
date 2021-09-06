@@ -130,11 +130,13 @@ Engine::Engine()
 	uint32_t xx = ((x & 127) | (y & 127) << 7 | (z & 127) << 14 | (color & 255) << 21 | (norm & 7) << 29);
 	std::cout << xx << "\n";
 	
+	xx = 134217856;
+
 	int a = xx & 127;
 	int b = xx >> 7 & 127;
 	int c = xx >> 14 & 127;
-	int d = xx >> 21 & 255;
-	int e = xx >> 29 & 7;
+	int e = xx >> 21 & 7;
+	int d = xx >> 24 & 255;
 
 	printf("%d %d %d %d %d\n", a, b, c, d, e);
 
@@ -170,22 +172,22 @@ Engine::Engine()
 
 	squareVB = new VertexBuffer(squareVertices, sizeof(squareVertices),
 		{
-			{ AttributeType::FLOAT, 3, 3 * sizeof(float), 0 }
+			{ AttributeType::Float, 3, 3 * sizeof(float), 0 }
 		}, BufferUsage::Static);
 
 	squareIB = new IndexBuffer(squareIndices, sizeof(squareIndices), BufferUsage::Static);
 
 	triangleVB = new VertexBuffer(triangleVertices, sizeof(triangleVertices),
 		{
-			{ AttributeType::FLOAT, 2, 5 * sizeof(float), 0 },
-			{ AttributeType::FLOAT, 3, 5 * sizeof(float), 2 * sizeof(float) }
+			{ AttributeType::Float, 2, 5 * sizeof(float), 0 },
+			{ AttributeType::Float, 3, 5 * sizeof(float), 2 * sizeof(float) }
 		}, BufferUsage::Static);
 	triangleIB = new IndexBuffer(triangleIndices, sizeof(triangleIndices), BufferUsage::Static);
 
 	cubeVB = new VertexBuffer(cubeVertices, sizeof(cubeVertices),
 		{
-			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 0 },
-			{ AttributeType::FLOAT, 3, 6 * sizeof(float), 3 * sizeof(float) }
+			{ AttributeType::Float, 3, 6 * sizeof(float), 0 },
+			{ AttributeType::Float, 3, 6 * sizeof(float), 3 * sizeof(float) }
 		}, BufferUsage::Static);
 
 	camera.SetPosition(glm::vec3(0, 0, 5));
