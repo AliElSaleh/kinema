@@ -400,13 +400,11 @@ void Engine::Update()
 				Block b;
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
-					b.Active = false;
 					b.Type = 0;
 					//b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
 				}
 				else if (event.button.button == SDL_BUTTON_RIGHT)
 				{
-					b.Active = true;
 					b.Type = 8;
 					//b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
 				}

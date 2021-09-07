@@ -39,7 +39,6 @@ void VoxelMesh::GenerateWave(int x, int y, int z)
 			for (int zp = 0; zp < z; zp++)
 			{
 				Block nb;
-				nb.Active = true;
 
 				int type = ((float)yp / (float)y) * 10; // 10 is current palette size
 				if (type > 255) type = 255;
@@ -50,7 +49,7 @@ void VoxelMesh::GenerateWave(int x, int y, int z)
 				lol *= (float)y;
 
 				if (yp > (int)lol)
-					nb.Active = false;
+					nb.Type = 0;
 
 				//nb.Color = IntVector(128, 48, 48);
 
@@ -131,7 +130,6 @@ void VoxelMesh::LoadFromFile(const char* fileName)
 				uint32_t index = indexget(x, y, z, Size);
 
 				uint8_t type = blockdata[index2];
-				Blocks[index].Active = type > 0;
 
 				if (type > 7)
 					Blocks[index].Type = 9;
@@ -143,7 +141,6 @@ void VoxelMesh::LoadFromFile(const char* fileName)
 
 	Block endblock;
 	endblock.Type = 8;
-	endblock.Active = true;
 
 	Blocks[indexget(0, 0, 0, Size)] = endblock;
 	Blocks[indexget(Size.x - 1, 0, 0, Size)] = endblock;
@@ -186,7 +183,7 @@ void VoxelMesh::LoadXRAW(const char* fileName)
 
 	printf("\nXRAW with dims %d %d %d\n", width, height, depth);
 
-	printf("Color type: %d\nColor channels: %d\nBits per channel: %d\n\n", colorChannelDataType, numberColorChannels, bitsPerChannel);
+	printf("Color type: %d\nColor channels: %d\nBits per channel: %d\nBits per index: %d\n\n", colorChannelDataType, numberColorChannels, bitsPerChannel, bitsPerIndex);
 
 	if (bitsPerIndex != 8)
 	{
@@ -216,7 +213,10 @@ void VoxelMesh::LoadXRAW(const char* fileName)
 				uint32_t index = indexget(x, y, z, Size);
 
 				uint8_t type = blocks[index2];
-				Blocks[index].Active = type > 0;
+				Blocks[index].Type = type;
+
+				if (Blocks[index].Type >= 10)
+					Blocks[index].Type = 9; // TODO: REMOVE
 			}
 		}
 	}
@@ -431,29 +431,29 @@ void VoxelMesh::GenChunksCulled()
 		{
 			for (int32_t z = 0; z < dimensions.z; z++)
 			{
-				if (!GetBlock(x, y, z).Active)
+				if (!GetBlock(x, y, z).Active())
 					continue;
 
 				bool positiveX = true;
 				if (x < ChunkSize.x - 1)
-					positiveX = !GetBlock(x + 1, y, z).Active;
+					positiveX = !GetBlock(x + 1, y, z).Active();
 				bool negativeX = true;
 				if (x > 0)
-					negativeX = !GetBlock(x - 1, y, z).Active;
+					negativeX = !GetBlock(x - 1, y, z).Active();
 
 				bool positiveY = true;
 				if (y < ChunkSize.y - 1)
-					positiveY = !GetBlock(x, y + 1, z).Active;
+					positiveY = !GetBlock(x, y + 1, z).Active();
 				bool negativeY = true;
 				if (y > 0)
-					negativeY = !GetBlock(x, y - 1, z).Active;
+					negativeY = !GetBlock(x, y - 1, z).Active();
 
 				bool positiveZ = true;
 				if (z < ChunkSize.z - 1)
-					positiveZ = !GetBlock(x, y, z + 1).Active;
+					positiveZ = !GetBlock(x, y, z + 1).Active();
 				bool negativeZ = true;
 				if (z > 0)
-					negativeZ = !GetBlock(x, y, z - 1).Active;
+					negativeZ = !GetBlock(x, y, z - 1).Active();
 
 
 				// ... proc generate
@@ -489,9 +489,9 @@ glm::vec3 intbound(glm::vec3 left, glm::vec3 right)
 
 bool VoxelMesh::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, Block block)
 {
-	if (GetBlock_Chunked(copy).Active)
+	if (GetBlock_Chunked(copy).Active())
 	{
-		if (block.Active)
+		if (block.Active())
 			copy += face;
 
 		GetBlock_Chunked(copy) = block;

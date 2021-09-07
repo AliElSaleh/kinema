@@ -6,14 +6,16 @@ const float BLOCK_SIZE = 0.1f;
 
 struct Block
 {
-	bool Active;
-
 	uint8_t Type;
 
 	Block()
 	{
-		Active = false;
 		Type = 0;
+	}
+
+	inline bool Active() // TODO: remove? using this to ez replace old logic using the Active field
+	{
+		return Type > 0;
 	}
 
 	static Block Default;

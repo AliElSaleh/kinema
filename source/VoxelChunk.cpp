@@ -63,7 +63,7 @@ inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_
 
 	BlockFace face;
 	face.Side = side;
-	face.Culled = !block.Active;
+	face.Culled = !block.Active();
 	face.Type = block.Type;
 
 	if (!face.Culled)
@@ -71,7 +71,7 @@ inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_
 		glm::ivec3 adjacentCoordinate = GetAdjacentCoordinate(inCoordinate, side);
 		uint8_t adjacentBlockType = GetBlockLocal(adjacentCoordinate).Type;
 
-		if (GetBlockLocal(adjacentCoordinate).Active != 0)
+		if (GetBlockLocal(adjacentCoordinate).Active() != 0)
 		{
 			face.Culled = true;
 		}
