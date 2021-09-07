@@ -184,9 +184,9 @@ void VoxelMesh::LoadXRAW(const char* fileName)
 	file.read((char*)&depth, 4);
 	file.read((char*)&paletteSize, 4);
 
-	printf("XRAW with dims %d %d %d\n", width, height, depth);
+	printf("\nXRAW with dims %d %d %d\n", width, height, depth);
 
-	printf("Color type: %d\nColor channels: %d\nBits per channel: %d\n", colorChannelDataType, numberColorChannels, bitsPerChannel);
+	printf("Color type: %d\nColor channels: %d\nBits per channel: %d\n\n", colorChannelDataType, numberColorChannels, bitsPerChannel);
 
 	if (bitsPerIndex != 8)
 	{

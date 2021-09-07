@@ -10,8 +10,29 @@ source_group(TREE ${CMAKE_SOURCE_DIR}/source FILES ${KINEMA_FILES})
 
 add_executable(${PROJECT_NAME} ${KINEMA_FILES})
 
-target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty/binaries)
-target_link_libraries(${PROJECT_NAME} SDL2 SDL2main PhysX_64 PhysXCommon_64 PhysXFoundation_64 PhysXCooking_64 PhysXExtensions_static_64)
+#target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty/binaries)
+#target_link_libraries(${PROJECT_NAME} SDL2 SDL2main
+#    debug debug/PhysX_64 debug/PhysXCommon_64 debug/PhysXFoundation_64 debug/PhysXCooking_64 debug/PhysXExtensions_static_64
+#    optimized PhysX_64 PhysXCommon_64 PhysXFoundation_64 PhysXCooking_64 PhysXExtensions_static_64)
+
+find_package(SDL2 REQUIRED)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main)
+
+# PhysX Libraries
+target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty/vcpkg/packages/physx_x64-windows)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    debug debug/lib/PhysX_64
+    debug debug/lib/PhysXCommon_64
+    debug debug/lib/PhysXFoundation_64
+    debug debug/lib/PhysXCooking_64
+    debug debug/lib/PhysXExtensions_static_64
+    optimized lib/PhysX_64
+    optimized lib/PhysXCommon_64
+    optimized lib/PhysXFoundation_64
+    optimized lib/PhysXCooking_64
+    optimized lib/PhysXExtensions_static_64)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty/vcpkg/packages/physx_x64-windows/include)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty)
 

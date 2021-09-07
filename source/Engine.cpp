@@ -261,14 +261,14 @@ Engine::Engine()
 
 
 	// menger
-	VoxelMesh* menger = new VoxelMesh();
+	VoxelMesh* menger = new VoxelMesh("menger");
 	menger->LoadXRAW("menger.xraw");
 
 	menger->InitChunks();
 
 	menger->pos = glm::vec3(9.6f, 0, -9.6f);
 
-	VoxelMesh* xrcube = new VoxelMesh();
+	VoxelMesh* xrcube = new VoxelMesh("cube");
 	xrcube->LoadXRAW("cube.xraw");
 
 	xrcube->InitChunks();
@@ -279,7 +279,7 @@ Engine::Engine()
 	//litShader->SetUniformBuffer("voxel", mengerUB);
 
 	// map
-	VoxelMesh* vm = new VoxelMesh();
+	VoxelMesh* vm = new VoxelMesh("test");
 	vm->LoadFromFile("test.map");
 	//vm->GenerateWave(2048, 64, 2048);
 
@@ -290,11 +290,11 @@ Engine::Engine()
 	meshii.push_back(xrcube);
 	currentvm = vm;
 
-	VoxelMesh* num2 = new VoxelMesh();
-	num2->GenerateWave(64, 16, 64);
+	VoxelMesh* wave = new VoxelMesh("wave");
+	wave->GenerateWave(64, 16, 64);
 
-	num2->InitChunks();
-	meshii.push_back(num2);
+	wave->InitChunks();
+	meshii.push_back(wave);
 
 	// imgui
 	ImGui::CreateContext();
@@ -304,6 +304,8 @@ Engine::Engine()
 
 	ImGui_ImplSDL2_InitForOpenGL(Window, device->Context);
 	ImGui_ImplOpenGL3_Init("#version 330");
+
+	f = 0.0;
 
 	Running = true;
 	while (Running)
@@ -575,7 +577,7 @@ void Engine::Render()
 					s << "VoxelMesh #" << n;
 
 					const bool is_selected = currentSelection == n;
-					if (ImGui::Selectable(s.str().c_str(), is_selected))
+					if (ImGui::Selectable(meshii[n]->Name.c_str(), is_selected))
 					{
 						currentSelection = n;
 						currentvm = meshii[n];

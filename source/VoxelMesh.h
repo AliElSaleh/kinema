@@ -4,6 +4,7 @@
 #include <vector>
 #include <thread>
 #include <iostream>
+#include <string>
 
 #include "DebugRenderer.h"
 #include "VoxelChunk.h"
@@ -41,7 +42,9 @@ struct ChunkGenThreadObj
 class VoxelMesh
 {
 public:
-	VoxelMesh() {}
+	VoxelMesh(std::string name) { Name = name; }
+
+	std::string Name;
 
 	DebugRenderer* tempdb;
 

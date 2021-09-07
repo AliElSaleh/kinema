@@ -1,1 +1,1 @@
-cmake -B build
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="thirdparty/vcpkg/scripts/buildsystems/vcpkg.cmake"

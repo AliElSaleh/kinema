@@ -14,7 +14,7 @@
 #include "VoxelMesh.h"
 #include "DebugRenderer.h"
 #include <thread>
-#include "PhysX/PxPhysicsAPI.h"
+#include "PxPhysicsAPI.h"
 
 struct CameraData
 {

@@ -1,0 +1,2 @@
+SDL2:x64-windows
+physx:x64-windows

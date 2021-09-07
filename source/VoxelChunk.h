@@ -11,7 +11,7 @@
 #include "DebugRenderer.h"
 #include "Voxel.h"
 
-#include "PhysX/PxPhysicsAPI.h"
+#include "PxPhysicsAPI.h"
 using namespace physx;
 
 class VoxelChunk

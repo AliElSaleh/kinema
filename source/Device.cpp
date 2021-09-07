@@ -34,7 +34,7 @@ Device::Device(SDL_Window* window)
 	//glEnable(GL_FRAMEBUFFER_SRGB);
 	glEnable(GL_DEPTH_TEST);
 
-	float gray = 1.0f / 255.0f;
+	float gray = 4.0f / 255.0f;
 	glClearColor(gray, gray, gray, 1.0f);
 
 	// No default VAO in core profile
