@@ -6,7 +6,6 @@ VoxelChunk::VoxelChunk()
 {
 	VB = nullptr;
 	IB = nullptr;
-	rigidbody = nullptr;
 
 	Dimensions = glm::ivec3(0, 0, 0);
 }
@@ -354,11 +353,11 @@ void VoxelChunk::Update_Upload()
 		IB = nullptr;
 	}
 
-	if (rigidbody)
-	{
-		rigidbody->release();
-		rigidbody = nullptr;
-	}
+	//if (rigidbody)
+	//{
+	//	rigidbody->release();
+	//	rigidbody = nullptr;
+	//}
 
 	VB = new VertexBuffer(vertices.data(), vertices.size() * sizeof(uint32_t),
 		{
@@ -372,36 +371,83 @@ void VoxelChunk::Update_Upload()
 		return; // TODO: do this for above as well
 
 	// Physics
-	PxTriangleMeshDesc meshDesc;
-	meshDesc.points.count = verticesCollision.size() / 3;
-	meshDesc.points.stride = sizeof(float) * 3;
-	meshDesc.points.data = verticesCollision.data();
+	if (ParentMesh->IsStatic)
+	{
+		PxTriangleMeshDesc meshDesc;
+		meshDesc.points.count = verticesCollision.size() / 3;
+		meshDesc.points.stride = sizeof(float) * 3;
+		meshDesc.points.data = verticesCollision.data();
 
-	meshDesc.triangles.count = indices.size() / 3;
-	meshDesc.triangles.stride = 3 * sizeof(uint32_t);
-	meshDesc.triangles.data = indices.data();
+		meshDesc.triangles.count = indices.size() / 3;
+		meshDesc.triangles.stride = 3 * sizeof(uint32_t);
+		meshDesc.triangles.data = indices.data();
 
-	// TODO: debug only
-	bool validation = cooking->validateTriangleMesh(meshDesc);
-	PX_ASSERT(validation);
+		// TODO: debug only
+		bool validation = cooking->validateTriangleMesh(meshDesc);
+		PX_ASSERT(validation);
 
-	PxTriangleMesh* triangleMesh = cooking->createTriangleMesh(meshDesc, physics->getPhysicsInsertionCallback());
+		PxTriangleMesh* triangleMesh = cooking->createTriangleMesh(meshDesc, physics->getPhysicsInsertionCallback());
 
-	glm::vec3 position = (glm::vec3)loc * 32.0f * BLOCK_SIZE;
-	PxVec3 pxPos(position.x, position.y, position.z);
+		glm::vec3 position = (glm::vec3)loc * 32.0f * BLOCK_SIZE;
+		PxVec3 pxPos(position.x, position.y, position.z);
 
-	rigidbody = physics->createRigidStatic(PxTransform(pxPos));
+		//rigidbody = physics->createRigidStatic(PxTransform(pxPos));
 
-	auto meshgeo = PxTriangleMeshGeometry(triangleMesh);
+		auto meshgeo = PxTriangleMeshGeometry(triangleMesh);
 
-	PxShape* shape = physics->createShape(meshgeo, *material);
+		PxShape* shape = physics->createShape(meshgeo, *material);
+		shape->setLocalPose(PxTransform(pxPos));
 
-	rigidbody->attachShape(*shape);
+		ParentMesh->rigidbody->attachShape(*shape);
 
-	scene->addActor(*rigidbody);
+		//scene->addActor(*rigidbody);
 
-	shape->release();
-	triangleMesh->release();
+		shape->release();
+		triangleMesh->release();
+	}
+	else
+	{
+		PxCookingParams params = cooking->getParams();
+		params.convexMeshCookingType = PxConvexMeshCookingType::eQUICKHULL;
+		params.gaussMapLimit = 16;
+		cooking->setParams(params);
+
+		PxConvexMeshDesc convexDesc;
+		convexDesc.flags = PxConvexFlag::eCOMPUTE_CONVEX;
+
+		convexDesc.points.count = verticesCollision.size() / 3;
+		convexDesc.points.stride = sizeof(float) * 3;
+		convexDesc.points.data = verticesCollision.data();
+
+		convexDesc.indices.count = indices.size() / 3;
+		convexDesc.indices.stride = 3 * sizeof(uint32_t);
+		convexDesc.indices.data = indices.data();
+
+		//bool validation = cooking->validateConvexMesh(convexDesc);
+		//PX_ASSERT(validation);
+
+		PxConvexMesh* convexMesh = cooking->createConvexMesh(convexDesc, physics->getPhysicsInsertionCallback());
+
+		printf("Convex mesh with points %d", convexMesh->getNbVertices());
+
+		glm::vec3 position = (glm::vec3)loc * 32.0f * BLOCK_SIZE;
+		PxVec3 pxPos(position.x, position.y, position.z);
+
+		auto meshgeo = PxConvexMeshGeometry(convexMesh);
+
+		PxShape* shape = physics->createShape(meshgeo, *material);
+		shape->setLocalPose(PxTransform(pxPos));
+
+		ParentMesh->rigidbody->attachShape(*shape);
+
+		PxRigidBodyExt::updateMassAndInertia(*((PxRigidBody*)ParentMesh->rigidbody), 10.0f);
+
+		//scene->addActor(*rigidbody);
+
+		shape->release();
+		convexMesh->release();
+		std::cout << "convex mesh created\n";
+	}
 }
 
 

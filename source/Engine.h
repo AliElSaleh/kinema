@@ -48,9 +48,6 @@ extern physx::PxMaterial* material;
 
 extern std::vector<physx::PxRigidActor*> actors;
 
-
-extern PxShape* shape;
-
 class Engine
 {
 public:

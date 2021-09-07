@@ -42,9 +42,14 @@ struct ChunkGenThreadObj
 class VoxelMesh
 {
 public:
-	VoxelMesh(std::string name) { Name = name; }
+	VoxelMesh(std::string name, bool isstatic = true);
 
 	std::string Name;
+	bool IsStatic;
+
+	void startNonStaticSim();
+
+	PxRigidActor* rigidbody;
 
 	DebugRenderer* tempdb;
 
@@ -57,9 +62,14 @@ public:
 	int endtime = 0;
 	int lasttime = 0;
 
-	glm::vec3 pos = glm::vec3(0);
-	glm::mat4 maptransform;
-	glm::mat4 maprot;
+	//glm::vec3 pos = glm::vec3(0);
+	//glm::mat4 maptransform;
+	//glm::mat4 maprot;
+
+	glm::vec3 GetPosition() const;
+	void SetPosition(glm::vec3 pos);
+
+	glm::mat4 GetTransform() const;
 
 	std::vector<VoxelChunk> Chunks;
 	glm::ivec3 ChunkDims;

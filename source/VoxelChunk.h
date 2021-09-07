@@ -32,7 +32,7 @@ public:
 	VertexBuffer* VB;
 	IndexBuffer* IB;
 
-	PxRigidStatic* rigidbody;
+	class VoxelMesh* ParentMesh;
 
 	uint32_t temp_indices_count = 0;
 

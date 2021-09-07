@@ -4,8 +4,11 @@
 
 #include "SDL2/SDL.h"
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #include "MemoryStream.h"
+
+#include "Engine.h"
 
 Block& VoxelMesh::GetBlock(int32_t x, int32_t y, int32_t z)
 {
@@ -23,6 +26,66 @@ Block& VoxelMesh::GetBlock(int32_t x, int32_t y, int32_t z)
 Block& VoxelMesh::GetBlock(const glm::ivec3& coordinates)
 {
 	return GetBlock(coordinates.x, coordinates.y, coordinates.z);
+}
+
+VoxelMesh::VoxelMesh(std::string name, bool isstatic)
+{
+	Name = name;
+
+	IsStatic = isstatic;
+
+	if (isstatic)
+	{
+		rigidbody = physics->createRigidStatic(PxTransform(0, 0, 0));
+	}
+	else
+	{
+		PxRigidDynamic* rb = physics->createRigidDynamic(PxTransform(0, 0, 0));
+		//rb->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+		rigidbody = rb;
+	}
+	scene->addActor(*rigidbody);
+}
+
+void VoxelMesh::startNonStaticSim()
+{
+	PxRigidDynamic* rb = dynamic_cast<PxRigidDynamic*>(rigidbody);
+	if (!rb)
+	{
+		std::cout << "Invalid object to start non static sim on\n";
+		return;
+	}
+
+	//rb->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, false);
+}
+
+glm::vec3 VoxelMesh::GetPosition() const
+{
+	PxTransform t = rigidbody->getGlobalPose();
+	PxVec3 pxpos = t.p;
+
+	glm::vec3 pos(pxpos.x, pxpos.y, pxpos.z);
+	return pos;
+}
+
+void VoxelMesh::SetPosition(glm::vec3 position)
+{
+	PxTransform t = rigidbody->getGlobalPose();
+
+	PxVec3 pxpos(position.x, position.y, position.z);
+	t.p = pxpos;
+
+	rigidbody->setGlobalPose(t);
+}
+
+glm::mat4 VoxelMesh::GetTransform() const
+{
+	PxTransform t = rigidbody->getGlobalPose();
+	PxMat44 pmat = PxMat44(t);
+
+	glm::mat4 mat = glm::make_mat4(pmat.front());
+	return mat;
 }
 
 void VoxelMesh::GenerateWave(int x, int y, int z)
@@ -75,6 +138,8 @@ void VoxelMesh::InitChunks()
 	{
 		Chunk.Blocks.resize(ChunkSize.x * ChunkSize.y * ChunkSize.z);
 		Chunk.Dimensions = ChunkSize;
+
+		Chunk.ParentMesh = this;
 	}
 
 	for (int32_t x = 0; x < Size.x; x++)
@@ -187,7 +252,7 @@ void VoxelMesh::LoadXRAW(const char* fileName)
 
 	if (bitsPerIndex != 8)
 	{
-		std::cout << "invalid palette setting\n";
+		std::cout << "invalid index setting\n";
 		return; // TODO: err
 	}
 
@@ -343,7 +408,7 @@ void VoxelMesh::RenderChunks(Device* device, Shader* shader)
 
 		glm::mat4 voxmat(1.0f);
 
-		voxmat *= maptransform;
+		voxmat *= GetTransform();
 		voxmat = glm::translate(voxmat, (glm::vec3)((glm::vec3)Chunk.loc * (glm::vec3)ChunkSize * BLOCK_SIZE));
 
 		//voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
@@ -503,14 +568,14 @@ bool VoxelMesh::callback(glm::ivec3 copy, glm::ivec3 face, glm::vec3 direction, 
 
 void VoxelMesh::Raycast(glm::vec3 position, glm::vec3 direction, float radius, Block block)
 {
-	glm::vec4 newpos = glm::inverse(maptransform) * glm::vec4(position, 1.0f);
+	glm::vec4 newpos = glm::inverse(GetTransform()) * glm::vec4(position, 1.0f);
 	position = newpos;
 	position = position * newpos.w;
 
 	position /= BLOCK_SIZE;
 
 	//direction = glm::inverse(maprot) * glm::vec4(direction, 1.0f);
-	direction = glm::inverse(glm::mat3(maptransform)) * direction; // epic
+	direction = glm::inverse(glm::mat3(GetTransform())) * direction; // epic
 
 
 	glm::ivec3 intPosition = glm::floor(position);

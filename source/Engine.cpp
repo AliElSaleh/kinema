@@ -119,7 +119,7 @@ physx::PxMaterial* material = nullptr;
 
 std::vector<physx::PxRigidActor*> actors;
 
-extern PxShape* shape = nullptr;
+PxShape* shape = nullptr;
 
 void createCubePhys(PxTransform t)
 {
@@ -180,9 +180,9 @@ Engine::Engine()
 		uint32_t count = 3;
 		static PxTransform transforms[] =
 		{
-			PxTransform(PxVec3(-0.75f, 5.0f, 0.0f)),
-			PxTransform(PxVec3(0.75f, 5.0f, 0.0f)),
-			PxTransform(PxVec3(0.0f, 7.0f, 0.0f))
+			PxTransform(PxVec3(-0.75f, 5.0f, -1.0f)),
+			PxTransform(PxVec3(0.75f, 5.0f, -1.0f)),
+			PxTransform(PxVec3(0.0f, 7.0f, -1.0f))
 		};
 
 		for (int i = 0; i < count; i++)
@@ -266,14 +266,14 @@ Engine::Engine()
 
 	menger->InitChunks();
 
-	menger->pos = glm::vec3(9.6f, 0, -9.6f);
+	menger->SetPosition(glm::vec3(9.6f, 0, -9.6f));
 
 	VoxelMesh* xrcube = new VoxelMesh("cube");
 	xrcube->LoadXRAW("cube.xraw");
 
 	xrcube->InitChunks();
 
-	xrcube->pos = glm::vec3(-9.6f, 0, -9.6f);
+	xrcube->SetPosition(glm::vec3(-9.6f, 0, -9.6f));
 
 	//mengerUB = new UniformBuffer(this, menger->tempPalette.data(), menger->tempPalette.size());
 	//litShader->SetUniformBuffer("voxel", mengerUB);
@@ -585,11 +585,12 @@ void Engine::Render()
 				ImGui::EndListBox();
 			}
 
+			glm::vec3 vmpos = currentvm->GetPosition();
 			float voxpos[3] =
 			{
-				currentvm->pos.x,
-				currentvm->pos.y,
-				currentvm->pos.z
+				vmpos.x,
+				vmpos.y,
+				vmpos.z
 			};
 
 			ImGui::InputFloat3("Position", voxpos);
@@ -622,6 +623,20 @@ void Engine::Render()
 
 				}
 			}
+			if (ImGui::Button("Add voxel object"))
+			{
+				VoxelMesh* newmesh = new VoxelMesh("newMesh", false);
+				newmesh->LoadXRAW("axis.xraw");
+				newmesh->InitChunks();
+
+				newmesh->SetPosition(camera.GetPosition() + camera.GetForward() * 4.0f);
+
+				meshii.push_back(newmesh);
+			}
+			if (ImGui::Button("Start sim for object"))
+			{
+				currentvm->startNonStaticSim();
+			}
 
 			//if (ImGui::Button("Save"))
 			//{
@@ -637,7 +652,9 @@ void Engine::Render()
 			if (currentvm)
 			{
 				glm::vec3 pos(voxpos[0], voxpos[1], voxpos[2]);
-				currentvm->pos = pos;
+
+				//currentvm->pos = pos;
+				currentvm->SetPosition(pos);
 			}
 		}
 
@@ -733,7 +750,7 @@ void Engine::Render()
 		for (VoxelChunk& ch : currentvm->Chunks)
 		{
 			// TODO: this doesnt respect transformations with rotation (debug box assumes orientation)
-			ch.DrawChunkBoundary(device, db, currentvm->maptransform);
+			ch.DrawChunkBoundary(device, db, currentvm->GetTransform());
 		}
 	}
 
@@ -744,9 +761,9 @@ void Engine::Render()
 	{
 		vm->tempdb = db;
 		//vr.Render(device);
-		vm->maptransform = glm::mat4(1.0f);
-		vm->maptransform = glm::translate(vm->maptransform, vm->pos);
-		vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
+		//vm->maptransform = glm::mat4(1.0f);
+		//vm->maptransform = glm::translate(vm->maptransform, vm->pos);
+		//vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
 
 		vm->RenderChunks(device, litShader);
 	}
