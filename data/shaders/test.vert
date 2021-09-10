@@ -5,6 +5,8 @@ out vec3 iColor;
 out vec3 iNormal;
 out vec3 fragpos;
 
+out uint pal;
+
 layout(std140) uniform camera
 {
 	uniform mat4 projection;
@@ -43,6 +45,8 @@ void main()
 
 	uint type = vertex >> 24u & 255u;
 	iColor = palette[type] / 255.0;
+
+	pal = type;
 
 	fragpos = vec3(model * vec4(nposition, 1.0));
 

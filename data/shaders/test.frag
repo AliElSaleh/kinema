@@ -21,4 +21,6 @@ void main()
 
     color = vec4(diffuse * iColor + ambient, 1.0);
     color.rgb = pow(color.rgb, vec3(1.0 / 2.2));
+
+    //color.rgb = iColor;
 }

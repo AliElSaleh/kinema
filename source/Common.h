@@ -1,14 +1,39 @@
 #pragma once
 
 #include <cstdint>
-#include "glm/vec3.hpp"
+#include <cstdio>
+#include <cassert>
 
-typedef uint8_t uint8;
-typedef uint16_t uint16;
-typedef uint32_t uint32;
-typedef uint64_t uint64;
+#define KINEMA_LOG(category, format, args) \
+{ \
+	std::printf(category); \
+	std::printf(format, args); \
+	std::printf("\n"); \
+} \
 
-typedef int8_t int8;
-typedef int16_t int16;
-typedef int32_t int32;
-typedef int64_t int64;
+namespace Log
+{
+	template <typename... Args>
+	inline void Print(char* format, Args... args)
+	{
+		std::printf(format, args...);
+	}
+
+	template <typename... Args>
+	inline void Info(char* format, Args... args)
+	{
+		KINEMA_LOG("[INFO] ", format, args...);
+	}
+
+	template <typename... Args>
+	inline void Warning(char* format, Args... args)
+	{
+		KINEMA_LOG("[WARNING] ", format, args...);
+	}
+
+	template <typename... Args>
+	inline void Error(char* format, Args... args)
+	{
+		KINEMA_LOG("[ERROR] ", format, args...);
+	}
+};

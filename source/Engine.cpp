@@ -23,7 +23,208 @@
 #include "MemoryStream.h"
 
 #include <sstream>
+#include <fstream>
 
+#include "Common.h"
+
+#define OGT_VOX_IMPLEMENTATION
+#include "opengametools/ogt_vox.h"
+
+void Engine::LoadVox(const char* fileName)
+{
+	std::vector<uint8_t> bytes = File::ReadAllBytes(fileName);
+
+	const ogt_vox_scene* scene = ogt_vox_read_scene(bytes.data(), bytes.size());
+
+	std::vector<float> paletteAsFloat;
+	for (int i = 0; i < 256; i++)
+	{
+		paletteAsFloat.push_back(scene->palette.color[i].r);
+		paletteAsFloat.push_back(scene->palette.color[i].g);
+		paletteAsFloat.push_back(scene->palette.color[i].b);
+		paletteAsFloat.push_back(scene->palette.color[i].a);
+	}
+
+	UniformBuffer* ub = new UniformBuffer(this, paletteAsFloat.data(), paletteAsFloat.size() * sizeof(float));
+
+	for (int instance = 0; instance < scene->num_instances; instance++)
+	{
+		std::string name = std::to_string(instance);
+		VoxelMesh* mesh = new VoxelMesh(name);
+
+		const ogt_vox_instance* inst = &scene->instances[instance];
+		const ogt_vox_model* vxMdl = scene->models[inst->model_index];
+
+		//if (vxMdl->size_x != vxMdl->size_y ||
+		//	vxMdl->size_x != vxMdl->size_z)
+		//	continue;
+
+		mesh->FromData(vxMdl->voxel_data, vxMdl->size_x, vxMdl->size_y, vxMdl->size_z);
+		mesh->palette = ub;
+
+		mesh->InitChunks();
+
+		glm::mat4 glt = glm::make_mat4((float*)(&inst->transform));
+
+		//glm::mat4 zu2yu = glm::mat4(
+		//	glm::vec4(-1, 0, 0, 0),
+		//	glm::vec4(0, 0, -1, 0),
+		//	glm::vec4(0, 1, 0, 0),
+		//	glm::vec4(0, 0, 0, 1));
+		glm::mat4 xrot = glm::rotate(glm::mat4(1.0f), glm::radians(00.0f), glm::vec3(1, 0, 0));
+		glm::mat4 zrot = glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), glm::vec3(0, 0, 1));
+		glm::mat4 xscl = glm::scale(glm::mat4(1.0f), glm::vec3(1, 1, 1));
+		glm::mat4 zu2yu = (xrot * zrot) * xscl;
+
+		//glt = zu2yu * glt;
+
+		//glt = glm::inverse(glt);
+
+		//glt = glm::mat4(1.0f);
+
+		//float y = glt[3][1];
+		//glt[3][1] = glt[3][2];
+		//glt[3][2] = y;
+		//float nyyy = glt[1][1];
+		//glt[1][1] = glt[2][2];
+		//glt[2][2] = nyyy;
+
+		//glt = glm::rotate(glt, glm::radians(-90.0f), glm::vec3(1, 0, 0));
+
+		//if (inst->group_index > 0)
+		//{
+		//	std::cout << "group index ! " << inst->group_index;
+		//	glm::mat4 grpt = glm::make_mat4((float*)(&scene->groups[inst->group_index].transform));
+		//	glt *= grpt;
+		//}
+
+		//mesh->SetTransform(glt);
+
+		glm::vec3 cpos = glm::vec3(inst->transform.m30, inst->transform.m31, inst->transform.m32);
+		//glm::vec3 cpos = mesh->GetPosition();
+		//glm::vec3 cpos(glt[3][0], glt[3][1], glt[3][2]);
+
+		//printf("cpos %f %f %f\n", cpos.x, cpos.y, cpos.z);
+		cpos *= 0.1f;
+
+		glm::vec3 vsize(vxMdl->size_x, vxMdl->size_y, vxMdl->size_z);
+		vsize *= 0.1f;
+		vsize /= 2.0f;
+
+		cpos -= vsize;
+
+		float nn = cpos.y;
+		cpos.x = -cpos.x;
+		cpos.y = cpos.z;
+		cpos.z = nn;
+
+
+		glt[3][0] = cpos.x;
+		glt[3][1] = cpos.y;
+		glt[3][2] = cpos.z;
+		//mesh->SetPosition(cpos);
+		mesh->SetTransform(glt);
+
+		meshii.push_back(mesh);
+
+		std::cout << inst->model_index << "  Created vox instance " << name << "\n";
+	}
+	//{
+	//	glm::vec3 off(0.0f);
+	//	for (int model = 0; model < scene->num_models; model++)
+	//	{
+	//		std::string name = std::to_string(model);
+	//		VoxelMesh* mesh = new VoxelMesh(name);
+
+	//		const ogt_vox_model* vxMdl = scene->models[model];
+
+	//		mesh->FromData(vxMdl->voxel_data, vxMdl->size_x, vxMdl->size_y, vxMdl->size_z);
+	//		mesh->palette = ub;
+
+	//		mesh->InitChunks();
+
+	//		mesh->SetPosition(off);
+
+	//		off.x += vxMdl->size_x * 0.1f + 4.0f;
+
+	//		meshii.push_back(mesh);
+	//	}
+	//}
+
+	ogt_vox_destroy_scene(scene);
+
+
+	//std::ifstream file(fileName, std::ios::binary);
+
+	//std::string header;
+	//header.resize(4);
+
+	//int version = 0;
+
+	//file.read((char*)header.data(), 4);
+	//file.read((char*)&version, 4);
+
+	//std::cout << "\nLoading Vox\n";
+	//if (version != 150)
+	//{
+	//	std::cout << "Version mismatch!!!!!!\n";
+	//	return;
+	//}
+
+	//std::cout << header << "\n";
+
+	//std::string mainHeader;
+	//mainHeader.resize(4);
+
+	//int mainContentSize = 0;
+	//int mainChildrenSize = 0;
+
+	//file.read((char*)mainHeader.data(), 4);
+	//file.read((char*)&mainContentSize, 4);
+	//file.read((char*)&mainChildrenSize, 4);
+
+	//std::cout << mainHeader << "\n";
+	//printf("%d %d\n", mainContentSize, mainChildrenSize);
+
+	//std::vector<uint32_t> voxels;
+
+	//while (!file.eof())
+	//{
+	//	std::string header;
+	//	header.resize(4);
+
+	//	int contentSize = 0;
+	//	int childrenSize = 0;
+
+	//	file.read((char*)header.data(), 4);
+	//	file.read((char*)&contentSize, 4);
+	//	file.read((char*)&childrenSize, 4);
+
+	//	std::cout << "\n" << header << "\n";
+	//	printf("%d %d\n", mainContentSize, mainChildrenSize);
+
+	//	if (header == "PACK")
+	//	{
+	//		int numModels = 0;
+	//		file.read((char*)&numModels, 4);
+
+	//		std::cout << "PACK! " << numModels << "\n";
+	//	}
+	//	else
+	//	{
+	//		file.ignore(contentSize);
+	//		file.ignore(childrenSize);
+	//	}
+	//	//else if (header == "SIZE")
+	//	//{
+	//	//}
+	//	//else if (header == "XYZI")
+	//	//{
+	//	//}
+	//}
+
+	//std::cout << "\n";
+}
 
 void pvec3(glm::vec3 vec)
 {
@@ -170,7 +371,7 @@ Engine::Engine()
 
 	material = physics->createMaterial(0.5f, 0.5f, 0.6f);
 
-	PxRigidStatic* ground = PxCreatePlane(*physics, PxPlane(0, 1, 0, 0), *material);
+	PxRigidStatic* ground = PxCreatePlane(*physics, PxPlane(0, 1, 0, 50), *material);
 	scene->addActor(*ground);
 
 	{
@@ -259,6 +460,9 @@ Engine::Engine()
 
 	device->CheckErrorTemp();
 
+	// vox scene
+	//LoadVox("dumpster.vox");
+	LoadVox("alley.vox");
 
 	// menger
 	VoxelMesh* menger = new VoxelMesh("menger");
@@ -284,17 +488,19 @@ Engine::Engine()
 	//vm->GenerateWave(2048, 64, 2048);
 
 	vm->InitChunks();
-
-	meshii.push_back(vm);
-	meshii.push_back(menger);
-	meshii.push_back(xrcube);
 	currentvm = vm;
 
+	// wave
 	VoxelMesh* wave = new VoxelMesh("wave");
 	wave->GenerateWave(64, 16, 64);
 
 	wave->InitChunks();
-	meshii.push_back(wave);
+
+	// add meshes
+	//meshii.push_back(vm);
+	//meshii.push_back(menger);
+	//meshii.push_back(xrcube);
+	//meshii.push_back(wave);
 
 	// imgui
 	ImGui::CreateContext();
@@ -336,7 +542,7 @@ Engine::~Engine()
 }
 
 float minspd = 0.001f;
-float maxspd = .25f;
+float maxspd = 1.0f;
 float movspeed = 0.01f * 5.0f;
 
 static bool simulatePhysics = false;
@@ -621,6 +827,25 @@ void Engine::Render()
 
 					currentvm->GenChunksGreedy(imthr);
 
+				}
+			}
+			if (ImGui::Button("Generate all"))
+			{
+				for (auto* m : meshii)
+				{
+					for (VoxelChunk& chunk : m->Chunks)
+					{
+						chunk.cleardata();
+					}
+
+					m->GenChunksGreedy(imthr);
+				}
+			}
+			if (ImGui::Button("Reset transform"))
+			{
+				if (currentvm)
+				{
+					currentvm->SetTransform(glm::mat4(1.0f));
 				}
 			}
 			if (ImGui::Button("Add voxel object"))

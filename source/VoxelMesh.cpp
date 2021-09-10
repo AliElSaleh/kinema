@@ -88,6 +88,13 @@ glm::mat4 VoxelMesh::GetTransform() const
 	return mat;
 }
 
+void VoxelMesh::SetTransform(glm::mat4 t) const
+{
+	PxTransform pxt(PxMat44(glm::value_ptr(t)));
+
+	rigidbody->setGlobalPose(pxt);
+}
+
 void VoxelMesh::GenerateWave(int x, int y, int z)
 {
 	Size = glm::ivec3(x, y, z);
@@ -308,6 +315,50 @@ void VoxelMesh::LoadXRAW(const char* fileName)
 	}
 }
 
+void VoxelMesh::FromData(const uint8_t* data, uint32_t sizeX, uint32_t sizeY, uint32_t sizeZ)
+{
+	uint32_t sizecubed = sizeX * sizeY * sizeZ;
+
+	Blocks.resize(sizecubed);
+
+	//Size = glm::ivec3(sizeX, sizeY, sizeZ);
+	Size = glm::ivec3(sizeX, sizeZ, sizeY);
+
+	//for (uint32_t i = 0; i < sizecubed; i++)
+	//{
+	//	Blocks[i].Type = data[i];
+
+	//	//if (Blocks[i].Type >= 10)
+	//	//	Blocks[i].Type = 7;
+	//}
+	for (int32_t x = 0; x < Size.x; x++)
+	{
+		for (int32_t y = 0; y < Size.y; y++)
+		{
+			for (int32_t z = 0; z < Size.z; z++)
+			{
+				glm::ivec3 sizeconv(Size.x, Size.z, Size.y);
+				
+				uint32_t index2 = 0;
+				{
+					uint32_t nx = (Size.x - 1 - x);
+
+					index2 = nx + (z * sizeX) + (y * sizeX * sizeY);
+				}
+
+				uint32_t index = indexget(x, y, z, Size);
+
+				//uint8_t type = blocks[index2];
+				uint8_t type = data[index2];
+				Blocks[index].Type = type;
+
+				//if (Blocks[index].Type >= 10)
+				//	Blocks[index].Type = 9; // TODO: REMOVE
+			}
+		}
+	}
+}
+
 void VoxelMesh::GenChunksGreedy(int cnumthreads)
 {
 	//for (VoxelChunk& Chunk : Chunks)
@@ -391,6 +442,11 @@ void VoxelMesh::UploadAllChunks()
 
 void VoxelMesh::RenderChunks(Device* device, Shader* shader)
 {
+	if (palette)
+	{
+		shader->SetUniformBuffer("voxel", palette);
+	}
+
 	for (VoxelChunk& Chunk : Chunks)
 	{
 		if (!Chunk.ready)
@@ -406,9 +462,7 @@ void VoxelMesh::RenderChunks(Device* device, Shader* shader)
 			Chunk.Update_Upload();
 		}
 
-		glm::mat4 voxmat(1.0f);
-
-		voxmat *= GetTransform();
+		glm::mat4 voxmat = GetTransform();
 		voxmat = glm::translate(voxmat, (glm::vec3)((glm::vec3)Chunk.loc * (glm::vec3)ChunkSize * BLOCK_SIZE));
 
 		//voxmat = glm::translate(voxmat, glm::vec3(0, 0, 32.0f));
@@ -519,7 +573,6 @@ void VoxelMesh::GenChunksCulled()
 				bool negativeZ = true;
 				if (z > 0)
 					negativeZ = !GetBlock(x, y, z - 1).Active();
-
 
 				// ... proc generate
 
@@ -644,8 +697,7 @@ void VoxelMesh::Raycast(glm::vec3 position, glm::vec3 direction, float radius, B
 			}
 			else
 			{
-				// Identical to the second case, repeated for simplicity in
-				// the conditionals.
+				// identical to above
 				if (max.z > radius)
 					break;
 				intPosition.z += step.z;

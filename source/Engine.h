@@ -96,4 +96,6 @@ private:
 
 	void Update();
 	void Render();
+
+	void LoadVox(const char* fileName);
 };

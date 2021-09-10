@@ -47,6 +47,8 @@ public:
 	std::string Name;
 	bool IsStatic;
 
+	UniformBuffer* palette = nullptr;
+
 	void startNonStaticSim();
 
 	PxRigidActor* rigidbody;
@@ -70,6 +72,7 @@ public:
 	void SetPosition(glm::vec3 pos);
 
 	glm::mat4 GetTransform() const;
+	void SetTransform(glm::mat4 t) const;
 
 	std::vector<VoxelChunk> Chunks;
 	glm::ivec3 ChunkDims;
@@ -85,6 +88,7 @@ public:
 
 	void LoadFromFile(const char* fileName);
 	void LoadXRAW(const char* fileName);
+	void FromData(const uint8_t* data, uint32_t sizeX, uint32_t sizeY, uint32_t sizeZ);
 	void GenerateWave(int x, int y, int z);
 	void InitChunks();
 
