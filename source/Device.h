@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 #include "SDL2/SDL.h"
 
@@ -23,6 +24,10 @@ public:
 	void DrawLines(VertexBuffer* vertexBuffer, uint32_t count);
 
 	void CheckErrorTemp();
+
+	std::string GetAPIVersion();
+	std::string GetDeviceName();
+	std::string GetDeviceVendor();
 
 public:
 	SDL_GLContext Context;

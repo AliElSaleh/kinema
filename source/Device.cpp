@@ -42,10 +42,24 @@ Device::Device(SDL_Window* window)
 	glBindVertexArray(VertexArrayObject);
 
 	CurrentAttributeCount = 0;
+}
 
-	// temp
-	const GLubyte* strver = glGetString(GL_VERSION);
-	std::cout << strver << "\n";
+std::string Device::GetAPIVersion()
+{
+	const GLubyte* buffer = glGetString(GL_VERSION);
+	return std::string(reinterpret_cast<const char*>(buffer));
+}
+
+std::string Device::GetDeviceName()
+{
+	const GLubyte* buffer = glGetString(GL_RENDERER);
+	return std::string(reinterpret_cast<const char*>(buffer));
+}
+
+std::string Device::GetDeviceVendor()
+{
+	const GLubyte* buffer = glGetString(GL_VENDOR);
+	return std::string(reinterpret_cast<const char*>(buffer));
 }
 
 Device::~Device()

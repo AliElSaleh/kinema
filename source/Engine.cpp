@@ -404,6 +404,11 @@ Engine::Engine()
 
 	device = new Device(Window);
 
+	Log::Info("{}", device->GetDeviceVendor().c_str());
+	Log::Info("{}", device->GetDeviceName().c_str());
+	Log::Info("{}", device->GetAPIVersion().c_str());
+
+
 	cubeVB = new VertexBuffer(cubeVertices, sizeof(cubeVertices),
 		{
 			{ AttributeType::Float, 3, 6 * sizeof(float), 0 },
@@ -558,8 +563,6 @@ void Engine::Update()
 	}
 
 	//
-
-
 
 	const float mousesense = 0.04f;
 
@@ -903,6 +906,45 @@ void Engine::Render()
 				glm::vec3 result = camera.GetPosition() + camera.GetForward() * 4.0f;
 				createCubePhys(PxTransform(PxVec3(result.x, result.y, result.z)));
 			}
+
+			ImGui::End();
+		}
+
+		{
+			ImGui::SetNextWindowSize(ImVec2(480, 640), ImGuiCond_FirstUseEver);
+			ImGui::Begin("Console");
+
+			ImGui::BeginChild("scrolling", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
+
+			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
+
+			ImGuiListClipper clipper;
+			clipper.Begin(Log::Lines.size());
+			for (std::string line : Log::Lines)
+			{
+				ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+				if (line.find("[INFO]") != std::string::npos) {}
+				else if (line.find("[WARNING]") != std::string::npos) color = ImVec4(1.0f, 0.4f, 0.0f, 1.0f);
+				else if (line.find("[ERROR]") != std::string::npos) color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+				ImGui::PushStyleColor(ImGuiCol_Text, color);
+
+				ImGui::TextUnformatted(line.c_str());
+
+				ImGui::PopStyleColor();
+			}
+			clipper.End();
+
+			ImGui::PopStyleVar();
+
+			ImGui::EndChild();
+			//ImGui::Separator();
+
+			//static char ibuf[256];
+			//ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
+			//if (ImGui::InputText("Input", ibuf, 256))
+			//{
+			//}
 
 			ImGui::End();
 		}

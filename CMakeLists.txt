@@ -16,8 +16,10 @@ add_executable(${PROJECT_NAME} ${KINEMA_FILES})
 #    optimized PhysX_64 PhysXCommon_64 PhysXFoundation_64 PhysXCooking_64 PhysXExtensions_static_64)
 
 find_package(SDL2 REQUIRED)
+find_package(fmt REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
 
 # PhysX Libraries
 target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/thirdparty/vcpkg/packages/physx_x64-windows)
