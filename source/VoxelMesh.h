@@ -83,8 +83,8 @@ public:
 
 	std::vector<float> tempPalette;
 
-	Block& GetBlock(int32_t x, int32_t y, int32_t z);
-	Block& GetBlock(const glm::ivec3& coordinates);
+	Block GetBlock(int32_t x, int32_t y, int32_t z);
+	Block GetBlock(const glm::ivec3& coordinates);
 
 	void LoadFromFile(const char* fileName);
 	void LoadXRAW(const char* fileName);

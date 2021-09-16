@@ -5,4 +5,4 @@
 // compression via zlib
 // palettes for memory save
 
-Block Block::Default = Block();
+//Block Block::Default = Block();

@@ -333,7 +333,12 @@ void createCubePhys(PxTransform t)
 
 Engine::Engine()
 {
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+	// gonna move this
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
+	{
+		Log::Error("SDL2 failed to initialize");
+		std::exit(1);
+	}
 
 	// temp physx init
 	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, physAllocator, physErrCallback);
@@ -418,13 +423,8 @@ Engine::Engine()
 	cubeIB = new IndexBuffer(cubeIndices, sizeof(cubeIndices), BufferUsage::Static);
 
 	camera.SetPosition(glm::vec3(0, 0, 5));
-	std::cout << camera.GetForward().x << " " << camera.GetForward().y << " " << camera.GetForward().z << "\n";
-	//currentPos = glm::vec3(0, 0, 5);
-	//currentFwd = glm::vec3(0, 0, -1);
 
 	CameraData camData;
-	//camData.Projection = glm::perspective(glm::radians(75.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-	//camData.View = glm::lookAt(currentPos, glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
 	camData.Projection = camera.GetProjection();
 	camData.View = camera.GetView();
 
@@ -610,12 +610,10 @@ void Engine::Update()
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
 					b.Type = 0;
-					//b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
 				}
 				else if (event.button.button == SDL_BUTTON_RIGHT)
 				{
 					b.Type = 8;
-					//b.Color = glm::vec3(255.0f, 0.0f, 110.0f);
 				}
 
 				for (VoxelMesh* vm : meshii)
@@ -623,9 +621,6 @@ void Engine::Update()
 					vm->Raycast(start, dir, radius, b);
 				}
 
-				//db->DrawLine(device, start, start + dir * 5.0f, glm::vec3(1.0f, 0.0f, 1.0f));
-
-				//vm->Raycast();
 			}
 			break;
 		case SDL_MOUSEMOTION:
@@ -662,7 +657,7 @@ void Engine::Update()
 		t.ticksleft -= 1;
 		if (t.ticksleft < 1)
 		{
-			templines.erase(templines.begin()); // wont work for different times tho lol
+			templines.erase(templines.begin()); // TODO: wont work for different times tho lol
 		}
 		else
 		{
@@ -670,11 +665,13 @@ void Engine::Update()
 		}
 	}
 
-	// clamp pitch, mod yaw
+	// clamp pitch
 	if (pitch > 89.0f)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
 		pitch = -89.0f;
+
+	// TODO: mod yaw
 
 	glm::vec3 currentPos = camera.GetPosition();
 	glm::vec3 currentFwd = camera.GetForward();
@@ -919,8 +916,8 @@ void Engine::Render()
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
 
 			ImGuiListClipper clipper;
-			clipper.Begin(Log::Lines.size());
-			for (std::string line : Log::Lines)
+			clipper.Begin(Log::GetLog().size());
+			for (std::string line : Log::GetLog())
 			{
 				ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 				if (line.find("[INFO]") != std::string::npos) {}
@@ -957,18 +954,6 @@ void Engine::Render()
 	{
 		m->CheckThreads();
 	}
-
-	//if (/*generationThread.joinable() && */!vm->generating)
-	//{
-	//	//generationThread.join();
-	//	algtimeend = SDL_GetTicks();
-
-	//	lastalgtime = algtimeend - algtimestart;
-
-	//	std::cout << "Work finished!\n";
-
-	//	//vm->UploadAllChunks();
-	//}
 
 	ImGui::Render();
 
@@ -1027,10 +1012,6 @@ void Engine::Render()
 	for (VoxelMesh* vm : meshii)
 	{
 		vm->tempdb = db;
-		//vr.Render(device);
-		//vm->maptransform = glm::mat4(1.0f);
-		//vm->maptransform = glm::translate(vm->maptransform, vm->pos);
-		//vm->maptransform = glm::rotate(vm->maptransform, glm::radians(rot), glm::vec3(1, 1, 0));
 
 		vm->RenderChunks(device, litShader);
 	}
@@ -1045,13 +1026,9 @@ void Engine::Render()
 
 		colorShader->SetMatrix("model", gmat);
 
-		//colorShader->SetMatrix("model",
-
 		device->Draw(cubeVB, cubeIB, 36);
 	}
 
-
-	//
 
 	glm::vec3 zero(0.0f);
 	glm::vec3 xvec(1, 0, 0);

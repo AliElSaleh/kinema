@@ -10,20 +10,20 @@
 
 #include "Engine.h"
 
-Block& VoxelMesh::GetBlock(int32_t x, int32_t y, int32_t z)
+Block VoxelMesh::GetBlock(int32_t x, int32_t y, int32_t z)
 {
 	if (x >= Size.x || y >= Size.y || z >= Size.z ||
 		x < 0 || y < 0 || z < 0)
 	{
-		//assert(false);
-		return Block::Default;
+		assert(false);
+		return Block();
 	}
 
 	uint32_t index = x + y * Size.x + z * Size.x * Size.y;
 	return Blocks[index];
 }
 
-Block& VoxelMesh::GetBlock(const glm::ivec3& coordinates)
+Block VoxelMesh::GetBlock(const glm::ivec3& coordinates)
 {
 	return GetBlock(coordinates.x, coordinates.y, coordinates.z);
 }

@@ -1,6 +1,7 @@
 #include "VoxelChunk.h"
 
 #include "Engine.h"
+#include "Common.h"
 
 VoxelChunk::VoxelChunk()
 {
@@ -79,20 +80,20 @@ inline BlockFace VoxelChunk::GetBlockFace(const glm::ivec3& inCoordinate, uint8_
 	return face;
 }
 
-Block& VoxelChunk::GetBlockLocal(int32_t x, int32_t y, int32_t z)
+Block VoxelChunk::GetBlockLocal(int32_t x, int32_t y, int32_t z)
 {
 	if (x >= Dimensions.x || y >= Dimensions.y || z >= Dimensions.z ||
 		x < 0 || y < 0 || z < 0)
 	{
-		//assert(false);
-		return Block::Default;
+		assert(false);
+		return Block();
 	}
 
 	uint32_t index = x + y * Dimensions.x + z * Dimensions.x * Dimensions.y;
 	return Blocks[index];
 }
 
-Block& VoxelChunk::GetBlockLocal(glm::ivec3 coord)
+Block VoxelChunk::GetBlockLocal(glm::ivec3 coord)
 {
 	return GetBlockLocal(coord.x, coord.y, coord.z);
 }

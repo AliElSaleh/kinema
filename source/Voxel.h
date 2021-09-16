@@ -18,7 +18,7 @@ struct Block
 		return Type > 0;
 	}
 
-	static Block Default;
+	//static Block Default;
 };
 
 struct BlockFace

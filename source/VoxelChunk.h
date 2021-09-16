@@ -39,8 +39,8 @@ public:
 	VoxelChunk();
 	~VoxelChunk();
 
-	Block& GetBlockLocal(int32_t x, int32_t y, int32_t z);
-	Block& GetBlockLocal(glm::ivec3 coord);
+	Block GetBlockLocal(int32_t x, int32_t y, int32_t z);
+	Block GetBlockLocal(glm::ivec3 coord);
 
 	void Update();
 	void Update_Upload();

@@ -2,32 +2,35 @@
 
 #include <fstream>
 
-std::vector<uint8_t> ReadAll(std::ifstream& file)
+template<typename T>
+inline std::vector<T> ReadAll(std::ifstream& file)
 {
 	if (!file.is_open()) {
 		throw std::runtime_error("failed to open file!");
 	}
 
 	size_t fileSize = (size_t)file.tellg();
-	std::vector<uint8_t> buffer(fileSize);
+	std::vector<T> buffer(fileSize);
 
 	file.seekg(0);
-	file.read((char*)(buffer.data()), fileSize); // TODO: static cast/reinterpret cast?
+	file.read(reinterpret_cast<char*>(buffer.data()), fileSize);
 
 	file.close();
 
 	return buffer;
 }
 
+// TODO: would it make more sense to expose the above template directly, with binary and text options?
+
 std::vector<char> File::ReadAllText(const char* fileName)
 {
 	std::ifstream file(fileName, std::ios::ate);
-	return *(std::vector<char>*)(&ReadAll(file)); //TODO: inline?
+	return ReadAll<char>(file);
 }
 
 std::vector<uint8_t> File::ReadAllBytes(const char* fileName)
 {
 	std::ifstream file(fileName, std::ios::ate | std::ios::binary);
-	return ReadAll(file); // TODO: inline?
-	//   std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(input), {}); // this?
+	return ReadAll<uint8_t>(file);
+	// std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(input), {}); // this?
 }

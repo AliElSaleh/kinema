@@ -2,5 +2,5 @@
 
 class Input
 {
-	// action system for binds
+	// TODO: ?action system for binds
 };
