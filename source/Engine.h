@@ -5,16 +5,17 @@
 #include "SDL2/SDL.h"
 
 #include "Camera.h"
-#include "Device.h"
-#include "Shader.h"
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
-#include "UniformBuffer.h"
+#include "Renderer/Device.h"
+#include "Renderer/Shader.h"
+#include "Renderer/IndexBuffer.h"
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/UniformBuffer.h"
 #include "Voxel.h"
 #include "VoxelMesh.h"
-#include "DebugRenderer.h"
+#include "Renderer/DebugRenderer.h"
 #include <thread>
 #include "PxPhysicsAPI.h"
+#include "Input.h"
 
 struct CameraData
 {

@@ -5,10 +5,10 @@
 
 #include "glm/vec3.hpp"
 
-#include "Device.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "DebugRenderer.h"
+#include "Renderer/Device.h"
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/IndexBuffer.h"
+#include "Renderer/DebugRenderer.h"
 #include "Voxel.h"
 
 #include "PxPhysicsAPI.h"

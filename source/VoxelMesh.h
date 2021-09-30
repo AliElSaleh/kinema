@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 
-#include "DebugRenderer.h"
+#include "Renderer/DebugRenderer.h"
 #include "VoxelChunk.h"
 
 struct ChunkGenThreadObj

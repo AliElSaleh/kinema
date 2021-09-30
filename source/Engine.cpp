@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 
-#include "Device.h"
+#include "Renderer/Device.h"
 #include "Voxel.h"
 #include "File.h"
 
@@ -14,7 +14,7 @@
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-#include "glad/glad.h"
+#include "Renderer/glad/glad.h"
 
 #include <fstream>
 
@@ -454,6 +454,7 @@ Engine::Engine()
 		File::ReadAllText("shaders/test.vert").data(),
 		File::ReadAllText("shaders/test.frag").data());
 
+
 	colorShader->SetMatrix("model", glm::mat4(1.0f));
 	colorShader->SetUniformBuffer("camera", cameraUB);
 
@@ -577,6 +578,8 @@ void Engine::Update()
 			break;
 		}
 
+		//Input::ProcessEvent(event);
+
 		if (!capd && ImGui::GetIO().WantCaptureMouse)
 			break;
 
@@ -651,6 +654,8 @@ void Engine::Update()
 			break;
 		}
 	}
+
+	Input::Update();
 
 	for (templine& t : templines)
 	{
