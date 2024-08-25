@@ -1,0 +1,58 @@
+if mode ModePath %(Mode) else ModePath Release
+
+include ../../physx_$(modepath).buildvariables
+
+if _platform == windows Compiler cl else Compiler clang
+
+Assembly SimulationController_static_64
+Extension lib
+
+SourceDirectory src
+IntermediateDirectory ../../int/%_FileName
+BuildDirectory ../../Build/$(ModePath)
+
+CompilerFlags $PxCompilerFlags /Gd /GR- /GS- /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
+LinkerFlags $PxLinkerFlags /subsystem:console
+
+Includes [
+    include
+    src
+    ../../../pxshared/include
+    ../../include
+    ../../include
+    ../common/include
+    ../common/src
+    ../foundation/include
+    ../foundation/include
+    ../filebuf/include
+    ../pvd/include
+    ../geomutils/include
+    ../geomutils/src
+    ../geomutils/src/common
+    ../geomutils/src/gjk
+    ../geomutils/src/convex
+    ../geomutils/src/hf
+    ../geomutils/src/ccd
+    ../geomutils/src/contact
+    ../geomutils/src/cooking
+    ../geomutils/src/distance
+    ../geomutils/src/intersection
+    ../geomutils/src/mesh
+    ../geomutils/src/pcm
+    ../geomutils/src/sweep
+    ../simulationcontroller/src
+    ../simulationcontroller/include
+    ../lowlevel/api/include
+    ../lowlevel/common/include
+    ../lowlevel/common/include/collision
+    ../lowlevel/common/include/pipeline
+    ../lowlevel/common/include/utils
+    ../lowlevel/software/include
+    ../lowleveldynamics/include
+    ../lowlevelaabb/include
+    ../physxgpu/include
+]
+
+Defines $PxSharedDefines
+
+if _platform == windows Defines $PxWindowsDefines _LIB

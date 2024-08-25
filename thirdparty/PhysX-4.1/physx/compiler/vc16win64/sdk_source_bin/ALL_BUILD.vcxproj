@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="checked|x64">
+      <Configuration>checked</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="profile|x64">
+      <Configuration>profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{31D687BF-C6B3-3AC1-970D-95CB579B9E0D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/source/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_source_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\template\PxIncludeTemplate.h;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\SimulationController.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\FastXml.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevel.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelAABB.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\LowLevelDynamics.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysX.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCharacterKinematic.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCommon.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXCooking.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXExtensions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXFoundation.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXPvdSDK.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXTask.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\PhysXVehicle.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SceneQuery.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\compiler\cmake\windows\SimulationController.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\ZERO_CHECK.vcxproj">
+      <Project>{E58B600E-34B3-35A1-AF2C-AB002A4D40D2}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\FastXml.vcxproj">
+      <Project>{CAC1AA0E-E82A-350D-A29B-E8E881A7A3F5}</Project>
+      <Name>FastXml</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\LowLevel.vcxproj">
+      <Project>{387A89DA-0EC3-35DA-868D-8DA0D52E975A}</Project>
+      <Name>LowLevel</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\LowLevelAABB.vcxproj">
+      <Project>{F70514B5-3CD2-36C8-9E85-C653C688905B}</Project>
+      <Name>LowLevelAABB</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\LowLevelDynamics.vcxproj">
+      <Project>{03234732-F1A4-33C2-999E-F854BBB34AB7}</Project>
+      <Name>LowLevelDynamics</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysX.vcxproj">
+      <Project>{C9BB96C3-269F-35A8-8B20-44FFBF07C880}</Project>
+      <Name>PhysX</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXCharacterKinematic.vcxproj">
+      <Project>{A2A79808-59B8-36C9-AC4C-2AC0D2414C48}</Project>
+      <Name>PhysXCharacterKinematic</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXCommon.vcxproj">
+      <Project>{D2AEA865-4E47-34D3-9DD3-58015F384DC5}</Project>
+      <Name>PhysXCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXCooking.vcxproj">
+      <Project>{1D8A08CC-1CD3-3599-9AB8-ABE74DD5DBCA}</Project>
+      <Name>PhysXCooking</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXExtensions.vcxproj">
+      <Project>{D97AED39-C2CF-3FDE-A3BB-26F4A68C0764}</Project>
+      <Name>PhysXExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXFoundation.vcxproj">
+      <Project>{16E97828-2BAA-3970-B2CD-51AC9FDA17A9}</Project>
+      <Name>PhysXFoundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXPvdSDK.vcxproj">
+      <Project>{DC5F58E1-35EF-3D4F-85D3-AB1CF4CCE5FE}</Project>
+      <Name>PhysXPvdSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXTask.vcxproj">
+      <Project>{DF99C297-F4EF-3F17-BBCE-667E2998F6BA}</Project>
+      <Name>PhysXTask</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXVehicle.vcxproj">
+      <Project>{A96AA797-F8C3-30F9-B875-54756552C6E7}</Project>
+      <Name>PhysXVehicle</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\SceneQuery.vcxproj">
+      <Project>{5EC7DAAD-31F5-3D46-A877-8869F05F1DCA}</Project>
+      <Name>SceneQuery</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\SimulationController.vcxproj">
+      <Project>{B07FBE77-9C8E-35FE-8F97-293ADF1503D8}</Project>
+      <Name>SimulationController</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

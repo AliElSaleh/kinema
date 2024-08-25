@@ -1,0 +1,24 @@
+Compiler cl
+
+Assembly hidapi
+Extension dll
+
+IntermediateDirectory int
+
+CompilerFlags /MD /Gy /W3 /Oi /O2 /Zi
+LinkerFlags /INCREMENTAL:NO /SUBSYSTEM:WINDOWS
+
+IncludeFlags hidapi ../../include
+
+CompilerFlags /EHa
+
+if _platform == windows  IncludedSourceDirectories windows
+if _platform == linux    IncludedSourceDirectories linux
+
+Libraries %_NativeLibs
+
+Defines HIDAPI_EXPORTS
+
+if _platform == windows Defines WIN32 NDEBUG _WINDOWS _USRDLL
+
+Multithread false

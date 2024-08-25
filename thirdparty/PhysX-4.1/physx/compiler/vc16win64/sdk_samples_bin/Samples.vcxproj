@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="checked|x64">
+      <Configuration>checked</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="profile|x64">
+      <Configuration>profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{29A88E2C-BA56-3228-A22C-6F2D23826F94}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>Samples</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Samples.dir\debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Samples_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Samples.dir\checked\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Samples_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='checked|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='checked|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='checked|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Samples.dir\profile\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Samples_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='profile|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='profile|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='profile|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">Samples.dir\release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='release|x64'">Samples_64</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996;4245;4512;4996;4244;4100;4456;4189;4505;4389</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_DEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\SampleBase_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\SamplePlatform_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\SampleFramework_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\SampleRenderer_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\SamplesToolkit_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXVehicle_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXCharacterKinematic_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXCooking_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\SamplesToolkit_static_64.lib;Winmm.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysX_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXCommon_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\debug\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/debug/Samples_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/debug/Samples_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996;4245;4512;4996;4244;4100;4456;4189;4505;4389</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="checked"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"checked\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\SampleBase_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\SamplePlatform_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\SampleFramework_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\SampleRenderer_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\SamplesToolkit_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXVehicle_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXCharacterKinematic_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXCooking_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\SamplesToolkit_static_64.lib;Winmm.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysX_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXCommon_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\checked\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/checked/Samples_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/checked/Samples_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996;4245;4512;4996;4244;4100;4456;4189;4505;4389</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="profile"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_PROFILE=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR=\"profile\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\SampleBase_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\SamplePlatform_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\SampleFramework_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\SampleRenderer_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\SamplesToolkit_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXVehicle_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXCharacterKinematic_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXCooking_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\SamplesToolkit_static_64.lib;Winmm.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysX_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXCommon_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\profile\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/profile/Samples_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/profile/Samples_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /d2Zi+</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4820;4127;4710;4711;4577;4996;4245;4512;4996;4244;4100;4456;4189;4505;4389</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_SUPPORT_PVD=0;CMAKE_INTDIR="release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;NDEBUG;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_HAS_EXCEPTIONS=0;PX_SUPPORT_PVD=0;CMAKE_INTDIR=\"release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebase;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\framework\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\renderer\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\sampleframework\platform\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\common\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\contact;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\common;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\convex;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\distance;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\gjk;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\intersection;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\mesh;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\hf;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\geomutils\src\pcm;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\PhysXVehicle\src;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\pxtoolkit\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\..\pxshared\include;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\source\foundation\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\SampleBase_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\SamplePlatform_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\SampleFramework_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\SampleRenderer_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\SamplesToolkit_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXVehicle_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXCharacterKinematic_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXCooking_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\SamplesToolkit_static_64.lib;Winmm.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXExtensions_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysX_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXPvdSDK_static_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXCommon_64.lib;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\bin\win.x86_64.vc142.mt\release\PhysXFoundation_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/release/Samples_64.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/bin/win.x86_64.vc142.mt/release/Samples_64.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebridges\SampleBridges.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebridges\SampleBridges.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebridges\SampleBridgesCCT.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebridges\SampleBridgesInputEventIds.h" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplebridges\SampleBridgesSettings.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\Planet.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\Planet.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravity.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravity.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravity_CCT.cpp" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityBuilder.cpp" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityCameraController.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityCameraController.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityFilterShader.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecustomgravity\SampleCustomGravityInputEventIds.h" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplehelloworld\SampleHelloWorld.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplehelloworld\SampleHelloWorld.cpp" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\ChunkLoader.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\ChunkLoader.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\MeshBuilder.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\MeshBuilder.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorld.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorld.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorldCCT.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplelargeworld\SampleLargeWorldInputEventIds.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPole.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPole.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleBuilder.cpp" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleCameraController.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleCameraController.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleCCT.cpp" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleDynamics.cpp" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleFilterShader.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplenorthpole\SampleNorthPoleInputEventIds.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplesubmarine\Crab.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplesubmarine\Crab.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplesubmarine\SampleSubmarine.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplesubmarine\SampleSubmarine.h" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplesubmarine\SampleSubmarineInputEventIds.h" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplesubmarine\SubmarineCameraController.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicleDebugRender.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicleInputEventIds.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicleTerrain.cpp" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_CameraController.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_CameraController.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_ControlInputs.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_ControlInputs.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_GameLogic.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_GameLogic.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_SceneQuery.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_SceneQuery.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleController.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleController.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleCooking.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleCooking.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleManager.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_VehicleManager.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_WheelQueryResults.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplevehicle\SampleVehicle_WheelQueryResults.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\KinematicPlatform.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\KinematicPlatform.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTActor.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTActor.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTCameraController.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTCameraController.h" />
+    <ClCompile Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTJump.cpp" />
+    <ClInclude Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\samplecctsharedcode\SampleCCTJump.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\ZERO_CHECK.vcxproj">
+      <Project>{E58B600E-34B3-35A1-AF2C-AB002A4D40D2}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysX.vcxproj">
+      <Project>{C9BB96C3-269F-35A8-8B20-44FFBF07C880}</Project>
+      <Name>PhysX</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXCharacterKinematic.vcxproj">
+      <Project>{A2A79808-59B8-36C9-AC4C-2AC0D2414C48}</Project>
+      <Name>PhysXCharacterKinematic</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXCommon.vcxproj">
+      <Project>{D2AEA865-4E47-34D3-9DD3-58015F384DC5}</Project>
+      <Name>PhysXCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXCooking.vcxproj">
+      <Project>{1D8A08CC-1CD3-3599-9AB8-ABE74DD5DBCA}</Project>
+      <Name>PhysXCooking</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXExtensions.vcxproj">
+      <Project>{D97AED39-C2CF-3FDE-A3BB-26F4A68C0764}</Project>
+      <Name>PhysXExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXFoundation.vcxproj">
+      <Project>{16E97828-2BAA-3970-B2CD-51AC9FDA17A9}</Project>
+      <Name>PhysXFoundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXPvdSDK.vcxproj">
+      <Project>{DC5F58E1-35EF-3D4F-85D3-AB1CF4CCE5FE}</Project>
+      <Name>PhysXPvdSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_source_bin\PhysXVehicle.vcxproj">
+      <Project>{A96AA797-F8C3-30F9-B875-54756552C6E7}</Project>
+      <Name>PhysXVehicle</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleBase.vcxproj">
+      <Project>{703C3B9F-336E-3E45-8182-3D65361A0D13}</Project>
+      <Name>SampleBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleFramework.vcxproj">
+      <Project>{41253A4C-D92C-33BC-B5DC-BAE00DB4677F}</Project>
+      <Name>SampleFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SamplePlatform.vcxproj">
+      <Project>{CAA7A183-93F3-3EA5-A329-4C6D2FD0AF36}</Project>
+      <Name>SamplePlatform</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleRenderer.vcxproj">
+      <Project>{B12F52CA-C535-3443-B4EE-C04810717897}</Project>
+      <Name>SampleRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleToolkit.vcxproj">
+      <Project>{80BE4B02-D4DB-3617-A1C1-D3948A3637AE}</Project>
+      <Name>SampleToolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

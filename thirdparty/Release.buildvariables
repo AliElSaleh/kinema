@@ -1,0 +1,3 @@
+SharedCompilerFlags /O2 /EHa /MD
+SharedLinkerFlags   
+SharedDefines       NDEBUG

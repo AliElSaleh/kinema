@@ -1,0 +1,1 @@
+C:\OpenSource\kinema\thirdparty\SDL2\test\src\hidapi hidapi.build rebuild _SDL2.build

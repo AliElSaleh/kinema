@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="checked|x64">
+      <Configuration>checked</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="profile|x64">
+      <Configuration>profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{31D687BF-C6B3-3AC1-970D-95CB579B9E0D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/samples/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_samples_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config-version.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\targa\targa-config.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\SamplesToolkit.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleBase.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleFramework.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplePlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SampleRenderer.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\Samples.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\samples\compiler\cmake\windows\SamplesToolkit.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\ZERO_CHECK.vcxproj">
+      <Project>{E58B600E-34B3-35A1-AF2C-AB002A4D40D2}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleBase.vcxproj">
+      <Project>{703C3B9F-336E-3E45-8182-3D65361A0D13}</Project>
+      <Name>SampleBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleFramework.vcxproj">
+      <Project>{41253A4C-D92C-33BC-B5DC-BAE00DB4677F}</Project>
+      <Name>SampleFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SamplePlatform.vcxproj">
+      <Project>{CAA7A183-93F3-3EA5-A329-4C6D2FD0AF36}</Project>
+      <Name>SamplePlatform</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleRenderer.vcxproj">
+      <Project>{B12F52CA-C535-3443-B4EE-C04810717897}</Project>
+      <Name>SampleRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\SampleToolkit.vcxproj">
+      <Project>{80BE4B02-D4DB-3617-A1C1-D3948A3637AE}</Project>
+      <Name>SampleToolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_samples_bin\Samples.vcxproj">
+      <Project>{29A88E2C-BA56-3228-A22C-6F2D23826F94}</Project>
+      <Name>Samples</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

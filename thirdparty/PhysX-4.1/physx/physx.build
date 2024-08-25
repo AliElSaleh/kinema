@@ -1,0 +1,98 @@
+if mode ModePath %(Mode) else ModePath Release
+
+include physx_$-(modepath).buildvariables 
+
+if _platform == windows Compiler cl else Compiler clang
+
+Assembly PhysX_64
+Extension dll
+
+SourceDirectory source/physx
+IntermediateDirectory int/physx
+BuildDirectory Build/$(ModePath)
+
+CompilerFlags $PxCompilerFlags /Gd /GR- /GS- /GF /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
+LinkerFlags $PxLinkerFlags /subsystem:console /DELAYLOAD:"PhysXFoundation_64.dll" /DELAYLOAD:"PhysXCommon_64.dll"
+
+if _platform == windows    ExcludedSourceDirectories unix linux
+if _platform != windows    ExcludedSourceDirectories windows
+if _platform == windows    ExcludedSourceFiles *Linux.cpp
+if _platform != windows    ExcludedSourceFiles *Windows.cpp
+
+Includes [
+    include
+    include/common
+    source/physx/include
+    source/physx/src
+    source/physx/src/buffering
+    source/physx/src/device
+    ../pxshared/include
+    source/common/include
+    source/common/src
+    source/foundation/include
+    source/foundation/include
+    source/geomutils/src
+    source/geomutils/src/convex
+    source/geomutils/include
+    source/geomutils/include
+    source/geomutils/src
+    source/geomutils/src/common
+    source/geomutils/src/gjk
+    source/geomutils/src/convex
+    source/geomutils/src/hf
+    source/geomutils/src/ccd
+    source/geomutils/src/contact
+    source/geomutils/src/cooking
+    source/geomutils/src/distance
+    source/geomutils/src/intersection
+    source/geomutils/src/mesh
+    source/geomutils/src/pcm
+    source/geomutils/src/sweep
+    source/pvd/include
+    source/lowlevel/api/include
+    source/lowlevel/software/include
+    source/lowlevel/common/include
+    source/lowlevelaabb/include
+    source/lowleveldynamics/include
+    source/simulationcontroller/include
+    source/simulationcontroller/src
+    source/physxmetadata/core/include
+    source/physxmetadata/extensions/include
+    source/physxgpu/include
+    source/scenequery/include
+]
+
+Libraries [
+    %_NativeLibs
+    PhysXFoundation_64
+    PhysXCommon_64 
+    LowLevel_static_64
+    LowLevelAABB_static_64
+    LowLevelDynamics_static_64
+    PhysXTask_static_64
+    SceneQuery_static_64
+    SimulationController_static_64
+    PhysXPvdSDK_static_64
+    PhysXExtensions_static_64
+    PhysXVehicle_static_64
+    PhysXCharacterKinematic_static_64
+]
+
+LibraryDirectories Build/$(ModePath)
+
+Defines $PxSharedDefines PX_PHYSX_FOUNDATION_EXPORTS PX_PHYSX_CORE_EXPORTS PhysX_EXPORTS
+if _platform == windows Defines $PxWindowsDefines _WINDLL PX_PHYSX_GPU_SHARED_LIB_NAME=PhysXGpu_64.dll
+
+Depends foundation             source/foundation              | mode=%mode
+Depends common                 source                         | mode=%mode
+Depends lowlevel               source/lowlevel                | mode=%mode
+Depends lowlevelaabb           source/lowlevelaabb            | mode=%mode
+Depends lowleveldynamics       source/lowleveldynamics        | mode=%mode
+Depends cooking                source/physxcooking            | mode=%mode
+Depends extensions             source/physxextensions         | mode=%mode
+Depends scene_query            source/scenequery              | mode=%mode
+Depends simulation_controller  source/simulationcontroller    | mode=%mode
+Depends task                   source/task                    | mode=%mode
+Depends pvd                    source                         | mode=%mode
+Depends vehicle                source/physxvehicle            | mode=%mode
+Depends character              source/physxcharacterkinematic | mode=%mode

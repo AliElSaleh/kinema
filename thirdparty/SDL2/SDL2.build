@@ -1,0 +1,40 @@
+Compiler cl
+
+Assembly SDL2
+Type dynamic_lib
+
+SourceDirectory src
+IntermediateDirectory int/sdl2
+if debug BuildDirectory bin/debug
+if !debug BuildDirectory bin/release
+
+if _platform == windows|linux|macos ExcludedSourceDirectories */ps2 */n3ds */gdk */android */psp */winrt */emscripten */haiku */vita */ngage */qnx */riscos */wayland */dlopen */nacl */cocoa */stdcpp */darwin */winrt
+if _platform == windows ExcludedSourceDirectories */linux */openbsd */os2 */unix */x11 */pthread */macosx
+if _platform == linux ExcludedSourceDirectories */windows */macosx
+
+ExcludedSourceDirectories main hidapi/* test loadso/dummy filesystem/dummy locale/dummy misc/dummy timer/dummy
+ExcludedSourceFiles *_test_log.cpp *_winrt.cpp
+ExcludedSourceFiles *-asm.S
+
+ExcludedSourceFiles thread/generic/SDL_sysmutex.c thread/generic/SDL_syssem.c thread/generic/SDL_systhread.c thread/generic/SDL_systls.c
+
+CompilerFlags /W3 /Ob1 /GS-
+if debug CompilerFlags /Od /MDd /Z7
+if !debug CompilerFlags /O2 /MD
+
+LinkerFlags /NODEFAULTLIB /subsystem:windows
+if debug LinkerFlags /DEBUG
+
+Includes include src/hidapi src/hidapi/hidapi
+
+Libraries %_NativeLibs
+
+Defines WIN32 _WINDOWS DLL_EXPORT _WINDLL
+
+if debug {
+    Defines _DEBUG
+    Depends sdl2main | debug
+} else {
+    Defines NDEBUG
+    Depends sdl2main
+}

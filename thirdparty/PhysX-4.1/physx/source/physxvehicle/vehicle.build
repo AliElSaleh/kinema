@@ -1,0 +1,38 @@
+if mode ModePath %(Mode) else ModePath Release
+
+include ../../physx_$(modepath).buildvariables
+
+if _platform == windows Compiler cl else Compiler clang
+
+Assembly PhysXVehicle_static_64
+Extension lib
+
+SourceDirectory src
+IntermediateDirectory ../../int/%_FileName
+BuildDirectory ../../Build/$(ModePath)
+
+CompilerFlags $PxCompilerFlags /Gd /GR- /GS- /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
+LinkerFlags $PxLinkerFlags /subsystem:console
+
+Includes [
+    include
+    src
+    src/physxmetadata/include
+    ../../../pxshared/include
+    ../../include
+    ../../include
+    ../common/include
+    ../common/src
+    ../foundation/include
+    ../foundation/include
+    ../filebuf/include
+    ../pvd/include
+    ../physx/src
+    ../physxmetadata/core/include
+    ../physxmetadata/extensions/include
+    ../physxextensions/src/serialization/xml
+]
+
+Defines $PxSharedDefines PX_PHYSX_STATIC_LIB
+
+if _platform == windows Defines $PxWindowsDefines _LIB

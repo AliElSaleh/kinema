@@ -1,0 +1,61 @@
+if mode ModePath %(Mode) else ModePath Release
+
+include thirdparty/$(ModePath).buildvariables
+
+Compiler cl
+Assembly Kinema-$(ModePath)
+
+SourceDirectory source
+BuildDirectory data
+IntermediateDirectory int/$(ModePath)
+
+CompilerFlags $SharedCompilerFlags
+LinkerFlags $SharedLinkerFlags /subsystem:windows
+
+Defines $SharedDefines IMGUI_IMPL_OPENGL_LOADER_GLAD
+
+PhysXBase thirdparty\PhysX-4.1
+PhysXPath $(PhysXBase)\physx
+
+Includes [
+    source
+    thirdparty
+    $(PhysXPath)/include
+    $(PhysXBase)/pxshared/include
+    thirdparty/fmt/include
+    thirdparty/SDL2
+]
+
+Libraries [
+    %_NativeLibs
+    fmt
+    SDL2 SDL2main
+    PhysXCooking_64
+    PhysXFoundation_64
+    PhysXCommon_64
+    PhysXExtensions_static_64
+    PhysX_64
+]
+
+LibraryDirectories [
+    thirdparty/SDL2/bin/$(ModePath)
+    thirdparty/fmt/Build/$(ModePath)
+    $(PhysXPath)/Build/$(ModePath)
+]
+
+Depends SDL2     thirdparty/SDL2 | %mode
+Depends fmt      thirdparty/fmt  | %mode cl
+Depends physx    $PhysXPath      | mode=%mode
+
+PostBuildCmd copy thirdparty\SDL2\bin\$(ModePath)\SDL2.dll $BuildDirectory
+PostBuildCmd copy $(PhysXPath)\Build\$(ModePath)\*_64.dll $BuildDirectory
+if mode == debug PostBuildCmd copy $(PhysXPath)\Build\$(ModePath)\*_64.pdb $BuildDirectory
+
+#CopyToBuildDirectory thirdparty/SDL2/bin/$(ModePath)/SDL2.dll
+#CopyToBuildDirectory $(PhysXPath)/Build/$(ModePath)/*_64.dll
+#if mode == debug CopyToBuildDirectory $(PhysXPath)/Build/$(ModePath)/*_64.pdb
+
+RunAssembly
+RunPostBuildOnChange true
+
+AssertPlatform windows # so people dont accidently use this build file on other platforms, since it wont work anyway, bail out early

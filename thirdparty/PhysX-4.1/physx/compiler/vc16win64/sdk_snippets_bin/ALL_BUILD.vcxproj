@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="checked|x64">
+      <Configuration>checked</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="profile|x64">
+      <Configuration>profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{31D687BF-C6B3-3AC1-970D-95CB579B9E0D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='checked|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='profile|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='checked|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building Custom Rule C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/public -BC:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64 --check-stamp-file C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/compiler/vc16win64/sdk_snippets_bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\ConfigureFileMT.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\GetCompilerAndPlatform.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\NvidiaBuildOptions.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\externals\cmakemodules\SetOutputPaths.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\SnippetVehicleTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\CMakeLists.txt;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetRender.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetTemplate.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetUtils.cmake;C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\snippets\compiler\cmake\windows\SnippetVehicleTemplate.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\ZERO_CHECK.vcxproj">
+      <Project>{E58B600E-34B3-35A1-AF2C-AB002A4D40D2}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetArticulation.vcxproj">
+      <Project>{6C0A8DC3-730F-370A-84A7-4BC2604A1EC5}</Project>
+      <Name>SnippetArticulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetBVHStructure.vcxproj">
+      <Project>{1DBC0B00-C505-3C0D-A23E-6F8C02E687B0}</Project>
+      <Name>SnippetBVHStructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetContactModification.vcxproj">
+      <Project>{B989AB53-26A5-3B62-98FC-66DEBFA53ECC}</Project>
+      <Name>SnippetContactModification</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetContactReport.vcxproj">
+      <Project>{C5E53999-386C-3EF2-8D6F-07A6B80A7557}</Project>
+      <Name>SnippetContactReport</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetContactReportCCD.vcxproj">
+      <Project>{BAA3D21C-E0F1-3228-954B-131989DCE54F}</Project>
+      <Name>SnippetContactReportCCD</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetConvert.vcxproj">
+      <Project>{5AEA6858-7B20-3AE8-8928-C0C54036CD83}</Project>
+      <Name>SnippetConvert</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetConvexMeshCreate.vcxproj">
+      <Project>{088E1799-54F2-3F7B-9838-BAED98908FDE}</Project>
+      <Name>SnippetConvexMeshCreate</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetCustomJoint.vcxproj">
+      <Project>{B8684E49-19B6-3729-AA8C-C734B947395F}</Project>
+      <Name>SnippetCustomJoint</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetCustomProfiler.vcxproj">
+      <Project>{2C706BF5-9ABA-309C-BCF6-1CF60F9D35F8}</Project>
+      <Name>SnippetCustomProfiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetDeformableMesh.vcxproj">
+      <Project>{97ADEB08-8303-36CB-9409-4144CECAA7E7}</Project>
+      <Name>SnippetDeformableMesh</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetDelayLoadHook.vcxproj">
+      <Project>{F92FD0B4-4F99-3D01-B928-732583916A10}</Project>
+      <Name>SnippetDelayLoadHook</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetHelloGRB.vcxproj">
+      <Project>{08A46DCA-57C6-3585-852F-9F3BA7DC9715}</Project>
+      <Name>SnippetHelloGRB</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetHelloWorld.vcxproj">
+      <Project>{CBB5BDF5-2346-3B71-9843-CFDAC800888E}</Project>
+      <Name>SnippetHelloWorld</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetImmediateArticulation.vcxproj">
+      <Project>{E8F0E2FB-25A9-3FF5-B189-97A5E1E39685}</Project>
+      <Name>SnippetImmediateArticulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetImmediateMode.vcxproj">
+      <Project>{3A7CB60E-6591-3F33-A5ED-C182AFAC4E9F}</Project>
+      <Name>SnippetImmediateMode</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetJoint.vcxproj">
+      <Project>{55F38678-BA09-3D71-B6BB-5DC6B9CAE5B8}</Project>
+      <Name>SnippetJoint</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetLoadCollection.vcxproj">
+      <Project>{E5BB63A8-1B24-36F3-BC82-30DFC973C662}</Project>
+      <Name>SnippetLoadCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetMBP.vcxproj">
+      <Project>{AF4E7D4C-6AB9-3691-BE10-B8F8A62BF3C6}</Project>
+      <Name>SnippetMBP</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetMultiThreading.vcxproj">
+      <Project>{88DF8E1F-54D2-3BF7-B7A8-98D80278020D}</Project>
+      <Name>SnippetMultiThreading</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetNestedScene.vcxproj">
+      <Project>{44CD06DC-A1B3-35B0-9B12-C4F5751BE4BD}</Project>
+      <Name>SnippetNestedScene</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetPrunerSerialization.vcxproj">
+      <Project>{A00ABA53-2DB2-3F0D-B1B2-B6A49AEB8EDF}</Project>
+      <Name>SnippetPrunerSerialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetRaycastCCD.vcxproj">
+      <Project>{9E98A3B9-5B99-35DE-87A1-835CF23B0E05}</Project>
+      <Name>SnippetRaycastCCD</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetRender.vcxproj">
+      <Project>{141A0B92-DCF9-38F5-AE11-420A74807691}</Project>
+      <Name>SnippetRender</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetSerialization.vcxproj">
+      <Project>{3DE4A786-3F97-3698-9325-03D5A4AB99E6}</Project>
+      <Name>SnippetSerialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetSplitFetchResults.vcxproj">
+      <Project>{EAFFECF3-6007-3381-BE3C-56FE04C371AB}</Project>
+      <Name>SnippetSplitFetchResults</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetSplitSim.vcxproj">
+      <Project>{EB2F425E-E7F0-373A-B0C4-DAA41268764E}</Project>
+      <Name>SnippetSplitSim</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetStepper.vcxproj">
+      <Project>{DA47F3E4-1655-30F9-8A76-89322D70CA03}</Project>
+      <Name>SnippetStepper</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetToleranceScale.vcxproj">
+      <Project>{3455B426-5687-3051-968F-A15321587CA6}</Project>
+      <Name>SnippetToleranceScale</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetTriangleMeshCreate.vcxproj">
+      <Project>{3A418915-F64A-30B8-BB30-4D5E4678F908}</Project>
+      <Name>SnippetTriangleMeshCreate</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetTriggers.vcxproj">
+      <Project>{DC6A7D76-C2D5-3DA9-BEB5-87AF9E36B04E}</Project>
+      <Name>SnippetTriggers</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetUtils.vcxproj">
+      <Project>{55423923-60EB-3A1E-9B3F-F7B1103C1E31}</Project>
+      <Name>SnippetUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetVehicle4W.vcxproj">
+      <Project>{3C9F6925-FAFC-3087-ADF2-E6E076351754}</Project>
+      <Name>SnippetVehicle4W</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetVehicleContactMod.vcxproj">
+      <Project>{9626326A-C999-3C14-86A5-24D624D84615}</Project>
+      <Name>SnippetVehicleContactMod</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetVehicleMultiThreading.vcxproj">
+      <Project>{EE8AE64D-F66C-3326-8063-ED15EEF941D5}</Project>
+      <Name>SnippetVehicleMultiThreading</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetVehicleNoDrive.vcxproj">
+      <Project>{87FDB669-327F-3F88-847C-68AC8C1081F0}</Project>
+      <Name>SnippetVehicleNoDrive</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetVehicleScale.vcxproj">
+      <Project>{9E3E3845-F923-3387-AFDE-6B25A1C78D42}</Project>
+      <Name>SnippetVehicleScale</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\OpenSource\kinema\thirdparty\PhysX-4.1\physx\compiler\vc16win64\sdk_snippets_bin\SnippetVehicleTank.vcxproj">
+      <Project>{B7524100-D42D-3A5B-82E9-6489E00885D5}</Project>
+      <Name>SnippetVehicleTank</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

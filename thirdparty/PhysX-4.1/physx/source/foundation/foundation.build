@@ -1,0 +1,30 @@
+if mode ModePath %(Mode) else ModePath Release
+
+include ../../physx_$(modepath).buildvariables
+
+if _platform == windows Compiler cl else Compiler clang
+
+Assembly PhysXFoundation_64
+Extension dll
+
+SourceDirectory src
+IntermediateDirectory ../../int/%_FileName
+BuildDirectory ../../Build/$(ModePath)
+
+CompilerFlags $PxCompilerFlags
+LinkerFlags $PxLinkerFlags /subsystem:console
+
+if _platform == windows    ExcludedSourceDirectories unix linux
+if _platform != windows    ExcludedSourceDirectories windows
+if _platform == windows    ExcludedSourceFiles *Linux.cpp
+if _platform != windows    ExcludedSourceFiles *Windows.cpp
+
+Includes [
+    include
+    ../../../pxshared/include
+    ../../include
+]
+
+Libraries %_NativeLibs
+
+Defines $PxSharedDefines PX_PHYSX_FOUNDATION_EXPORTS _WINDLL

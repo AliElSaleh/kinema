@@ -1,0 +1,62 @@
+Assembly fmt
+if shared  Type dynamic_lib
+if !shared Type static_lib
+
+if cl Compiler cl else Compiler clang++
+
+SourceDirectory src
+ExcludedSourceFiles fmt.cc
+
+Includes include
+
+if shared  Defines FMT_SHARED FMT_LIB_EXPORT
+if !shared Defines FMT_STATIC
+
+if _platform == windows Defines _WIN32
+
+PedanticFlags
+
+if debug   BuildDirectory Build/Debug   ; CompilerFlags $DebugFlags
+if !debug  BuildDirectory Build/Release ; CompilerFlags $ReleaseFlags
+
+if compiler == clang++ goto clang_build
+if compiler == g++     goto g++_build
+if compiler == cl      goto cl_build
+
+clang_build:
+if pedantic PedanticFlags [
+    -Wall -Wextra -pedantic
+    -Wconversion -Wundef
+    -Wdeprecated -Wweak-vtables 
+    -Wshadow
+    -Wno-gnu-zero-variadic-macro-arguments
+]
+
+DebugFlags   -std=c++20 -O0 $PedanticFlags
+ReleaseFlags -std=c++20 -O3 $PedanticFlags
+
+_stop
+
+g++_build:
+if pedantic PedanticFlags [
+    -pedantic-errors 
+    -Wall -Wextra -pedantic -Wold-style-cast 
+    -Wundef -Wredundant-decls -Wwrite-strings 
+    -Wpointer-arith -Wcast-qual -Wformat=2 
+    -Wmissing-include-dirs -Wcast-align 
+    -Wctor-dtor-privacy -Wdisabled-optimization 
+    -Winvalid-pch -Woverloaded-virtual -Wconversion 
+    -Wundef -Wno-ctor-dtor-privacy -Wno-format-nonliteral
+]
+
+DebugFlags   -std=c++20 -O0 $PedanticFlags
+ReleaseFlags -std=c++20 -O3 $PedanticFlags
+
+_stop
+
+cl_build:
+DebugFlags   /std:c++20 /Od /EHa /MDd /Z7 $PedanticFlags
+ReleaseFlags /std:c++20 /O2 /EHa /MD $PedanticFlags
+
+if debug   LinkerFlags /DEBUG ; Defines _DEBUG
+if !debug  Defines NDEBUG

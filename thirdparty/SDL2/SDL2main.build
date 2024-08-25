@@ -1,0 +1,20 @@
+Compiler cl
+
+Assembly SDL2main
+Extension lib
+
+SourceDirectory src/main/windows
+IntermediateDirectory int/sdl2main
+if debug BuildDirectory bin/debug
+if !debug BuildDirectory bin/release
+
+CompilerFlags /W3 /GS- /GF
+if debug CompilerFlags /Od /MDd /Z7
+if !debug CompilerFlags /O2 /MD
+
+Includes include
+
+Defines WIN32 _WINDOWS
+
+if debug Defines _DEBUG
+if !debug Defines NDEBUG

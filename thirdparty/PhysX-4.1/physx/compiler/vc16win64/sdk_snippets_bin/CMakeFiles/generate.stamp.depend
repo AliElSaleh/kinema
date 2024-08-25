@@ -1,0 +1,15 @@
+# CMake generation dependency list for this directory.
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/externals/cmakemodules/ConfigureFileMT.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/externals/cmakemodules/GetCompilerAndPlatform.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/externals/cmakemodules/NvidiaBuildOptions.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/externals/cmakemodules/SetOutputPaths.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/CMakeLists.txt
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetRender.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetTemplate.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetUtils.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/SnippetVehicleTemplate.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/windows/CMakeLists.txt
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetRender.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetTemplate.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetUtils.cmake
+C:/OpenSource/kinema/thirdparty/PhysX-4.1/physx/snippets/compiler/cmake/windows/SnippetVehicleTemplate.cmake

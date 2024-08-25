@@ -1,0 +1,3 @@
+SharedCompilerFlags /Od /EHa /MDd /Z7
+SharedLinkerFlags   /DEBUG
+SharedDefines       _DEBUG

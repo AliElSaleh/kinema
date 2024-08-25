@@ -1,0 +1,51 @@
+if mode ModePath %(Mode) else ModePath Release
+
+include ../../physx_$(modepath).buildvariables
+
+if _platform == windows Compiler cl else Compiler clang
+
+Assembly LowLevel_static_64
+Extension lib
+
+IntermediateDirectory ../../int/%_FileName
+BuildDirectory ../../Build/$(ModePath)
+
+CompilerFlags $PxCompilerFlags
+LinkerFlags $PxLinkerFlags /subsystem:console
+
+Includes [
+    common/include
+    common/include/pipeline
+    common/include/collision
+    common/include/utils
+    api/include
+    software/include
+    ../../../pxshared/include
+    ../../include
+    ../common/src
+    ../foundation/include
+    ../geomutils/src
+    ../geomutils/src/convex
+    ../geomutils/include
+    ../geomutils/include
+    ../geomutils/src
+    ../geomutils/src/common
+    ../geomutils/src/gjk
+    ../geomutils/src/convex
+    ../geomutils/src/hf
+    ../geomutils/src/ccd
+    ../geomutils/src/contact
+    ../geomutils/src/cooking
+    ../geomutils/src/distance
+    ../geomutils/src/intersection
+    ../geomutils/src/mesh
+    ../geomutils/src/pcm
+    ../geomutils/src/sweep
+    ../physx/include
+    ../lowleveldynamics/include
+    ../physxgpu/include
+]
+
+Defines $PxSharedDefines
+
+if _platform == windows Defines $PxWindowsDefines _LIB

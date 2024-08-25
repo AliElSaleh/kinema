@@ -1,0 +1,57 @@
+if mode ModePath %(Mode) else ModePath Release
+include ../physx_$(modepath).buildvariables
+
+if _platform == windows Compiler cl else Compiler clang
+
+Assembly PhysXCommon_64
+Extension dll
+
+IntermediateDirectory ../int/%_FileName
+BuildDirectory        ../Build/$(ModePath)
+
+IncludedSourceDirectories common geomutils compiler
+
+CompilerFlags $PxCompilerFlags
+LinkerFlags $PxLinkerFlags /subsystem:console /DELAYLOAD:"PhysXFoundation_64.dll"
+
+if _platform == windows    ExcludedSourceDirectories unix linux
+if _platform != windows    ExcludedSourceDirectories windows
+if _platform == windows    ExcludedSourceFiles *Linux.cpp
+if _platform != windows    ExcludedSourceFiles *Windows.cpp
+
+if _arch == x64            ExcludedSourceDirectories compiler/resource_x86
+if _arch == x86            ExcludedSourceDirectories compiler/resource_x64
+
+ExcludedSourceFiles        PhysX.rc PhysXCooking.rc PhysXFoundation.rc
+
+Includes [
+    common/include
+    common/src
+    ../../pxshared/include
+    ../include
+    foundation/include
+    geomutils/src
+    geomutils/src/convex
+    geomutils/include
+    geomutils/include
+    geomutils/src
+    geomutils/src/common
+    geomutils/src/gjk
+    geomutils/src/convex
+    geomutils/src/hf
+    geomutils/src/ccd
+    geomutils/src/contact
+    geomutils/src/cooking
+    geomutils/src/distance
+    geomutils/src/intersection
+    geomutils/src/mesh
+    geomutils/src/pcm
+    geomutils/src/sweep
+]
+
+Libraries %_NativeLibs PhysXFoundation_64
+LibraryDirectories ../Build/$(ModePath)
+
+Defines $PxSharedDefines PX_PHYSX_COMMON_EXPORTS PhysXCommon_EXPORTS
+
+if _platform == windows Defines $PxWindowsDefines _WINDLL

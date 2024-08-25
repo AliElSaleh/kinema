@@ -1,0 +1,15 @@
+Compiler cl
+Assembly PhysXPvdSDK_static_64
+Extension lib
+SourceDirectory src
+IntermediateDirectory int
+BuildDirectory ..\..\Build
+CompilerFlags /EHa /MDd /Z7 /Gd /GR- /GS- /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
+LinkerFlags /DEBUG /subsystem:console
+IncludeFlags include src ..\..\..\pxshared\include ..\..\include ..\foundation\include ..\foundation\include ..\filebuf\include
+Libraries kernel32 user32 shell32 gdi32 comdlg32 comctl32 ws2_32 winmm netapi32 ole32 advapi32 wldap32 crypt32 rpcrt4 shlwapi dbghelp bcrypt version imm32 cfgmgr32 setupapi oleaut32 uuid odbc32 odbccp32 delayimp PhysXFoundation_64
+Defines _DEBUG PX_DEBUG=1 PX_CHECKED=1 WIN32 WIN64 _CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE _WINSOCK_DEPRECATED_NO_WARNINGS PX_SUPPORT_PVD=1 _MBCS
+Defines _DEBUG PX_DEBUG=1 PX_CHECKED=1 WIN32 WIN64 _CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE _WINSOCK_DEPRECATED_NO_WARNINGS PX_SUPPORT_PVD=1 _MBCS
+SharedCompilerFlags /EHa /MDd /Z7
+SharedLinkerFlags /DEBUG
+PxDebugDefines PX_DEBUG=1 PX_CHECKED=1
