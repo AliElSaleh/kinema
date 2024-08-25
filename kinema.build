@@ -5,8 +5,8 @@ Depends               SDL2  thirdparty/SDL2 | %mode
 Depends               fmt   thirdparty/fmt  | %mode cl
 Depends               physx $PhysXPath      | mode=%mode
 
-Compiler cl
-Assembly Kinema-$(ModePath)
+Compiler              cl
+Assembly              Kinema-$(ModePath)
 RunAssembly
 
 SourceDirectory       source
@@ -23,9 +23,9 @@ Includes              source thirdparty $(PhysXPath)/include $(PhysXBase)/pxshar
 Libraries             %_NativeLibs fmt SDL2 SDL2main PhysXCooking_64 PhysXFoundation_64 PhysXCommon_64 PhysXExtensions_static_64 PhysX_64
 LibraryDirectories    thirdparty/SDL2/bin/$(ModePath) thirdparty/fmt/Build/$(ModePath) $(PhysXPath)/Build/$(ModePath)
 
-PostBuild.Copy                  thirdparty\SDL2\bin\$(ModePath)\SDL2.dll $BuildDirectory
-PostBuild.Copy                  $(PhysXPath)\Build\$(ModePath)\*_64.dll $BuildDirectory
-if mode == debug PostBuild.Copy $(PhysXPath)\Build\$(ModePath)\*_64.pdb $BuildDirectory
+PostBuild.Copy        thirdparty\SDL2\bin\$(ModePath)\SDL2.dll $BuildDirectory
+PostBuild.Copy        $(PhysXPath)\Build\$(ModePath)\*_64.dll $BuildDirectory
+if mode == debug      PostBuild.Copy $(PhysXPath)\Build\$(ModePath)\*_64.pdb $BuildDirectory
 
-RunPostBuildOnChange true
-AssertPlatform windows # so people dont accidently use this build file on other platforms, since it wont work anyway, bail out early
+RunPostBuildOnChange  true
+AssertPlatform        windows
