@@ -1,30 +1,64 @@
-if mode ModePath %(Mode) else ModePath Release
-include thirdparty/$(ModePath).buildvariables
+option.mode(Release Debug)
+include thirdparty/%(Mode).buildvariables
 
-Depends               SDL2  thirdparty/SDL2 | %mode
-Depends               fmt   thirdparty/fmt  | %mode cl
-Depends               physx $PhysXPath      | mode=%mode
+Depends thirdparty/SDL2 | %mode
+Depends thirdparty/fmt  | %mode cl
+Depends $PhysXPath      | mode=%mode
 
 Compiler              cl
-Assembly              Kinema-$(ModePath)
-RunAssembly
+Assembly              Kinema-%Mode
+.run
 
 SourceDirectory       source
 BuildDirectory        data
-IntermediateDirectory int/$(ModePath)
-PhysXBase             thirdparty\PhysX-4.1
-PhysXPath             $(PhysXBase)\physx
+IntermediateDirectory int/%Mode
+PhysXBase             thirdparty/PhysX-4.1
+PhysXPath             $(PhysXBase)/physx
 
-CompilerFlags         $SharedCompilerFlags
-LinkerFlags           $SharedLinkerFlags /subsystem:windows
-Defines               $SharedDefines IMGUI_IMPL_OPENGL_LOADER_GLAD
-Includes              source thirdparty $(PhysXPath)/include $(PhysXBase)/pxshared/include thirdparty/fmt/include thirdparty/SDL2
-Libraries             %_NativeLibs fmt SDL2 SDL2main PhysXCooking_64 PhysXFoundation_64 PhysXCommon_64 PhysXExtensions_static_64 PhysX_64
-LibraryDirectories    thirdparty/SDL2/bin/$(ModePath) thirdparty/fmt/Build/$(ModePath) $(PhysXPath)/Build/$(ModePath)
+Compiler.Flags        $SharedCompilerFlags
+Engine.cpp.Compiler.Flags /FIchrono
+Compiler.Defines      $SharedDefines IMGUI_IMPL_OPENGL_LOADER_GLAD
+Linker.Flags          $SharedLinkerFlags /subsystem:windows
 
-PostBuild.Cmd         copy thirdparty\SDL2\bin\$(ModePath)\SDL2.dll $BuildDirectory
-PostBuild.Cmd         copy $(PhysXPath)\Build\$(ModePath)\*_64.dll $BuildDirectory
-if mode == debug      PostBuild.Cmd copy $(PhysXPath)\Build\$(ModePath)\*_64.pdb $BuildDirectory
+Compiler.Includes
+[
+    source
+    thirdparty
+    thirdparty/SDL2
+    thirdparty/fmt/include
+    $(PhysXPath)/include
+    $(PhysXBase)/pxshared/include
+]
 
-RunPostBuildOnChange  true
-AssertPlatform        windows
+Libraries
+[
+    %_NativeLibs
+    fmt SDL2 SDL2main
+    PhysXCooking_64 PhysXFoundation_64 PhysXCommon_64 PhysXExtensions_static_64 PhysX_64
+]
+
+Library.Paths
+[
+    thirdparty/SDL2/bin/%Mode
+    thirdparty/fmt/Build/%Mode
+    $(PhysXPath)/Build/%Mode
+]
+
+PostBuild
+{
+    Copy thirdparty/SDL2/bin/%Mode/SDL2.dll                 $BuildDirectory/
+    Copy $(PhysXPath)/Build/%Mode/PhysXFoundation_64.dll    $BuildDirectory/
+    Copy $(PhysXPath)/Build/%Mode/PhysXCommon_64.dll        $BuildDirectory/
+    Copy $(PhysXPath)/Build/%Mode/PhysXCooking_64.dll       $BuildDirectory/
+    Copy $(PhysXPath)/Build/%Mode/PhysX_64.dll              $BuildDirectory/
+}
+
+if mode == debug PostBuild
+{
+    Copy $(PhysXPath)/Build/%Mode/PhysXFoundation_64.pdb    $BuildDirectory/
+    Copy $(PhysXPath)/Build/%Mode/PhysXCommon_64.pdb        $BuildDirectory/
+    Copy $(PhysXPath)/Build/%Mode/PhysXCooking_64.pdb       $BuildDirectory/
+    Copy $(PhysXPath)/Build/%Mode/PhysX_64.pdb              $BuildDirectory/
+}
+
+Assert.Platform        windows

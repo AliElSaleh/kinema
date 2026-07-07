@@ -1,62 +1,114 @@
 Assembly fmt
-if shared  Type dynamic_lib
-if !shared Type static_lib
 
-if cl Compiler cl else Compiler clang++
+Compiler:windows msvc
+Compiler:unix    clang++
 
-SourceDirectory src
-ExcludedSourceFiles fmt.cc
+SourceFiles src/format.cc src/os.cc
 
-Includes include
+Compiler.Includes            include
+Compiler.Includes.Export     include
 
-if shared  Defines FMT_SHARED FMT_LIB_EXPORT
-if !shared Defines FMT_STATIC
+if shared
+{
+    Type             shared_library
+    Compiler.Defines FMT_SHARED FMT_LIB_EXPORT
+}
+else
+{
+    Type             static_library
+    Compiler.Defines FMT_STATIC
+}
 
-if _platform == windows Defines _WIN32
+if debug
+{
+    BuildDirectory   Build/Debug
+    Compiler.Defines _DEBUG
+}
+else
+{
+    BuildDirectory   Build/Release
+    Compiler.Defines NDEBUG
+}
 
-PedanticFlags
+if clang++
+{
+    PedanticFlags:pedantic
+    [
+        -Werror
+        -Wall -Wextra -pedantic
+        -Wconversion -Wundef -Wdeprecated
+        -Wweak-vtables -Wshadow
+        -Wno-gnu-zero-variadic-macro-arguments
+    ]
 
-if debug   BuildDirectory Build/Debug   ; CompilerFlags $DebugFlags
-if !debug  BuildDirectory Build/Release ; CompilerFlags $ReleaseFlags
+    Compiler.Flags         -std=c++20 $PedanticFlags
 
-if compiler == clang++ goto clang_build
-if compiler == g++     goto g++_build
-if compiler == cl      goto cl_build
+    Compiler.Flags:debug   -O0
+    Compiler.Flags:!debug  -O3
+}
 
-clang_build:
-if pedantic PedanticFlags [
-    -Wall -Wextra -pedantic
-    -Wconversion -Wundef
-    -Wdeprecated -Wweak-vtables 
-    -Wshadow
-    -Wno-gnu-zero-variadic-macro-arguments
-]
+if g++
+{
+    PedanticFlags:pedantic
+    [
+        -Werror
+        -pedantic-errors
+        -Wall -Wextra -pedantic
+        -Wold-style-cast -Wundef
+        -Wredundant-decls -Wwrite-strings -Wpointer-arith
+        -Wcast-qual -Wformat=2 -Wmissing-include-dirs
+        -Wcast-align
+        -Wctor-dtor-privacy -Wdisabled-optimization
+        -Winvalid-pch -Woverloaded-virtual
+        -Wconversion -Wundef
+        -Wno-ctor-dtor-privacy -Wno-format-nonliteral
+    ]
 
-DebugFlags   -std=c++20 -O0 $PedanticFlags
-ReleaseFlags -std=c++20 -O3 $PedanticFlags
+    if g++.version > 4.6
+    {
+        PedanticFlags:pedantic
+        [
+            -Wno-dangling-else -Wno-unused-local-typedefs
+        ]
+    }
 
-_stop
+    if g++.version > 5.0
+    {
+        PedanticFlags:pedantic
+        [
+            -Wdouble-promotion
+            -Wtrampolines -Wzero-as-null-pointer-constant -Wuseless-cast
+            -Wvector-operation-performance -Wsized-deallocation -Wshadow
+        ]
+    }
 
-g++_build:
-if pedantic PedanticFlags [
-    -pedantic-errors 
-    -Wall -Wextra -pedantic -Wold-style-cast 
-    -Wundef -Wredundant-decls -Wwrite-strings 
-    -Wpointer-arith -Wcast-qual -Wformat=2 
-    -Wmissing-include-dirs -Wcast-align 
-    -Wctor-dtor-privacy -Wdisabled-optimization 
-    -Winvalid-pch -Woverloaded-virtual -Wconversion 
-    -Wundef -Wno-ctor-dtor-privacy -Wno-format-nonliteral
-]
+    if g++.version > 6.0
+    {
+        PedanticFlags:pedantic
+        [
+            -Wshift-overflow=2
+            -Wnull-dereference -Wduplicated-cond
+        ]
+    }
 
-DebugFlags   -std=c++20 -O0 $PedanticFlags
-ReleaseFlags -std=c++20 -O3 $PedanticFlags
+    Compiler.Flags         -std=c++20 $PedanticFlags
 
-_stop
+    Compiler.Flags:debug   -O0
+    Compiler.Flags:!debug  -O3
+}
 
-cl_build:
-DebugFlags   /std:c++20 /Od /EHa /MDd /Z7 $PedanticFlags
-ReleaseFlags /std:c++20 /O2 /EHa /MD $PedanticFlags
+if cl
+{
+    PedanticFlags:pedantic /W3 /WX
 
-if debug   LinkerFlags /DEBUG ; Defines _DEBUG
-if !debug  Defines NDEBUG
+    Compiler.Flags         /std:c++20 $PedanticFlags
+
+    Compiler.Flags:debug   /Od /EHa /MDd /Z7
+    Compiler.Flags:!debug  /O2 /EHa /MD
+
+    Linker.Flags:debug     /DEBUG
+}
+
+option.pedantic Build fmt with strict compiler warnings and treat them as errors
+option.debug
+option.shared

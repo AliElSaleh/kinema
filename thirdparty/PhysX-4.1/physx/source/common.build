@@ -1,30 +1,33 @@
-if mode ModePath %(Mode) else ModePath Release
-include ../physx_$(modepath).buildvariables
+option.Mode(Release Debug)
+include ../physx_%-(mode).buildvariables
 
-if _platform == windows Compiler cl else Compiler clang
+Compiler:windows  cl
+Compiler:!windows clang
 
 Assembly PhysXCommon_64
 Extension dll
 
 IntermediateDirectory ../int/%_FileName
-BuildDirectory        ../Build/$(ModePath)
+BuildDirectory        ../Build/%Mode
 
-IncludedSourceDirectories common geomutils compiler
+SourceDirectories common geomutils compiler
 
-CompilerFlags $PxCompilerFlags
-LinkerFlags $PxLinkerFlags /subsystem:console /DELAYLOAD:"PhysXFoundation_64.dll"
+Compiler.Flags      $PxCompilerFlags
+Linker.Flags        $PxLinkerFlags
+Linker.Subsystem    Console
+Linker.DelayLoadDll PhysXFoundation_64.dll
 
-if _platform == windows    ExcludedSourceDirectories unix linux
-if _platform != windows    ExcludedSourceDirectories windows
-if _platform == windows    ExcludedSourceFiles *Linux.cpp
-if _platform != windows    ExcludedSourceFiles *Windows.cpp
+if windows     SourceDirectories.Exclude unix linux
+if !windows    SourceDirectories.Exclude windows
+if windows     SourceFiles.Exclude *Linux.cpp
+if !windows    SourceFiles.Exclude *Windows.cpp
 
-if _arch == x64            ExcludedSourceDirectories compiler/resource_x86
-if _arch == x86            ExcludedSourceDirectories compiler/resource_x64
+if _arch == x64            SourceDirectories.Exclude compiler/resource_x86
+if _arch == x86            SourceDirectories.Exclude compiler/resource_x64
 
-ExcludedSourceFiles        PhysX.rc PhysXCooking.rc PhysXFoundation.rc
+SourceFiles.Exclude        *PhysX.rc *PhysXCooking.rc *PhysXFoundation.rc
 
-Includes [
+Compiler.Includes [
     common/include
     common/src
     ../../pxshared/include
@@ -50,8 +53,8 @@ Includes [
 ]
 
 Libraries %_NativeLibs PhysXFoundation_64
-LibraryDirectories ../Build/$(ModePath)
+Library.Paths ../Build/%Mode
 
-Defines $PxSharedDefines PX_PHYSX_COMMON_EXPORTS PhysXCommon_EXPORTS
+Compiler.Defines $PxSharedDefines PX_PHYSX_COMMON_EXPORTS PhysXCommon_EXPORTS
 
-if _platform == windows Defines $PxWindowsDefines _WINDLL
+if windows Compiler.Defines $PxWindowsDefines _WINDLL

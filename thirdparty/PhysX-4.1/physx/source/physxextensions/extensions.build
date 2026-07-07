@@ -1,20 +1,22 @@
-if mode ModePath %(Mode) else ModePath Release
+option.Mode(Release Debug)
 
-include ../../physx_$(modepath).buildvariables
+include ../../physx_%-(mode).buildvariables
 
-if _platform == windows Compiler cl else Compiler clang
+Compiler:windows  cl
+Compiler:!windows clang
 
 Assembly PhysXExtensions_static_64
 Extension lib
 
 SourceDirectory src
 IntermediateDirectory ../../int/%_FileName
-BuildDirectory ../../Build/$(ModePath)
+BuildDirectory ../../Build/%Mode
 
-CompilerFlags $PxCompilerFlags /Gd /GR- /GS- /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
-LinkerFlags $PxLinkerFlags /subsystem:console
+Compiler.Flags   $PxCompilerFlags /Gd /GR- /GS- /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
+Linker.Flags     $PxLinkerFlags
+Linker.Subsystem Console
 
-Includes [
+Compiler.Includes [
     include
     src
     src/convex
@@ -56,6 +58,6 @@ Includes [
     ../physx/src
 ]
 
-Defines $PxSharedDefines
+Compiler.Defines $PxSharedDefines
 
-if _platform == windows Defines $PxWindowsDefines _LIB
+if windows Compiler.Defines $PxWindowsDefines _LIB

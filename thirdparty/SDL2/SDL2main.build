@@ -8,13 +8,13 @@ IntermediateDirectory int/sdl2main
 if debug BuildDirectory bin/debug
 if !debug BuildDirectory bin/release
 
-CompilerFlags /W3 /GS- /GF
-if debug CompilerFlags /Od /MDd /Z7
-if !debug CompilerFlags /O2 /MD
+Compiler.Flags /W3 /GS- /GF
+if debug Compiler.Flags /Od /MDd /Z7
+if !debug Compiler.Flags /O2 /MD
 
-Includes include
+Compiler.Includes include
 
-Defines WIN32 _WINDOWS
+Compiler.Defines WIN32 _WINDOWS
 
-if debug Defines _DEBUG
-if !debug Defines NDEBUG
+if debug Compiler.Defines _DEBUG
+if !debug Compiler.Defines NDEBUG

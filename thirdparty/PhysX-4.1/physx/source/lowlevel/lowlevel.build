@@ -1,19 +1,21 @@
-if mode ModePath %(Mode) else ModePath Release
+option.Mode(Release Debug)
 
-include ../../physx_$(modepath).buildvariables
+include ../../physx_%-(mode).buildvariables
 
-if _platform == windows Compiler cl else Compiler clang
+Compiler:windows  cl
+Compiler:!windows clang
 
 Assembly LowLevel_static_64
 Extension lib
 
 IntermediateDirectory ../../int/%_FileName
-BuildDirectory ../../Build/$(ModePath)
+BuildDirectory ../../Build/%Mode
 
-CompilerFlags $PxCompilerFlags
-LinkerFlags $PxLinkerFlags /subsystem:console
+Compiler.Flags   $PxCompilerFlags
+Linker.Flags     $PxLinkerFlags
+Linker.Subsystem Console
 
-Includes [
+Compiler.Includes [
     common/include
     common/include/pipeline
     common/include/collision
@@ -46,6 +48,6 @@ Includes [
     ../physxgpu/include
 ]
 
-Defines $PxSharedDefines
+Compiler.Defines $PxSharedDefines
 
-if _platform == windows Defines $PxWindowsDefines _LIB
+if windows Compiler.Defines $PxWindowsDefines _LIB

@@ -1,25 +1,39 @@
-if mode ModePath %(Mode) else ModePath Release
+option.mode(Release Debug)
 
-include physx_$-(modepath).buildvariables 
+import physx_%-(mode).buildvariables 
 
-if _platform == windows Compiler cl else Compiler clang
+Compiler:windows  cl
+Compiler:!windows clang
 
 Assembly PhysX_64
 Extension dll
 
-SourceDirectory source/physx
+SourceDirectory       source/physx
 IntermediateDirectory int/physx
-BuildDirectory Build/$(ModePath)
+BuildDirectory        Build/%(Mode)
 
-CompilerFlags $PxCompilerFlags /Gd /GR- /GS- /GF /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
-LinkerFlags $PxLinkerFlags /subsystem:console /DELAYLOAD:"PhysXFoundation_64.dll" /DELAYLOAD:"PhysXCommon_64.dll"
+Compiler.Flags      $PxCompilerFlags /Gd /GR- /GS- /GF /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
 
-if _platform == windows    ExcludedSourceDirectories unix linux
-if _platform != windows    ExcludedSourceDirectories windows
-if _platform == windows    ExcludedSourceFiles *Linux.cpp
-if _platform != windows    ExcludedSourceFiles *Windows.cpp
+Compiler.Defines         $PxSharedDefines PX_PHYSX_FOUNDATION_EXPORTS PX_PHYSX_CORE_EXPORTS PhysX_EXPORTS
+Compiler.Defines:windows $PxWindowsDefines _WINDLL PX_PHYSX_GPU_SHARED_LIB_NAME=PhysXGpu_64.dll
 
-Includes [
+Linker.Flags        $PxLinkerFlags
+Linker.Subsystem    Console
+Linker.DelayLoadDll PhysXFoundation_64.dll PhysXCommon_64.dll
+
+if windows
+{
+    SourceDirectories.Exclude unix linux
+    SourceFiles.Exclude       *Linux.cpp
+}
+else
+{
+    SourceDirectories.Exclude windows
+    SourceFiles.Exclude       *Windows.cpp
+}
+
+Compiler.Includes
+[
     include
     include/common
     source/physx/include
@@ -62,7 +76,8 @@ Includes [
     source/scenequery/include
 ]
 
-Libraries [
+Libraries
+[
     %_NativeLibs
     PhysXFoundation_64
     PhysXCommon_64 
@@ -78,21 +93,20 @@ Libraries [
     PhysXCharacterKinematic_static_64
 ]
 
-LibraryDirectories Build/$(ModePath)
+Library.Paths Build/%(Mode)
 
-Defines $PxSharedDefines PX_PHYSX_FOUNDATION_EXPORTS PX_PHYSX_CORE_EXPORTS PhysX_EXPORTS
-if _platform == windows Defines $PxWindowsDefines _WINDLL PX_PHYSX_GPU_SHARED_LIB_NAME=PhysXGpu_64.dll
+Depends source/common.build            | mode=%mode
+Depends source/pvd.build               | mode=%mode
 
-Depends foundation             source/foundation              | mode=%mode
-Depends common                 source                         | mode=%mode
-Depends lowlevel               source/lowlevel                | mode=%mode
-Depends lowlevelaabb           source/lowlevelaabb            | mode=%mode
-Depends lowleveldynamics       source/lowleveldynamics        | mode=%mode
-Depends cooking                source/physxcooking            | mode=%mode
-Depends extensions             source/physxextensions         | mode=%mode
-Depends scene_query            source/scenequery              | mode=%mode
-Depends simulation_controller  source/simulationcontroller    | mode=%mode
-Depends task                   source/task                    | mode=%mode
-Depends pvd                    source                         | mode=%mode
-Depends vehicle                source/physxvehicle            | mode=%mode
-Depends character              source/physxcharacterkinematic | mode=%mode
+Depends source/foundation              | mode=%mode
+Depends source/lowlevel                | mode=%mode
+Depends source/lowlevelaabb            | mode=%mode
+Depends source/lowleveldynamics        | mode=%mode
+Depends source/physxcooking            | mode=%mode
+Depends source/physxextensions         | mode=%mode
+Depends source/scenequery              | mode=%mode
+Depends source/simulationcontroller    | mode=%mode
+Depends source/task                    | mode=%mode
+Depends source/physxvehicle            | mode=%mode
+Depends source/physxcharacterkinematic | mode=%mode
+

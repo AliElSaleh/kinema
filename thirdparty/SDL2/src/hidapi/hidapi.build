@@ -1,3 +1,5 @@
+Depends ../../SDL2.build
+
 Compiler cl
 
 Assembly hidapi
@@ -5,20 +7,26 @@ Extension dll
 
 IntermediateDirectory int
 
-CompilerFlags /MD /Gy /W3 /Oi /O2 /Zi
-LinkerFlags /INCREMENTAL:NO /SUBSYSTEM:WINDOWS
+Compiler.Flags /MD /Gy /W3 /Oi /O2 /Zi /EHa
+Linker.Flags /INCREMENTAL:NO
+Linker.Subsystem Windows
 
-IncludeFlags hidapi ../../include
+Compiler.Includes hidapi ../../include
 
-CompilerFlags /EHa
+if windows  SourceDirectories windows
+if linux    SourceDirectories linux
 
-if _platform == windows  IncludedSourceDirectories windows
-if _platform == linux    IncludedSourceDirectories linux
+Libraries %_NativeLibs SDL2
+Library.Paths ../../bin/release
 
-Libraries %_NativeLibs
+# hid.c includes SDL_internal.h; SDL's dynamic API renames every SDL_* call to
+# SDL_*_REAL, which only resolves when compiled into SDL2 itself. SDL_dynapi.h
+# refuses SDL_DYNAMIC_API=0 from the command line, but turns itself off for
+# SDL_THREAD_SAFETY_ANALYSIS (whose annotations are clang-only, inert on cl).
+Compiler.Defines SDL_THREAD_SAFETY_ANALYSIS
 
-Defines HIDAPI_EXPORTS
+Compiler.Defines HIDAPI_EXPORTS
 
-if _platform == windows Defines WIN32 NDEBUG _WINDOWS _USRDLL
+if windows Compiler.Defines WIN32 NDEBUG _WINDOWS _USRDLL
 
-Multithread false
+Compiler.MaxCores 1
