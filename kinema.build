@@ -1,5 +1,4 @@
-option.mode(Release Debug)
-include thirdparty/%(Mode).buildvariables
+import thirdparty/%(Mode).buildvariables
 
 Depends thirdparty/SDL2 | %mode
 Depends thirdparty/fmt  | %mode cl
@@ -15,34 +14,21 @@ IntermediateDirectory int/%Mode
 PhysXBase             thirdparty/PhysX-4.1
 PhysXPath             $(PhysXBase)/physx
 
-Compiler.Flags        $SharedCompilerFlags
 Engine.cpp.Compiler.Flags /FIchrono
+
+Compiler.Flags        $SharedCompilerFlags
 Compiler.Defines      $SharedDefines IMGUI_IMPL_OPENGL_LOADER_GLAD
 Linker.Flags          $SharedLinkerFlags /subsystem:windows
 
+# Dependency includes, libraries and library paths propagate automatically
+# from the Depends above (via their .Export keys).
 Compiler.Includes
 [
     source
     thirdparty
-    thirdparty/SDL2
-    thirdparty/fmt/include
-    $(PhysXPath)/include
-    $(PhysXBase)/pxshared/include
 ]
 
-Libraries
-[
-    %_NativeLibs
-    fmt SDL2 SDL2main
-    PhysXCooking_64 PhysXFoundation_64 PhysXCommon_64 PhysXExtensions_static_64 PhysX_64
-]
-
-Library.Paths
-[
-    thirdparty/SDL2/bin/%Mode
-    thirdparty/fmt/Build/%Mode
-    $(PhysXPath)/Build/%Mode
-]
+Libraries %_NativeLibs
 
 PostBuild
 {
@@ -61,4 +47,6 @@ if mode == debug PostBuild
     Copy $(PhysXPath)/Build/%Mode/PhysX_64.pdb              $BuildDirectory/
 }
 
-Assert.Platform        windows
+option.mode(Release Debug)
+
+Assert.Platform windows

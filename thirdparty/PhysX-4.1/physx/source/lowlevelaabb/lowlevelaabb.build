@@ -1,6 +1,6 @@
 option.Mode(Release Debug)
 
-include ../../physx_%-(mode).buildvariables
+import ../../physx_%-(mode).buildvariables
 
 Compiler:windows  cl
 Compiler:!windows clang
@@ -31,6 +31,8 @@ Compiler.Includes [
     ../geomutils/src
     ../physx/include
 ]
+
+Compiler.Includes.Export include
 
 Compiler.Defines $PxSharedDefines
 

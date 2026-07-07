@@ -1,6 +1,6 @@
 option.Mode(Release Debug)
 
-include ../../physx_%-(mode).buildvariables
+import ../../physx_%-(mode).buildvariables
 
 Compiler:windows  cl
 Compiler:!windows clang
@@ -22,6 +22,12 @@ if windows     SourceFiles.Exclude *Linux.cpp
 if !windows    SourceFiles.Exclude *Windows.cpp
 
 Compiler.Includes [
+    include
+    ../../../pxshared/include
+    ../../include
+]
+
+Compiler.Includes.Export [
     include
     ../../../pxshared/include
     ../../include

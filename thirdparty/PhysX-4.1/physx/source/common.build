@@ -1,5 +1,5 @@
 option.Mode(Release Debug)
-include ../physx_%-(mode).buildvariables
+import ../physx_%-(mode).buildvariables
 
 Compiler:windows  cl
 Compiler:!windows clang
@@ -41,6 +41,25 @@ Compiler.Includes [
     geomutils/src/common
     geomutils/src/gjk
     geomutils/src/convex
+    geomutils/src/hf
+    geomutils/src/ccd
+    geomutils/src/contact
+    geomutils/src/cooking
+    geomutils/src/distance
+    geomutils/src/intersection
+    geomutils/src/mesh
+    geomutils/src/pcm
+    geomutils/src/sweep
+]
+
+Compiler.Includes.Export [
+    common/include
+    common/src
+    geomutils/include
+    geomutils/src
+    geomutils/src/common
+    geomutils/src/convex
+    geomutils/src/gjk
     geomutils/src/hf
     geomutils/src/ccd
     geomutils/src/contact

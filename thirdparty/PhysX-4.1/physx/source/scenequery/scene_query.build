@@ -1,6 +1,6 @@
 option.Mode(Release Debug)
 
-include ../../physx_%-(mode).buildvariables
+import ../../physx_%-(mode).buildvariables
 
 Compiler:windows  cl
 Compiler:!windows clang
@@ -48,6 +48,8 @@ Compiler.Includes [
     ../physx/src/buffering
     ../physx/src
 ]
+
+Compiler.Includes.Export include
 
 Compiler.Defines $PxSharedDefines
 

@@ -1,6 +1,6 @@
 option.Mode(Release Debug)
 
-include ../../physx_%-(mode).buildvariables
+import ../../physx_%-(mode).buildvariables
 
 Compiler:windows  cl
 Compiler:!windows clang
@@ -47,6 +47,8 @@ Compiler.Includes [
     ../lowleveldynamics/include
     ../physxgpu/include
 ]
+
+Compiler.Includes.Export api/include software/include common/include
 
 Compiler.Defines $PxSharedDefines
 

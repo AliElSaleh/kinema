@@ -32,6 +32,8 @@ else
     SourceFiles.Exclude       *Windows.cpp
 }
 
+# The rest of the includes, the dependency libraries and their library paths
+# propagate automatically from the Depends below (via their .Export keys).
 Compiler.Includes
 [
     include
@@ -40,60 +42,12 @@ Compiler.Includes
     source/physx/src
     source/physx/src/buffering
     source/physx/src/device
-    ../pxshared/include
-    source/common/include
-    source/common/src
-    source/foundation/include
-    source/foundation/include
-    source/geomutils/src
-    source/geomutils/src/convex
-    source/geomutils/include
-    source/geomutils/include
-    source/geomutils/src
-    source/geomutils/src/common
-    source/geomutils/src/gjk
-    source/geomutils/src/convex
-    source/geomutils/src/hf
-    source/geomutils/src/ccd
-    source/geomutils/src/contact
-    source/geomutils/src/cooking
-    source/geomutils/src/distance
-    source/geomutils/src/intersection
-    source/geomutils/src/mesh
-    source/geomutils/src/pcm
-    source/geomutils/src/sweep
-    source/pvd/include
-    source/lowlevel/api/include
-    source/lowlevel/software/include
-    source/lowlevel/common/include
-    source/lowlevelaabb/include
-    source/lowleveldynamics/include
-    source/simulationcontroller/include
-    source/simulationcontroller/src
-    source/physxmetadata/core/include
-    source/physxmetadata/extensions/include
     source/physxgpu/include
-    source/scenequery/include
 ]
 
-Libraries
-[
-    %_NativeLibs
-    PhysXFoundation_64
-    PhysXCommon_64 
-    LowLevel_static_64
-    LowLevelAABB_static_64
-    LowLevelDynamics_static_64
-    PhysXTask_static_64
-    SceneQuery_static_64
-    SimulationController_static_64
-    PhysXPvdSDK_static_64
-    PhysXExtensions_static_64
-    PhysXVehicle_static_64
-    PhysXCharacterKinematic_static_64
-]
+Compiler.Includes.Export include ../pxshared/include
 
-Library.Paths Build/%(Mode)
+Libraries %_NativeLibs
 
 Depends source/common.build            | mode=%mode
 Depends source/pvd.build               | mode=%mode

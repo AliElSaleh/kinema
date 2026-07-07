@@ -37,6 +37,7 @@ Compiler.Flags:debug  /Od /MDd /Z7
 Compiler.Flags:!debug /O2 /MD
 
 Compiler.Includes include src/hidapi src/hidapi/hidapi
+Compiler.Includes.Export .
 Compiler.Defines WIN32 _WINDOWS DLL_EXPORT _WINDLL
 
 Linker.Flags      /NODEFAULTLIB /subsystem:windows
