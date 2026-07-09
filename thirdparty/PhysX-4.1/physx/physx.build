@@ -52,7 +52,6 @@ Libraries %_NativeLibs
 Depends source/common.build            | mode=%mode
 Depends source/pvd.build               | mode=%mode
 
-Depends source/foundation              | mode=%mode
 Depends source/lowlevel                | mode=%mode
 Depends source/lowlevelaabb            | mode=%mode
 Depends source/lowleveldynamics        | mode=%mode

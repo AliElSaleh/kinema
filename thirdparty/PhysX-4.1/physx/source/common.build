@@ -71,9 +71,11 @@ Compiler.Includes.Export [
     geomutils/src/sweep
 ]
 
-Libraries %_NativeLibs PhysXFoundation_64
+Libraries %_NativeLibs
 Library.Paths ../Build/%Mode
 
 Compiler.Defines $PxSharedDefines PX_PHYSX_COMMON_EXPORTS PhysXCommon_EXPORTS
 
 if windows Compiler.Defines $PxWindowsDefines _WINDLL
+
+Depend foundation/
