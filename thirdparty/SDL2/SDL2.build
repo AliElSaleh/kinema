@@ -43,7 +43,7 @@ Compiler.Defines WIN32 _WINDOWS DLL_EXPORT _WINDLL
 Linker.Flags      /NODEFAULTLIB /subsystem:windows
 Linker.Flags:debug /DEBUG
 
-Libraries %_NativeLibs
+Libraries &NativeLibs
 
 if debug
 {

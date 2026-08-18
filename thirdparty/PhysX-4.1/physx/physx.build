@@ -47,7 +47,7 @@ Compiler.Includes
 
 Compiler.Includes.Export include ../pxshared/include
 
-Libraries %_NativeLibs
+Libraries &NativeLibs
 
 Depends source/common.build            | mode=%mode
 Depends source/pvd.build               | mode=%mode

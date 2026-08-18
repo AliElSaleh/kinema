@@ -9,7 +9,7 @@ Assembly PhysXFoundation_64
 Extension dll
 
 SourceDirectory src
-IntermediateDirectory ../../int/%_FileName
+IntermediateDirectory ../../int/&FileName
 BuildDirectory ../../Build/%Mode
 
 Compiler.Flags   $PxCompilerFlags
@@ -33,6 +33,6 @@ Compiler.Includes.Export [
     ../../include
 ]
 
-Libraries %_NativeLibs
+Libraries &NativeLibs
 
 Compiler.Defines $PxSharedDefines PX_PHYSX_FOUNDATION_EXPORTS _WINDLL

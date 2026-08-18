@@ -9,7 +9,7 @@ Assembly PhysXCooking_64
 Extension dll
 
 SourceDirectory src
-IntermediateDirectory ../../int/%_FileName
+IntermediateDirectory ../../int/&FileName
 BuildDirectory ../../Build/%Mode
 
 Compiler.Flags      $PxCompilerFlags /Gd /GR- /GS- /GF /fp:fast /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4996
@@ -52,7 +52,7 @@ Compiler.Includes [
     ../geomutils/src/sweep
 ]
 
-Libraries %_NativeLibs PhysXCommon_64 PhysXFoundation_64
+Libraries &NativeLibs PhysXCommon_64 PhysXFoundation_64
 Library.Paths ../../Build/%Mode
 
 Compiler.Defines $PxSharedDefines PX_COOKING PX_PHYSX_COOKING_EXPORTS PX_PHYSX_COMMON_EXPORTS PX_PHYSX_FOUNDATION_EXPORTS PX_PHYSX_LOADER_EXPORTS PX_PHYSX_CORE_EXPORTS PhysXCooking_EXPORTS

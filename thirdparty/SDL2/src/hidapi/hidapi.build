@@ -16,7 +16,7 @@ Compiler.Includes hidapi ../../include
 if windows  SourceDirectories windows
 if linux    SourceDirectories linux
 
-Libraries %_NativeLibs SDL2
+Libraries &NativeLibs SDL2
 Library.Paths ../../bin/release
 
 # hid.c includes SDL_internal.h; SDL's dynamic API renames every SDL_* call to

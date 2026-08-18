@@ -7,7 +7,7 @@ Compiler:!windows clang
 Assembly PhysXCommon_64
 Extension dll
 
-IntermediateDirectory ../int/%_FileName
+IntermediateDirectory ../int/&FileName
 BuildDirectory        ../Build/%Mode
 
 SourceDirectories common geomutils compiler
@@ -22,8 +22,8 @@ if !windows    SourceDirectories.Exclude windows
 if windows     SourceFiles.Exclude *Linux.cpp
 if !windows    SourceFiles.Exclude *Windows.cpp
 
-if _arch == x64            SourceDirectories.Exclude compiler/resource_x86
-if _arch == x86            SourceDirectories.Exclude compiler/resource_x64
+if CPU.Arch == x64            SourceDirectories.Exclude compiler/resource_x86
+if CPU.Arch == x86            SourceDirectories.Exclude compiler/resource_x64
 
 SourceFiles.Exclude        *PhysX.rc *PhysXCooking.rc *PhysXFoundation.rc
 
@@ -71,7 +71,7 @@ Compiler.Includes.Export [
     geomutils/src/sweep
 ]
 
-Libraries %_NativeLibs
+Libraries &NativeLibs
 Library.Paths ../Build/%Mode
 
 Compiler.Defines $PxSharedDefines PX_PHYSX_COMMON_EXPORTS PhysXCommon_EXPORTS

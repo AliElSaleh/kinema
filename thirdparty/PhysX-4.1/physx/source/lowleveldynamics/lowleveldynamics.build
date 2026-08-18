@@ -9,7 +9,7 @@ Assembly LowLevelDynamics_static_64
 Extension lib
 
 SourceDirectory src
-IntermediateDirectory ../../int/%_FileName
+IntermediateDirectory ../../int/&FileName
 BuildDirectory ../../Build/%Mode
 
 Compiler.Flags   $PxCompilerFlags

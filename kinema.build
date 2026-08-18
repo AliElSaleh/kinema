@@ -28,7 +28,7 @@ Compiler.Includes
     thirdparty
 ]
 
-Libraries %_NativeLibs
+Libraries &NativeLibs
 
 PostBuild
 {
